@@ -48,7 +48,6 @@
     font-size: 15px;
     height: 100%;
     overflow: hidden;
-    overscroll-behavior: none;
   }
 
   /* ── LAYOUT ── */
@@ -78,7 +77,7 @@
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: none;
+    overscroll-behavior: contain;
   }
 
   .view { display: none; padding: 16px 16px 20px; }
@@ -1563,21 +1562,19 @@ async function initApp(){
   const spinner = document.getElementById('ptr-spinner');
   const ptrText = document.getElementById('ptr-text');
   let startY = 0;
-  let startScroll = 0;
   let active = false;
   let refreshing = false;
   const THRESHOLD = 70;
 
-  content.addEventListener('touchstart', e => {
+  document.addEventListener('touchstart', e => {
     startY = e.touches[0].pageY;
-    startScroll = content.scrollTop;
     active = true;
   }, {passive: true});
 
-  content.addEventListener('touchmove', e => {
+  document.addEventListener('touchmove', e => {
     if(!active || refreshing) return;
     const dy = e.touches[0].pageY - startY;
-    if(startScroll <= 0 && dy > 0) {
+    if(content.scrollTop <= 0 && dy > 0) {
       indicator.classList.add('visible');
       spinner.style.display = 'none';
       ptrText.textContent = dy > THRESHOLD ? 'Release to refresh ↑' : 'Pull down to refresh';
@@ -1586,11 +1583,11 @@ async function initApp(){
     }
   }, {passive: true});
 
-  content.addEventListener('touchend', async e => {
+  document.addEventListener('touchend', async e => {
     if(!active || refreshing) return;
     active = false;
     const dy = e.changedTouches[0].pageY - startY;
-    if(startScroll <= 0 && dy > THRESHOLD) {
+    if(content.scrollTop <= 0 && dy > THRESHOLD) {
       refreshing = true;
       spinner.style.display = 'block';
       ptrText.textContent = 'Refreshing...';
