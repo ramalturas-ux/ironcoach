@@ -456,6 +456,26 @@
   }
   .ptr-text { font-size: 12px; color: var(--text-muted); margin-left: 8px; }
   @keyframes spin { to { transform: rotate(360deg); } }
+
+  .set-row { display:flex; align-items:center; gap:8px; padding:7px 0; border-bottom:0.5px solid var(--border); }
+  .set-row:last-child { border-bottom:none; }
+  .set-num { font-size:11px; color:var(--text-muted); min-width:40px; font-weight:600; text-transform:uppercase; }
+  .set-detail { font-size:13px; color:var(--text); flex:1; }
+  .set-orm { font-size:11px; color:var(--accent); }
+  .set-pr-badge { font-size:9px; background:#2A1500; color:var(--accent); border:0.5px solid var(--accent); padding:2px 5px; border-radius:3px; font-weight:700; text-transform:uppercase; margin-left:4px; }
+  .ex-progress-bar { height:5px; background:var(--surface2); border-radius:3px; margin:8px 0 4px; overflow:hidden; }
+  .ex-progress-fill { height:100%; border-radius:3px; transition:width 0.3s; background:var(--accent); }
+  .ex-progress-fill.complete { background:var(--success); }
+  .progress-label { display:flex; justify-content:space-between; font-size:10px; color:var(--text-muted); margin-bottom:10px; }
+  .last-session-box { background:var(--surface2); border-radius:var(--r-sm); padding:10px 12px; margin-bottom:10px; }
+  .last-session-title { font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); font-weight:600; margin-bottom:6px; }
+  .last-session-row { display:flex; justify-content:space-between; font-size:12px; padding:3px 0; }
+  .last-session-row span:first-child { color:var(--text-muted); }
+  .last-session-row span:last-child { color:var(--text); }
+  .chart-card { background:var(--surface); border:0.5px solid var(--border); border-radius:var(--r-md); padding:14px 15px; margin-bottom:10px; }
+  .chart-title { font-size:12px; font-weight:600; color:var(--text); margin-bottom:12px; }
+  .chart-wrap { position:relative; height:140px; }
+  .today-day-badge { display:inline-flex; align-items:center; gap:6px; background:#2A1500; border:0.5px solid var(--accent); border-radius:20px; padding:5px 12px; font-size:12px; color:var(--accent); font-weight:600; margin-bottom:12px; }
   /* scrollbar */
   .content::-webkit-scrollbar { width: 3px; }
   .content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
@@ -516,14 +536,13 @@
         </div>
         <div class="prog-bar"><div class="prog-fill" id="d-progfill" style="width:0%"></div></div>
         <div class="prog-labels"><span>126 kg</span><span>Goal: 100 kg</span></div>
-        <div id="wt-chart-wrap" class="mini-chart" style="display:none;margin-top:10px">
-          <canvas id="wt-chart" height="70"></canvas>
-        </div>
+
       </div>
 
       <!-- Today schedule -->
       <div class="section-label"><i class="ti ti-clock"></i>Today's schedule</div>
-      <div class="timeline" style="margin-bottom:14px">
+      <div id="today-day-badge" class="today-day-badge"></div>
+      <div class="timeline" style="margin-bottom:14px" id="today-timeline">
         <div class="tl-block fast"><div class="tl-time">12am</div><div class="tl-lbl">Fasting</div></div>
         <div class="tl-block hi"><div class="tl-time">10–12pm</div><div class="tl-lbl">Train (fasted)</div></div>
         <div class="tl-block hi"><div class="tl-time">12pm</div><div class="tl-lbl">Meal 1 — break fast</div></div>
@@ -537,6 +556,17 @@
         <div class="pr-card"><div class="pr-name">Chest press</div><div class="pr-val" id="d-pr-cp">—</div><div class="pr-date" id="d-pr-cp-d"></div></div>
         <div class="pr-card"><div class="pr-name">Deadlift</div><div class="pr-val" id="d-pr-dl">—</div><div class="pr-date" id="d-pr-dl-d"></div></div>
         <div class="pr-card"><div class="pr-name">Bar squat</div><div class="pr-val" id="d-pr-sq">—</div><div class="pr-date" id="d-pr-sq-d"></div></div>
+      </div>
+
+      <!-- Dashboard Graphs -->
+      <div class="section-label" style="margin-top:4px"><i class="ti ti-chart-line"></i>Progress graphs</div>
+      <div class="chart-card">
+        <div class="chart-title">Weight over time</div>
+        <div class="chart-wrap"><canvas id="dash-wt-chart" role="img" aria-label="Weight over time chart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Big 3 strength (est. 1RM)</div>
+        <div class="chart-wrap"><canvas id="dash-str-chart" role="img" aria-label="Big 3 strength progress chart"></canvas></div>
       </div>
 
       <!-- Injury reminders -->
@@ -566,9 +596,18 @@
       <div class="ex-list" id="log-ex-list"></div>
 
       <div id="log-selected-info" style="display:none;margin-bottom:10px">
-        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px" id="log-ex-name-display"></div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px" id="log-ex-name-display"></div>
         <div id="log-tips-card" style="display:none;margin-bottom:10px"></div>
-        <div class="log-form-grid">
+        <div id="log-last-session" style="display:none" class="last-session-box">
+          <div class="last-session-title"><i class="ti ti-history" style="font-size:11px;margin-right:3px"></i>Last session</div>
+          <div id="log-last-session-rows"></div>
+        </div>
+        <div id="log-ex-progress" style="display:none">
+          <div class="ex-progress-bar"><div class="ex-progress-fill" id="log-prog-fill" style="width:0%"></div></div>
+          <div class="progress-label"><span id="log-prog-label">0 sets logged</span><span id="log-prog-target"></span></div>
+        </div>
+        <div id="log-sets-done" style="margin-bottom:10px"></div>
+        <div class="log-form-grid" style="grid-template-columns:1fr 1fr">
           <div class="form-group" style="margin:0">
             <div class="form-label">Weight (kg)</div>
             <input type="number" id="log-wt" placeholder="100" step="0.5" min="0" inputmode="decimal" />
@@ -577,12 +616,8 @@
             <div class="form-label">Reps</div>
             <input type="number" id="log-reps" placeholder="8" min="1" max="100" inputmode="numeric" />
           </div>
-          <div class="form-group" style="margin:0">
-            <div class="form-label">Sets</div>
-            <input type="number" id="log-sets" placeholder="4" min="1" max="20" inputmode="numeric" />
-          </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" style="margin-top:8px">
           <div class="form-label">Notes (optional)</div>
           <textarea id="log-notes" rows="2" placeholder="e.g. paused reps, shoulder felt tight..."></textarea>
         </div>
@@ -594,7 +629,7 @@
       <div class="section-label mt-12"><i class="ti ti-list"></i>Today's session</div>
       <div class="card card-flush">
         <table class="data-table">
-          <thead><tr><th>Exercise</th><th>Best</th><th>1RM</th></tr></thead>
+          <thead><tr><th>Exercise / Set</th><th>Weight × Reps</th><th>1RM</th></tr></thead>
           <tbody id="today-tbody">
             <tr><td colspan="3"><div class="empty"><i class="ti ti-dumbbell"></i><p>No sets logged today yet</p></div></td></tr>
           </tbody>
@@ -604,7 +639,16 @@
 
     <!-- ── PRs & HISTORY ── -->
     <div class="view" id="view-prs">
-      <div class="section-label"><i class="ti ti-trophy"></i>Personal records — big 3</div>
+      <div class="section-label"><i class="ti ti-chart-bar"></i>Analytics</div>
+      <div class="chart-card">
+        <div class="chart-title">Weekly volume (kg lifted)</div>
+        <div class="chart-wrap"><canvas id="rec-vol-chart" role="img" aria-label="Weekly volume chart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Weight vs strength trend</div>
+        <div class="chart-wrap"><canvas id="rec-trend-chart" role="img" aria-label="Weight vs strength overlay chart"></canvas></div>
+      </div>
+      <div class="section-label" style="margin-top:4px"><i class="ti ti-trophy"></i>Personal records — big 3</div>
       <div class="pr-grid" style="margin-bottom:14px">
         <div class="pr-card"><div class="pr-name">Chest press</div><div class="pr-val" id="pr-cp">—</div><div class="pr-date" id="pr-cp-d"></div></div>
         <div class="pr-card"><div class="pr-name">Deadlift</div><div class="pr-val" id="pr-dl">—</div><div class="pr-date" id="pr-dl-d"></div></div>
@@ -1133,6 +1177,28 @@ function switchView(name, btn){
 /* ═══════════════════════════════════════
    DASHBOARD
 ═══════════════════════════════════════ */
+const DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const SPLIT_DAYS = [
+  {day:'Sun', label:'D7 — Rest day', rest:true},
+  {day:'Mon', label:'D1 — Chest & Shoulders'},
+  {day:'Tue', label:'D2 — Biceps & Triceps'},
+  {day:'Wed', label:'D3 — Back'},
+  {day:'Thu', label:'D4 — Legs & Abs'},
+  {day:'Fri', label:'D5 — Cardio'},
+  {day:'Sat', label:'D6 — Strength & Conditioning'},
+];
+
+function renderTodayBadge(){
+  const dow = new Date().getDay();
+  const split = SPLIT_DAYS[dow];
+  const badge = document.getElementById('today-day-badge');
+  if(!badge) return;
+  const icon = split.rest ? 'ti-zzz' : 'ti-barbell';
+  badge.innerHTML = `<i class="ti ${icon}" style="font-size:13px"></i>${DAY_NAMES[dow]} · ${split.label}`;
+  const tl = document.getElementById('today-timeline');
+  if(tl) tl.style.display = split.rest ? 'none' : 'flex';
+}
+
 function refreshDash(){
   const cw = weightLog.length ? weightLog[0].w : 126;
   const rem = Math.max(0, cw-100);
@@ -1151,18 +1217,27 @@ function refreshDash(){
     document.getElementById('d-pr-'+k+'-d').textContent = pr ? fmtDate(pr.date) : '';
   });
 
-  renderWeightChart();
+  renderTodayBadge();
+  renderDashCharts();
   renderTodaySession();
 }
 
-function renderWeightChart(){
-  const wrap = document.getElementById('wt-chart-wrap');
-  if(weightLog.length < 2){ wrap.style.display='none'; return; }
-  wrap.style.display='block';
-  const canvas = document.getElementById('wt-chart');
+function renderDashCharts(){
+  renderDashWeightChart();
+  renderDashStrengthChart();
+}
+
+function renderDashWeightChart(){
+  const canvas = document.getElementById('dash-wt-chart');
+  if(!canvas) return;
   const pts = [...weightLog].reverse().slice(-20);
-  if(window._wtChart) window._wtChart.destroy();
-  window._wtChart = new Chart(canvas, {
+  if(window._dashWtChart) window._dashWtChart.destroy();
+  if(!pts.length){
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    return;
+  }
+  window._dashWtChart = new Chart(canvas, {
     type:'line',
     data:{
       labels: pts.map(p=>fmtDate(p.date)),
@@ -1170,19 +1245,67 @@ function renderWeightChart(){
         data: pts.map(p=>p.w),
         borderColor:'#D85A30', borderWidth:2,
         pointBackgroundColor:'#D85A30', pointRadius:3,
-        fill:false, tension:0.3
+        fill:false, tension:0.3,
+        label:'Weight (kg)'
       }]
     },
     options:{
       responsive:true, maintainAspectRatio:false,
       plugins:{legend:{display:false}},
       scales:{
-        x:{ticks:{color:'#555',font:{size:9}},grid:{color:'#2A2A2A'}},
+        x:{ticks:{color:'#555',font:{size:9},maxRotation:45},grid:{color:'#2A2A2A'}},
         y:{ticks:{color:'#555',font:{size:9},callback:v=>v+'kg'},grid:{color:'#2A2A2A'}}
       }
     }
   });
 }
+
+function renderDashStrengthChart(){
+  const canvas = document.getElementById('dash-str-chart');
+  if(!canvas) return;
+  if(window._dashStrChart) window._dashStrChart.destroy();
+  const big3 = [
+    {keys:BIG3_KEYS.cp, label:'Chest press', color:'#D85A30'},
+    {keys:BIG3_KEYS.dl, label:'Deadlift', color:'#4CAF50'},
+    {keys:BIG3_KEYS.sq, label:'Squat', color:'#378ADD'},
+  ];
+  const allDates = [...new Set(workoutLog.map(e=>e.date))].sort();
+  if(!allDates.length){
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    return;
+  }
+  const datasets = big3.map(b=>({
+    label: b.label,
+    data: allDates.map(d=>{
+      const sets = workoutLog.filter(e=>b.keys.some(k=>e.ex===k) && e.date<=d);
+      if(!sets.length) return null;
+      return Math.max(...sets.map(s=>s.orm||0));
+    }),
+    borderColor: b.color, borderWidth:2,
+    pointBackgroundColor: b.color, pointRadius:2,
+    fill:false, tension:0.3, spanGaps:true
+  }));
+  window._dashStrChart = new Chart(canvas, {
+    type:'line',
+    data:{ labels: allDates.map(d=>fmtDate(d)), datasets },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{
+          display:true,
+          labels:{color:'#888',font:{size:10},boxWidth:10,padding:10}
+        }
+      },
+      scales:{
+        x:{ticks:{color:'#555',font:{size:9},maxRotation:45},grid:{color:'#2A2A2A'}},
+        y:{ticks:{color:'#555',font:{size:9},callback:v=>v+'kg'},grid:{color:'#2A2A2A'}}
+      }
+    }
+  });
+}
+
+/* renderWeightChart removed - replaced by renderDashWeightChart */
 
 function logWeight(){
   const v = parseFloat(document.getElementById('wt-input').value);
@@ -1243,32 +1366,90 @@ function selectEx(ex){
   document.getElementById('log-selected-info').style.display='block';
   document.getElementById('log-feedback').className='feedback';
   renderTipsCard(ex, 'log-tips-card');
+  renderLastSession(ex);
+  renderTodaySetsForEx(ex);
+  renderExProgressBar(ex);
   document.getElementById('log-wt').focus();
+}
+
+const PROGRAM_SETS = {"Barbell Chest Press": 4, "Incline DB Press": 3, "Cable Fly": 3, "DB Lateral Raise": 3, "Front Raise (cable)": 3, "Shoulder Press (Smith)": 3, "EZ Bar Curl": 4, "Incline DB Curl": 3, "Hammer Curl": 3, "Tricep Pushdown": 4, "Overhead Tricep Extension": 3, "Close-Grip Bench Press": 3, "Conventional Deadlift": 4, "Barbell Row": 4, "Pull-Up / Lat Pulldown": 3, "Seated Cable Row": 3, "Face Pull": 3, "DB Shrug": 3, "Barbell Back Squat": 4, "Romanian Deadlift": 3, "Leg Press": 3, "Lying Leg Curl": 3, "Calf Raise": 4, "Hanging Leg Raise": 3, "Cable Crunch": 3, "Incline Treadmill Walk": 1, "Stationary Bike": 1, "Rowing Machine": 1, "Mobility & Stretching": 1, "Chest Press PR": 1, "Deadlift PR": 1, "Bar Squat PR": 1, "Farmer"s Carry": 4, "Accessory Finisher": 3};
+
+function getTodaySetsForEx(ex){
+  return workoutLog.filter(e=>e.ex===ex && e.date===today());
+}
+
+function renderExProgressBar(ex){
+  const target = PROGRAM_SETS[ex] || 4;
+  const done = getTodaySetsForEx(ex).length;
+  const pct = Math.min(100, Math.round((done/target)*100));
+  const fill = document.getElementById('log-prog-fill');
+  const label = document.getElementById('log-prog-label');
+  const targetEl = document.getElementById('log-prog-target');
+  const prog = document.getElementById('log-ex-progress');
+  if(fill){ fill.style.width=pct+'%'; fill.className='ex-progress-fill'+(done>=target?' complete':''); }
+  if(label) label.textContent = done+' of '+target+' sets done';
+  if(targetEl) targetEl.textContent = 'Target: '+target+' sets';
+  if(prog) prog.style.display='block';
+}
+
+function renderTodaySetsForEx(ex){
+  const sets = getTodaySetsForEx(ex);
+  const container = document.getElementById('log-sets-done');
+  if(!container) return;
+  if(!sets.length){ container.innerHTML=''; return; }
+  const allPRorm = workoutLog.filter(e=>e.ex===ex).reduce((m,e)=>Math.max(m,e.orm||0),0);
+  container.innerHTML = sets.map((s,i)=>{
+    const isPR = s.orm >= allPRorm && workoutLog.filter(e=>e.ex===ex).length > sets.length;
+    return `<div class="set-row">
+      <span class="set-num">Set ${sets.length-i}</span>
+      <span class="set-detail">${s.w}kg × ${s.r} reps${s.notes?'<br><span style="font-size:11px;color:var(--text-muted)">'+s.notes+'</span>':''}</span>
+      <span class="set-orm">${s.orm}kg${isPR?'<span class="set-pr-badge">PR</span>':''}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderLastSession(ex){
+  const lastDate = workoutLog.filter(e=>e.ex===ex && e.date!==today())
+    .map(e=>e.date).sort().reverse()[0];
+  const box = document.getElementById('log-last-session');
+  const rows = document.getElementById('log-last-session-rows');
+  if(!lastDate || !box || !rows){ if(box) box.style.display='none'; return; }
+  const sets = workoutLog.filter(e=>e.ex===ex && e.date===lastDate);
+  if(!sets.length){ box.style.display='none'; return; }
+  box.style.display='block';
+  const title = box.querySelector('.last-session-title');
+  if(title){ const [y,m,d]=lastDate.split('-'); title.innerHTML=`<i class="ti ti-history" style="font-size:11px;margin-right:3px"></i>Last session (${d}/${m})`; }
+  rows.innerHTML = sets.map((s,i)=>`
+    <div class="last-session-row">
+      <span>Set ${sets.length-i}</span>
+      <span>${s.w}kg × ${s.r} reps · ${s.orm}kg 1RM</span>
+    </div>`).join('');
 }
 
 function logSet(){
   if(!selectedEx){ showFeedback('error','Select an exercise first.'); return; }
   const w = parseFloat(document.getElementById('log-wt').value);
   const r = parseInt(document.getElementById('log-reps').value);
-  const s = parseInt(document.getElementById('log-sets').value);
   const notes = document.getElementById('log-notes').value.trim();
-  if(!w||!r||!s){ showFeedback('error','Fill in weight, reps, and sets.'); return; }
+  if(!w||!r){ showFeedback('error','Fill in weight and reps.'); return; }
 
   const orm = calc1RM(w,r);
   const prevPR = getExPR(selectedEx);
   const isPR = !prevPR || orm > prevPR.orm;
 
-  const entry = {ex:selectedEx, w, r, s, orm, date:today(), notes};
+  const setNum = getTodaySetsForEx(selectedEx).length + 1;
+  const entry = {ex:selectedEx, w, r, s:setNum, orm, date:today(), notes};
   workoutLog.unshift(entry);
-  save('ic_log',workoutLog);
+  saveLog();
 
   document.getElementById('log-wt').value='';
   document.getElementById('log-reps').value='';
-  document.getElementById('log-sets').value='';
   document.getElementById('log-notes').value='';
 
-  if(isPR) showFeedback('pr',`NEW PR on ${selectedEx}! ${w}kg × ${r} reps — Est. 1RM: ${orm}kg`);
-  else showFeedback('success',`Logged: ${w}kg × ${r} reps × ${s} sets — Est. 1RM: ${orm}kg`);
+  renderTodaySetsForEx(selectedEx);
+  renderExProgressBar(selectedEx);
+  if(isPR) showFeedback('pr',`NEW PR! ${w}kg × ${r} — Est. 1RM: ${orm}kg`);
+  else showFeedback('success',`Set ${setNum}: ${w}kg × ${r} reps logged`);
 
   renderTodaySession();
   refreshDash();
@@ -1289,14 +1470,17 @@ function renderTodaySession(){
     tbody.innerHTML='<tr><td colspan="3"><div class="empty" style="padding:20px 16px"><i class="ti ti-dumbbell"></i><p>No sets logged today yet</p></div></td></tr>';
     return;
   }
-  const best = {};
-  entries.forEach(e=>{ if(!best[e.ex]||e.orm>best[e.ex].orm) best[e.ex]=e; });
-  tbody.innerHTML = Object.values(best).map(e=>{
-    const allPRs = workoutLog.filter(x=>x.ex===e.ex);
-    const topORM = Math.max(...allPRs.map(x=>x.orm));
-    const isPR = e.orm>=topORM && allPRs.length>0;
-    return `<tr><td style="font-weight:500;font-size:12px">${e.ex}${isPR?'<span class="pr-badge">PR</span>':''}</td><td style="font-size:12px">${e.w}×${e.r}×${e.s}s</td><td style="font-size:12px;color:var(--accent)">${e.orm}kg</td></tr>`;
-  }).join('');
+  const allTopORM = {};
+  workoutLog.forEach(e=>{ if(!allTopORM[e.ex]||e.orm>allTopORM[e.ex]) allTopORM[e.ex]=e.orm; });
+  const rows = [...entries].reverse().map((e,i)=>{
+    const isPR = e.orm >= (allTopORM[e.ex]||0) && workoutLog.filter(x=>x.ex===e.ex).length > entries.filter(x=>x.ex===e.ex).length;
+    return `<tr>
+      <td style="font-weight:500;font-size:12px">${e.ex}${isPR?'<span class="pr-badge">PR</span>':''}<br><span style="font-size:10px;color:var(--text-muted);font-weight:400">Set ${e.s||i+1}</span></td>
+      <td style="font-size:12px">${e.w}kg × ${e.r}</td>
+      <td style="font-size:12px;color:var(--accent)">${e.orm}kg</td>
+    </tr>`;
+  });
+  tbody.innerHTML = rows.join('');
 }
 
 /* ═══════════════════════════════════════
@@ -1325,7 +1509,7 @@ function renderPRs(){
   else {
     prTbody.innerHTML = allEx.map(ex=>{
       const pr = getExPR(ex);
-      return `<tr><td style="font-size:12px;font-weight:500">${ex}</td><td style="font-size:12px">${pr.w}kg × ${pr.r} reps × ${pr.s}s</td><td style="font-size:12px;color:var(--accent)">${pr.orm}kg</td></tr>`;
+      return `<tr><td style="font-size:12px;font-weight:500">${ex}</td><td style="font-size:12px">${pr.w}kg × ${pr.r} reps</td><td style="font-size:12px;color:var(--accent)">${pr.orm}kg</td></tr>`;
     }).join('');
   }
 
@@ -1334,6 +1518,133 @@ function renderPRs(){
   sel.innerHTML = '<option value="">All exercises</option>' + allEx.map(ex=>`<option value="${ex}"${ex===prev?' selected':''}>${ex}</option>`).join('');
 
   renderHistory();
+  renderRecordsCharts();
+}
+
+function renderRecordsCharts(){
+  renderWeeklyVolumeChart();
+  renderWeightStrengthTrend();
+}
+
+function renderWeeklyVolumeChart(){
+  const canvas = document.getElementById('rec-vol-chart');
+  if(!canvas) return;
+  if(window._recVolChart) window._recVolChart.destroy();
+
+  const weeks = {};
+  workoutLog.forEach(e=>{
+    const d = new Date(e.date);
+    const mon = new Date(d);
+    mon.setDate(d.getDate() - ((d.getDay()+6)%7));
+    const wk = mon.toISOString().split('T')[0];
+    const vol = (e.w||0)*(e.r||0);
+    weeks[wk] = (weeks[wk]||0) + vol;
+  });
+
+  const labels = Object.keys(weeks).sort().slice(-10).map(d=>fmtDate(d));
+  const data = Object.keys(weeks).sort().slice(-10).map(d=>Math.round(weeks[d]));
+
+  if(!labels.length){
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    return;
+  }
+
+  window._recVolChart = new Chart(canvas, {
+    type:'bar',
+    data:{
+      labels,
+      datasets:[{
+        data,
+        backgroundColor:'#D85A3088',
+        borderColor:'#D85A30',
+        borderWidth:1,
+        label:'Volume (kg)'
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:'#555',font:{size:9}},grid:{color:'#2A2A2A'}},
+        y:{ticks:{color:'#555',font:{size:9},callback:v=>v+'kg'},grid:{color:'#2A2A2A'}}
+      }
+    }
+  });
+}
+
+function renderWeightStrengthTrend(){
+  const canvas = document.getElementById('rec-trend-chart');
+  if(!canvas) return;
+  if(window._recTrendChart) window._recTrendChart.destroy();
+
+  const allDates = [...new Set([
+    ...weightLog.map(e=>e.date),
+    ...workoutLog.map(e=>e.date)
+  ])].sort().slice(-20);
+
+  if(!allDates.length){
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    return;
+  }
+
+  const wtData = allDates.map(d=>{
+    const pts = weightLog.filter(e=>e.date<=d);
+    return pts.length ? pts[0].w : null;
+  });
+
+  const strData = allDates.map(d=>{
+    const allKeys = [...BIG3_KEYS.cp,...BIG3_KEYS.dl,...BIG3_KEYS.sq];
+    const sets = workoutLog.filter(e=>allKeys.some(k=>e.ex===k) && e.date<=d);
+    if(!sets.length) return null;
+    return Math.round(sets.reduce((sum,s)=>sum+(s.orm||0),0)/sets.length);
+  });
+
+  window._recTrendChart = new Chart(canvas, {
+    type:'line',
+    data:{
+      labels: allDates.map(d=>fmtDate(d)),
+      datasets:[
+        {
+          label:'Body weight (kg)',
+          data: wtData,
+          borderColor:'#D85A30', borderWidth:2,
+          pointRadius:2, fill:false, tension:0.3, spanGaps:true,
+          yAxisID:'y'
+        },
+        {
+          label:'Avg Big 3 1RM (kg)',
+          data: strData,
+          borderColor:'#4CAF50', borderWidth:2,
+          pointRadius:2, fill:false, tension:0.3, spanGaps:true,
+          yAxisID:'y1'
+        }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{
+          display:true,
+          labels:{color:'#888',font:{size:10},boxWidth:10,padding:8}
+        }
+      },
+      scales:{
+        x:{ticks:{color:'#555',font:{size:9},maxRotation:45},grid:{color:'#2A2A2A'}},
+        y:{
+          type:'linear', position:'left',
+          ticks:{color:'#D85A30',font:{size:9},callback:v=>v+'kg'},
+          grid:{color:'#2A2A2A'}
+        },
+        y1:{
+          type:'linear', position:'right',
+          ticks:{color:'#4CAF50',font:{size:9},callback:v=>v+'kg'},
+          grid:{drawOnChartArea:false}
+        }
+      }
+    }
+  });
 }
 
 function renderHistory(){
