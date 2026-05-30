@@ -1764,11 +1764,65 @@ function sendQuick(q){
   sendCoach();
 }
 
+function buildLiveContext(){
+  const cw = weightLog.length ? weightLog[0].w : 126;
+  const wtLost = Math.max(0, 126 - cw).toFixed(1);
+  const wtLines = weightLog.length
+    ? `Current weight: ${cw}kg (lost ${wtLost}kg from 126kg start). Last 5 weigh-ins: ${[...weightLog].slice(0,5).map(e=>`${e.date}: ${e.w}kg`).join(', ')}.`
+    : 'No weight logged yet.';
+
+  const big3 = [
+    {label:'Chest press', keys:BIG3_KEYS.cp},
+    {label:'Deadlift', keys:BIG3_KEYS.dl},
+    {label:'Bar squat', keys:BIG3_KEYS.sq}
+  ];
+  const prLines = big3.map(b=>{
+    const pr = getBig3PR(b.keys);
+    return pr ? `${b.label} PR: ${pr.w}kg × ${pr.r} reps (est. 1RM: ${pr.orm}kg, set on ${pr.date})` : `${b.label}: no PR logged yet`;
+  }).join('
+');
+
+  const allEx = [...new Set(workoutLog.map(e=>e.ex))];
+  const otherPRs = allEx
+    .filter(ex=>!big3.some(b=>b.keys.some(k=>k===ex)))
+    .map(ex=>{ const pr=getExPR(ex); return pr?`${ex}: ${pr.w}kg×${pr.r} (1RM ${pr.orm}kg)`:null; })
+    .filter(Boolean).slice(0,8).join(', ');
+
+  const td = today();
+  const todaySets = workoutLog.filter(e=>e.date===td);
+  const todayLines = todaySets.length
+    ? `Today's session so far: ${[...new Set(todaySets.map(e=>e.ex))].map(ex=>{
+        const sets = todaySets.filter(s=>s.ex===ex);
+        const best = sets.reduce((b,s)=>s.orm>b.orm?s:b);
+        return `${ex} (${sets.length} sets, best: ${best.w}×${best.r})`;
+      }).join(', ')}.`
+    : 'No sets logged today yet.';
+
+  const sessions = [...new Set(workoutLog.map(e=>e.date))].length;
+  const totalSets = workoutLog.length;
+
+  const lastSession = workoutLog.length ? workoutLog[0].date : null;
+  const lastSessionExs = lastSession && lastSession !== td
+    ? [...new Set(workoutLog.filter(e=>e.date===lastSession).map(e=>e.ex))].join(', ')
+    : null;
+
+  return `
+LIVE ATHLETE DATA (updated each message):
+${wtLines}
+Goal: reach 100kg by end of 2025. Progress: ${Math.min(100,Math.round((126-cw)/26*100))}% to goal.
+
+BIG 3 PERSONAL RECORDS:
+${prLines}
+
+OTHER PRs: ${otherPRs || 'None yet.'}
+
+TRAINING STATS: ${sessions} sessions logged, ${totalSets} total sets.
+${todayLines}
+${lastSessionExs ? `Last session (${lastSession}): ${lastSessionExs}.` : ''}
+`.trim();
+}
+
 async function sendCoach(){
-  if(API_KEY==='YOUR_API_KEY_HERE'){
-    appendMsg('coach','⚠️ No API key set. Open this HTML file in a text editor and replace YOUR_API_KEY_HERE with your Anthropic API key.');
-    return;
-  }
   const input = document.getElementById('coach-input');
   const btn = document.getElementById('send-btn');
   const q = input.value.trim();
@@ -1785,11 +1839,13 @@ async function sendCoach(){
   scrollChat();
 
   try{
+    const liveContext = buildLiveContext();
+    const systemWithData = SYSTEM + '\n\n' + liveContext;
     const messages = chatHistory.slice(-12).map(m=>({role:m.role,content:m.content}));
     const res = await fetch('/api/chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({system:SYSTEM,messages})
+      body:JSON.stringify({system:systemWithData,messages})
     });
     const data = await res.json();
     typingEl.remove();
