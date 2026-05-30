@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IronCoach · Ram">
+<meta name="theme-color" content="#0E0E0E">
+<title>IronCoach · Ram</title>
+<link rel="apple-touch-icon" sizes="120x120" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" sizes="152x152" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" sizes="167x167" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+  /* ── RESET & BASE ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --bg: #0E0E0E;
+    --surface: #1A1A1A;
+    --surface2: #222222;
+    --border: #2A2A2A;
+    --accent: #D85A30;
+    --accent-hover: #F06A3A;
+    --text: #F5F5F5;
+    --text-sec: #888888;
+    --text-muted: #555555;
+    --success: #4CAF50;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --safe: #22C55E;
+    --font-head: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+    --r-sm: 8px;
+    --r-md: 12px;
+    --r-lg: 16px;
+    --nav-h: 64px;
+    --header-h: 56px;
+  }
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* ── LAYOUT ── */
+  #app { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
+
+  .header {
+    height: var(--header-h);
+    background: var(--bg);
+    border-bottom: 0.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    flex-shrink: 0;
+    padding-top: env(safe-area-inset-top);
+  }
+  .header-logo {
+    font-family: var(--font-head);
+    font-weight: 900;
+    font-size: 26px;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+  .header-logo span { color: var(--accent); }
+  .header-sub { font-size: 11px; color: var(--text-muted); margin-left: 10px; padding-left: 10px; border-left: 0.5px solid var(--border); }
+
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .view { display: none; padding: 16px 16px 20px; }
+  .view.active { display: block; }
+
+  .bottom-nav {
+    height: var(--nav-h);
+    background: var(--surface);
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    flex-shrink: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    font-size: 10px;
+    font-family: var(--font-body);
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.15s;
+    padding: 0;
+  }
+  .nav-item i { font-size: 22px; }
+  .nav-item.active { color: var(--accent); }
+  .nav-item:active { opacity: 0.7; }
+
+  /* ── TYPOGRAPHY ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .section-label i { font-size: 13px; }
+
+  h2 {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 14px 15px;
+    margin-bottom: 10px;
+  }
+  .card-flush { padding: 0; overflow: hidden; }
+
+  /* ── STAT GRID ── */
+  .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+  .stat-grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .stat {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 12px 12px 10px;
+  }
+  .stat-label { font-size: 10px; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .stat-val { font-family: var(--font-head); font-size: 22px; font-weight: 700; color: var(--text); line-height: 1; }
+  .stat-val.accent { color: var(--accent); }
+  .stat-sub { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+
+  /* ── PROGRESS BAR ── */
+  .prog-wrap { margin: 8px 0 4px; }
+  .prog-bar { height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .prog-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.5s ease; }
+  .prog-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+
+  /* ── PR CARDS ── */
+  .pr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+  .pr-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r-sm);
+    border-left: 3px solid var(--accent);
+    padding: 10px 10px 10px 12px;
+  }
+  .pr-name { font-size: 10px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .pr-val { font-family: var(--font-head); font-size: 17px; font-weight: 700; color: var(--text); line-height: 1; }
+  .pr-date { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+
+  /* ── TIMELINE ── */
+  .timeline { display: flex; border: 0.5px solid var(--border); border-radius: var(--r-sm); overflow: hidden; margin-bottom: 14px; }
+  .tl-block { flex: 1; padding: 8px 4px; text-align: center; border-right: 0.5px solid var(--border); }
+  .tl-block:last-child { border-right: none; }
+  .tl-time { font-size: 9px; color: var(--text-muted); margin-bottom: 3px; }
+  .tl-lbl { font-size: 10px; font-weight: 600; color: var(--text-sec); line-height: 1.3; }
+  .tl-block.hi { background: #2A1A10; }
+  .tl-block.hi .tl-lbl { color: var(--accent); }
+  .tl-block.fast { background: var(--surface2); }
+
+  /* ── FORMS ── */
+  .form-group { margin-bottom: 10px; }
+  .form-label { font-size: 11px; color: var(--text-muted); margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: 0.4px; }
+  input[type="number"], input[type="text"], input[type="date"], select, textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r-sm);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    padding: 10px 12px;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+  textarea { resize: none; line-height: 1.5; }
+
+  .log-form-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 11px 16px;
+    border-radius: var(--r-sm);
+    border: none;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--accent); color: #fff; width: 100%; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-primary:disabled { opacity: 0.45; cursor: default; }
+  .btn-ghost { background: var(--surface2); color: var(--text); border: 0.5px solid var(--border); }
+
+  /* ── EXERCISE SELECT ── */
+  .day-tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; margin-bottom: 12px; scrollbar-width: none; }
+  .day-tabs::-webkit-scrollbar { display: none; }
+  .day-tab {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    color: var(--text-sec);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .day-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .ex-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .ex-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 14px;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r-sm);
+    color: var(--text);
+    font-size: 14px;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+  }
+  .ex-btn:active { background: var(--surface2); }
+  .ex-btn.selected { border-color: var(--accent); background: #2A1A10; }
+  .ex-btn .nn { font-size: 10px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+
+  /* ── FEEDBACK ── */
+  .feedback {
+    padding: 10px 13px;
+    border-radius: var(--r-sm);
+    font-size: 13px;
+    margin-bottom: 10px;
+    display: none;
+    line-height: 1.5;
+  }
+  .feedback.success { background: #0A2A0A; border: 0.5px solid #22C55E44; color: var(--success); display: block; }
+  .feedback.error { background: #2A0A0A; border: 0.5px solid #EF444444; color: var(--danger); display: block; }
+  .feedback.pr { background: #2A1500; border: 0.5px solid var(--accent); color: var(--accent); display: block; }
+
+  /* ── TABLES ── */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .data-table th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); font-weight: 600; padding: 10px 12px 8px; border-bottom: 0.5px solid var(--border); }
+  .data-table td { padding: 9px 12px; border-bottom: 0.5px solid var(--border); color: var(--text); vertical-align: middle; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:active td { background: var(--surface2); }
+  .pr-badge { font-size: 9px; background: #2A1500; color: var(--accent); border: 0.5px solid var(--accent); padding: 2px 5px; border-radius: 3px; font-weight: 700; text-transform: uppercase; margin-left: 4px; vertical-align: middle; }
+
+  /* ── PILLS ── */
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .pill { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+  .pill-warn { background: #2A1500; color: #F59E0B; border: 0.5px solid #F59E0B44; }
+  .pill-safe { background: #0A2A0A; color: var(--safe); border: 0.5px solid #22C55E44; }
+  .pill i { font-size: 11px; }
+
+  /* ── MACRO CARDS ── */
+  .macro-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+  .macro-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--r-sm); padding: 12px 10px; text-align: center; }
+  .macro-num { font-family: var(--font-head); font-size: 18px; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 4px; }
+  .macro-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
+
+  /* ── SUPPLEMENT ROWS ── */
+  .supp-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 0.5px solid var(--border); }
+  .supp-row:last-child { border-bottom: none; }
+  .supp-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 5px; }
+  .supp-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .supp-note { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+
+  /* ── AI COACH ── */
+  .quick-asks { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .qa-btn {
+    text-align: left;
+    padding: 10px 13px;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r-sm);
+    color: var(--text-sec);
+    font-size: 13px;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .qa-btn:active { background: var(--surface2); border-color: var(--accent); color: var(--text); }
+  .qa-btn i { font-size: 14px; color: var(--text-muted); flex-shrink: 0; }
+
+  .chat-wrap { display: flex; flex-direction: column; gap: 0; }
+  .chat-messages { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; min-height: 0; }
+  .msg { padding: 11px 13px; border-radius: var(--r-sm); font-size: 14px; line-height: 1.65; }
+  .msg-user { background: #2A1A10; border: 0.5px solid var(--accent); color: var(--text); align-self: flex-end; max-width: 85%; border-radius: var(--r-md) var(--r-md) 4px var(--r-md); }
+  .msg-coach { background: var(--surface); border: 0.5px solid var(--border); color: var(--text); align-self: flex-start; max-width: 95%; border-radius: 4px var(--r-md) var(--r-md) var(--r-md); }
+  .msg-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; color: var(--text-muted); font-weight: 600; }
+
+  .chat-input-row { display: flex; gap: 8px; align-items: flex-end; }
+  .chat-input-row textarea { flex: 1; min-height: 44px; max-height: 100px; padding: 10px 12px; font-size: 14px; }
+  .send-btn {
+    width: 44px;
+    height: 44px;
+    background: var(--accent);
+    border: none;
+    border-radius: var(--r-sm);
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: opacity 0.15s;
+  }
+  .send-btn:disabled { opacity: 0.45; }
+  .send-btn:active { opacity: 0.8; }
+
+  .typing { display: flex; align-items: center; gap: 4px; padding: 10px 13px; }
+  .typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: bounce 1.2s infinite; }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)} }
+
+  /* ── WORKOUT PROGRAM ── */
+  .program-day { margin-bottom: 12px; }
+  .day-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .day-header:active { background: var(--surface2); }
+  .day-num {
+    font-family: var(--font-head);
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    min-width: 28px;
+  }
+  .day-info { flex: 1; }
+  .day-name { font-size: 14px; font-weight: 600; color: var(--text); }
+  .day-meta-txt { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+  .day-chevron { color: var(--text-muted); font-size: 18px; transition: transform 0.2s; }
+  .day-chevron.open { transform: rotate(180deg); }
+  .day-exercises { display: none; padding: 8px 4px 4px; }
+  .day-exercises.open { display: block; }
+  .ex-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    border-left: 2px solid var(--border);
+    margin-bottom: 4px;
+    border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  }
+  .ex-item.nn { border-left-color: var(--accent); }
+  .ex-item-name { font-size: 13px; color: var(--text); flex: 1; }
+  .ex-item-sets { font-size: 11px; color: var(--text-muted); }
+  .ex-item-nn { font-size: 9px; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
+
+  /* ── WEIGHT LOG CHART ── */
+  .mini-chart { position: relative; height: 80px; margin: 8px 0 4px; }
+  canvas { display: block; }
+
+  /* ── EMPTY STATE ── */
+  .empty { text-align: center; padding: 30px 16px; color: var(--text-muted); }
+  .empty i { font-size: 36px; margin-bottom: 10px; opacity: 0.4; display: block; }
+  .empty p { font-size: 13px; line-height: 1.6; }
+
+  /* ── UTILITY ── */
+  .mt-12 { margin-top: 12px; }
+  .mb-0 { margin-bottom: 0 !important; }
+  .text-accent { color: var(--accent); }
+  .text-success { color: var(--success); }
+  .text-muted { color: var(--text-muted); }
+  .fw-600 { font-weight: 600; }
+  .divider { height: 0.5px; background: var(--border); margin: 12px 0; }
+
+  .info-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-key { color: var(--text-muted); }
+  .info-val { color: var(--text); font-weight: 500; text-align: right; }
+
+  /* scrollbar */
+  .content::-webkit-scrollbar { width: 3px; }
+  .content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-logo">IRON<span>COACH</span></div>
+    <div class="header-sub">Ram · Personal · Injury-aware</div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content" id="content">
+
+    <!-- ── DASHBOARD ── -->
+    <div class="view active" id="view-dashboard">
+      <div class="stat-grid" style="grid-template-columns:repeat(2,1fr)">
+        <div class="stat">
+          <div class="stat-label">Current weight</div>
+          <div class="stat-val accent" id="d-cw">126.0 kg</div>
+          <div class="stat-sub" id="d-cw-date">Starting point</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">To goal</div>
+          <div class="stat-val" id="d-rem">26.0 kg</div>
+          <div class="stat-sub">to reach 100 kg</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Sessions</div>
+          <div class="stat-val" id="d-sessions">0</div>
+          <div class="stat-sub">total logged</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Sets logged</div>
+          <div class="stat-val" id="d-sets">0</div>
+          <div class="stat-sub">all time</div>
+        </div>
+      </div>
+
+      <!-- Weight log -->
+      <div class="section-label"><i class="ti ti-trending-down"></i>Log today's weight</div>
+      <div class="card mb-0" style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+        <input type="number" id="wt-input" placeholder="e.g. 125.5" step="0.1" min="50" max="300" style="flex:1" />
+        <button class="btn btn-primary" style="width:auto;padding:10px 16px" onclick="logWeight()">Log</button>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="card" style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+          <span style="font-size:13px;font-weight:600;color:var(--text)">Weight goal progress</span>
+          <span style="font-size:12px;color:var(--accent);font-weight:600" id="d-pct">0%</span>
+        </div>
+        <div class="prog-bar"><div class="prog-fill" id="d-progfill" style="width:0%"></div></div>
+        <div class="prog-labels"><span>126 kg</span><span>Goal: 100 kg</span></div>
+        <div id="wt-chart-wrap" class="mini-chart" style="display:none;margin-top:10px">
+          <canvas id="wt-chart" height="70"></canvas>
+        </div>
+      </div>
+
+      <!-- Today schedule -->
+      <div class="section-label"><i class="ti ti-clock"></i>Today's schedule</div>
+      <div class="timeline" style="margin-bottom:14px">
+        <div class="tl-block fast"><div class="tl-time">12am</div><div class="tl-lbl">Fasting</div></div>
+        <div class="tl-block hi"><div class="tl-time">10–12pm</div><div class="tl-lbl">Train (fasted)</div></div>
+        <div class="tl-block hi"><div class="tl-time">12pm</div><div class="tl-lbl">Meal 1 — break fast</div></div>
+        <div class="tl-block"><div class="tl-time">Before 8pm</div><div class="tl-lbl">Meal 2</div></div>
+        <div class="tl-block fast"><div class="tl-time">8pm+</div><div class="tl-lbl">Fasting</div></div>
+      </div>
+
+      <!-- Big 3 PRs -->
+      <div class="section-label"><i class="ti ti-trophy"></i>Big 3 personal records</div>
+      <div class="pr-grid">
+        <div class="pr-card"><div class="pr-name">Chest press</div><div class="pr-val" id="d-pr-cp">—</div><div class="pr-date" id="d-pr-cp-d"></div></div>
+        <div class="pr-card"><div class="pr-name">Deadlift</div><div class="pr-val" id="d-pr-dl">—</div><div class="pr-date" id="d-pr-dl-d"></div></div>
+        <div class="pr-card"><div class="pr-name">Bar squat</div><div class="pr-val" id="d-pr-sq">—</div><div class="pr-date" id="d-pr-sq-d"></div></div>
+      </div>
+
+      <!-- Injury reminders -->
+      <div class="section-label"><i class="ti ti-alert-triangle"></i>Ram's injury reminders</div>
+      <div class="card">
+        <div class="info-row"><span class="info-key">Left shoulder</span><span class="info-val text-accent">Rotator cuff · boxing overuse</span></div>
+        <div class="info-row"><span class="info-key">Knees</span><span class="info-val text-accent">Wrap before squats & legs</span></div>
+        <div class="info-row"><span class="info-key">Gout</span><span class="info-val text-accent">Stay hydrated · chicken+eggs only</span></div>
+        <div class="info-row" style="border:none"><span class="info-key">Fasted training</span><span class="info-val">Electrolytes before session</span></div>
+      </div>
+
+      <!-- Export -->
+      <div style="margin-top:6px;margin-bottom:20px">
+        <button onclick="exportData()" style="width:100%;padding:11px 16px;background:transparent;border:0.5px solid var(--border);border-radius:var(--r-sm);color:var(--text-muted);font-family:var(--font-body);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-muted)'">
+          <i class="ti ti-download" style="font-size:15px" aria-hidden="true"></i>
+          Export data backup
+        </button>
+        <div style="text-align:center;font-size:10px;color:var(--text-muted);margin-top:5px">Saves as ironcoach-ram-YYYY-MM-DD.json</div>
+      </div>
+    </div>
+
+    <!-- ── LOG WORKOUT ── -->
+    <div class="view" id="view-log">
+      <div class="section-label"><i class="ti ti-barbell"></i>Select exercise</div>
+
+      <div class="day-tabs" id="log-day-tabs"></div>
+      <div class="ex-list" id="log-ex-list"></div>
+
+      <div id="log-selected-info" style="display:none;margin-bottom:10px">
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px" id="log-ex-name-display"></div>
+        <div id="log-tips-card" style="display:none;margin-bottom:10px"></div>
+        <div class="log-form-grid">
+          <div class="form-group" style="margin:0">
+            <div class="form-label">Weight (kg)</div>
+            <input type="number" id="log-wt" placeholder="100" step="0.5" min="0" inputmode="decimal" />
+          </div>
+          <div class="form-group" style="margin:0">
+            <div class="form-label">Reps</div>
+            <input type="number" id="log-reps" placeholder="8" min="1" max="100" inputmode="numeric" />
+          </div>
+          <div class="form-group" style="margin:0">
+            <div class="form-label">Sets</div>
+            <input type="number" id="log-sets" placeholder="4" min="1" max="20" inputmode="numeric" />
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-label">Notes (optional)</div>
+          <textarea id="log-notes" rows="2" placeholder="e.g. paused reps, shoulder felt tight..."></textarea>
+        </div>
+        <div id="log-feedback" class="feedback"></div>
+        <button class="btn btn-primary" onclick="logSet()"><i class="ti ti-plus"></i>Log Set</button>
+      </div>
+
+      <!-- Today's session -->
+      <div class="section-label mt-12"><i class="ti ti-list"></i>Today's session</div>
+      <div class="card card-flush">
+        <table class="data-table">
+          <thead><tr><th>Exercise</th><th>Best</th><th>1RM</th></tr></thead>
+          <tbody id="today-tbody">
+            <tr><td colspan="3"><div class="empty"><i class="ti ti-dumbbell"></i><p>No sets logged today yet</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── PRs & HISTORY ── -->
+    <div class="view" id="view-prs">
+      <div class="section-label"><i class="ti ti-trophy"></i>Personal records — big 3</div>
+      <div class="pr-grid" style="margin-bottom:14px">
+        <div class="pr-card"><div class="pr-name">Chest press</div><div class="pr-val" id="pr-cp">—</div><div class="pr-date" id="pr-cp-d"></div></div>
+        <div class="pr-card"><div class="pr-name">Deadlift</div><div class="pr-val" id="pr-dl">—</div><div class="pr-date" id="pr-dl-d"></div></div>
+        <div class="pr-card"><div class="pr-name">Bar squat</div><div class="pr-val" id="pr-sq">—</div><div class="pr-date" id="pr-sq-d"></div></div>
+      </div>
+
+      <div class="section-label"><i class="ti ti-chart-line"></i>All PRs by exercise</div>
+      <div class="card card-flush" style="margin-bottom:14px">
+        <table class="data-table">
+          <thead><tr><th>Exercise</th><th>Best set</th><th>Est. 1RM</th></tr></thead>
+          <tbody id="all-prs-tbody">
+            <tr><td colspan="3"><div class="empty" style="padding:20px 16px"><i class="ti ti-barbell"></i><p>Log some sets to see your PRs</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-label"><i class="ti ti-history"></i>Workout history</div>
+      <div style="display:flex;gap:6px;margin-bottom:10px">
+        <select id="hist-filter" onchange="renderHistory()" style="flex:1">
+          <option value="">All exercises</option>
+        </select>
+      </div>
+      <div class="card card-flush">
+        <table class="data-table">
+          <thead><tr><th>Date</th><th>Exercise</th><th>Best set</th></tr></thead>
+          <tbody id="hist-tbody">
+            <tr><td colspan="3"><div class="empty" style="padding:20px 16px"><i class="ti ti-history"></i><p>Your history will appear here</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── PROGRAM ── -->
+    <div class="view" id="view-program">
+      <div class="section-label"><i class="ti ti-calendar-week"></i>7-day training split</div>
+      <div id="program-days"></div>
+    </div>
+
+    <!-- ── NUTRITION & COACH ── -->
+    <div class="view" id="view-nutrition">
+      <!-- Tab switcher -->
+      <div class="day-tabs" style="margin-bottom:14px" id="nut-tabs">
+        <button class="day-tab active" onclick="nutTab('macros',this)">Macros</button>
+        <button class="day-tab" onclick="nutTab('meals',this)">Meals</button>
+        <button class="day-tab" onclick="nutTab('supps',this)">Supplements</button>
+        <button class="day-tab" onclick="nutTab('gout',this)">Gout</button>
+        <button class="day-tab" onclick="nutTab('coach',this)">AI Coach</button>
+      </div>
+
+      <!-- MACROS -->
+      <div id="nut-macros">
+        <div class="section-label"><i class="ti ti-flame"></i>Daily targets (fat loss · fasted training)</div>
+        <div class="macro-grid">
+          <div class="macro-card"><div class="macro-num">~2,000</div><div class="macro-lbl">kcal/day</div></div>
+          <div class="macro-card"><div class="macro-num">160–180g</div><div class="macro-lbl">Protein</div></div>
+          <div class="macro-card"><div class="macro-num">&lt;50g</div><div class="macro-lbl">Net carbs</div></div>
+        </div>
+        <div class="card">
+          <div class="info-row"><span class="info-key">Diet type</span><span class="info-val">Low carb / near-keto</span></div>
+          <div class="info-row"><span class="info-key">Eating window</span><span class="info-val">12pm – 8pm (16:8 IF)</span></div>
+          <div class="info-row"><span class="info-key">Training</span><span class="info-val">10am–12pm fasted</span></div>
+          <div class="info-row"><span class="info-key">Protein per kg</span><span class="info-val">~1.3–1.5g/kg bodyweight</span></div>
+          <div class="info-row" style="border:none"><span class="info-key">Water target</span><span class="info-val">3–4L/day minimum</span></div>
+        </div>
+        <div class="card" style="background:#2A1500;border-color:var(--accent)">
+          <div style="font-size:12px;color:var(--accent);font-weight:600;margin-bottom:6px"><i class="ti ti-bolt" style="font-size:13px;margin-right:4px"></i>Fasted training note</div>
+          <div style="font-size:12px;color:var(--text-sec);line-height:1.6">Take electrolytes (sodium, potassium, magnesium) before your 10am session. Your post-workout Meal 1 at 12pm is your most anabolic window — make it your biggest, most protein-dense meal.</div>
+        </div>
+      </div>
+
+      <!-- MEALS -->
+      <div id="nut-meals" style="display:none">
+        <div class="section-label"><i class="ti ti-sun"></i>Meal 1 — 12pm (post-workout · break fast)</div>
+        <div class="card" style="margin-bottom:10px">
+          <div class="info-row"><span class="info-key fw-600">Chicken breast</span><span class="info-val">300–400g</span></div>
+          <div class="info-row"><span class="info-key fw-600">Whole eggs</span><span class="info-val">2–4 eggs</span></div>
+          <div class="info-row"><span class="info-key fw-600">Leafy greens / broccoli</span><span class="info-val">Unlimited</span></div>
+          <div class="info-row" style="border:none"><span class="info-key fw-600">Olive oil / avocado</span><span class="info-val">1–2 tbsp</span></div>
+        </div>
+        <div class="section-label"><i class="ti ti-moon"></i>Meal 2 — before 8pm</div>
+        <div class="card" style="margin-bottom:10px">
+          <div class="info-row"><span class="info-key fw-600">Chicken or eggs</span><span class="info-val">200–300g</span></div>
+          <div class="info-row"><span class="info-key fw-600">Fibrous vegetables</span><span class="info-val">Spinach, zucchini, cucumber</span></div>
+          <div class="info-row" style="border:none"><span class="info-key fw-600">Nuts or cheese (small)</span><span class="info-val">For fat + satiety</span></div>
+        </div>
+        <div class="card" style="background:#0A2A0A;border-color:#22C55E44">
+          <div style="font-size:12px;color:var(--safe);font-weight:600;margin-bottom:6px"><i class="ti ti-check" style="font-size:13px;margin-right:4px"></i>OMAD days</div>
+          <div style="font-size:12px;color:var(--text-sec);line-height:1.6">When you forget dinner — don't stress. Eat a slightly larger Meal 1 (add an extra 100g chicken and 2 more eggs). You're still hitting your protein target if the meal is big enough.</div>
+        </div>
+      </div>
+
+      <!-- SUPPLEMENTS -->
+      <div id="nut-supps" style="display:none">
+        <div class="section-label"><i class="ti ti-pill"></i>Daily supplement stack</div>
+        <div class="card">
+          <div class="supp-row">
+            <div class="supp-dot"></div>
+            <div><div class="supp-name">Nitrotech Ripped — Scoop 1</div><div class="supp-note">12pm with Meal 1 (post-workout). Maximises protein synthesis in your anabolic window.</div></div>
+          </div>
+          <div class="supp-row">
+            <div class="supp-dot"></div>
+            <div><div class="supp-name">Multivitamin</div><div class="supp-note">Take with Meal 1 — fat-soluble vitamins (A, D, E, K) need food to absorb properly.</div></div>
+          </div>
+          <div class="supp-row">
+            <div class="supp-dot"></div>
+            <div><div class="supp-name">Nitrotech Ripped — Scoop 2</div><div class="supp-note">Pre-Meal 2 or with Meal 2. Keeps protein intake consistent through your eating window.</div></div>
+          </div>
+          <div class="supp-row">
+            <div class="supp-dot" style="background:var(--warning)"></div>
+            <div><div class="supp-name">Electrolytes (recommended)</div><div class="supp-note">Before your 10am session. Sodium, potassium, magnesium. Critical during fasted training to prevent cramping and fatigue.</div></div>
+          </div>
+          <div class="supp-row" style="border:none">
+            <div class="supp-dot" style="background:var(--text-muted)"></div>
+            <div><div class="supp-name">Creatine 5g (optional)</div><div class="supp-note">Gout-safe, well studied. Add to Meal 1 if you want extra strength and recovery gains. Increases water retention slightly.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GOUT -->
+      <div id="nut-gout" style="display:none">
+        <div class="section-label"><i class="ti ti-alert-triangle"></i>Gout management</div>
+        <div class="card" style="margin-bottom:10px">
+          <div style="font-size:12px;color:var(--text-sec);line-height:1.6;margin-bottom:10px">Gout flares from uric acid buildup. High purine foods = more uric acid. Fasting itself can temporarily spike uric acid — stay well hydrated.</div>
+          <div class="pills">
+            <span class="pill pill-safe"><i class="ti ti-check"></i>Chicken</span>
+            <span class="pill pill-safe"><i class="ti ti-check"></i>Eggs</span>
+            <span class="pill pill-safe"><i class="ti ti-check"></i>Leafy greens</span>
+            <span class="pill pill-safe"><i class="ti ti-check"></i>Cherries</span>
+            <span class="pill pill-safe"><i class="ti ti-check"></i>Vitamin C</span>
+            <span class="pill pill-safe"><i class="ti ti-check"></i>Coffee (moderate)</span>
+          </div>
+          <div class="divider"></div>
+          <div class="pills">
+            <span class="pill pill-warn"><i class="ti ti-x"></i>Red meat (limit)</span>
+            <span class="pill pill-warn"><i class="ti ti-x"></i>Organ meats</span>
+            <span class="pill pill-warn"><i class="ti ti-x"></i>Shellfish</span>
+            <span class="pill pill-warn"><i class="ti ti-x"></i>Alcohol</span>
+            <span class="pill pill-warn"><i class="ti ti-x"></i>Sugary drinks</span>
+            <span class="pill pill-warn"><i class="ti ti-x"></i>Pork (limit)</span>
+          </div>
+        </div>
+        <div class="card" style="background:#2A1500;border-color:var(--accent)">
+          <div style="font-size:12px;color:var(--accent);font-weight:600;margin-bottom:6px">Nitrotech Ripped + Gout</div>
+          <div style="font-size:12px;color:var(--text-sec);line-height:1.6">High protein intake (especially whey) can mildly elevate uric acid in some people. Monitor how you feel. If flares increase, consider reducing to 1 scoop/day and getting protein from chicken instead. Stay hydrated — target 3–4L water daily.</div>
+        </div>
+      </div>
+
+      <!-- AI COACH -->
+      <div id="nut-coach" style="display:none">
+        <div class="section-label"><i class="ti ti-robot"></i>Nutrition & full-body coach</div>
+        <div class="quick-asks" id="coach-qas">
+          <button class="qa-btn" onclick="sendQuick('What should I eat right after my fasted training at 12pm to maximize muscle recovery?')">Post-workout meal for fasted training? <i class="ti ti-chevron-right"></i></button>
+          <button class="qa-btn" onclick="sendQuick('I did OMAD today and only had one meal. How does this affect my training and should I be worried?')">Forgot dinner — OMAD impact? <i class="ti ti-chevron-right"></i></button>
+          <button class="qa-btn" onclick="sendQuick('Is beef okay occasionally with my gout, and how often is safe?')">Beef with gout — how often? <i class="ti ti-chevron-right"></i></button>
+          <button class="qa-btn" onclick="sendQuick('Give me a realistic timeline: how long to go from 126kg to 100kg with my current diet and training?')">Weight loss timeline? <i class="ti ti-chevron-right"></i></button>
+          <button class="qa-btn" onclick="sendQuick('How do I protect my left shoulder long-term while still hitting chest press PRs?')">Left shoulder long term? <i class="ti ti-chevron-right"></i></button>
+          <button class="qa-btn" onclick="sendQuick('What are the best knee exercises I can do to strengthen my knees without making them worse?')">Strengthen bad knees? <i class="ti ti-chevron-right"></i></button>
+          <button class="qa-btn" onclick="sendQuick('Am I eating enough protein on 2 meals a day with chicken and Nitrotech Ripped twice daily?')">Protein intake check? <i class="ti ti-chevron-right"></i></button>
+          <button class="qa-btn" onclick="sendQuick('What are signs of overtraining with a 6-day split and should I take an extra rest day?')">Overtraining signs? <i class="ti ti-chevron-right"></i></button>
+        </div>
+
+        <div class="chat-wrap">
+          <div class="chat-messages" id="chat-messages"></div>
+          <div class="chat-input-row">
+            <textarea id="coach-input" rows="1" placeholder="Ask anything — training, diet, recovery, injuries..." onkeydown="handleEnter(event)"></textarea>
+            <button class="send-btn" id="send-btn" onclick="sendCoach()" aria-label="Send message"><i class="ti ti-send"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end content -->
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="switchView('dashboard',this)" id="nav-dashboard">
+      <i class="ti ti-layout-dashboard"></i>Dashboard
+    </button>
+    <button class="nav-item" onclick="switchView('log',this)" id="nav-log">
+      <i class="ti ti-barbell"></i>Log
+    </button>
+    <button class="nav-item" onclick="switchView('prs',this)" id="nav-prs">
+      <i class="ti ti-trophy"></i>Records
+    </button>
+    <button class="nav-item" onclick="switchView('program',this)" id="nav-program">
+      <i class="ti ti-calendar-week"></i>Program
+    </button>
+    <button class="nav-item" onclick="switchView('nutrition',this)" id="nav-nutrition">
+      <i class="ti ti-robot"></i>Coach
+    </button>
+  </nav>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+/* ═══════════════════════════════════════
+   CONFIG — REPLACE WITH YOUR API KEY
+═══════════════════════════════════════ */
+const API_KEY = null; // Key handled server-side via /api/chat
+
+/* ═══════════════════════════════════════
+   SYSTEM PROMPT
+═══════════════════════════════════════ */
+const SYSTEM = `You are IronCoach, a direct, no-nonsense personal trainer and nutrition coach. You are coaching Ram — address him by name occasionally but don't overdo it. Full athlete profile:
+
+ATHLETE NAME: Ram
+BODY: Currently 126kg male, targeting 100kg by end of 2025. Training to lose fat while preserving muscle.
+INJURIES: Left shoulder — rotator cuff area damaged from boxing left hook overuse. Avoid heavy overhead pressing on left, no behind-neck movements, light lateral raises on left arm only. Bad knees — knee wraps help for squats and leg work, but avoid sudden torque and deep knee-dominant movements without proper setup.
+DIET & FASTING: 16:8 intermittent fasting. Eats at 12pm (Meal 1, post-workout) and before 8pm (Meal 2). No snacks. Sometimes accidentally does OMAD (forgets dinner). Trains 10am–12pm completely fasted.
+NUTRITION: Primarily chicken breast and eggs — minimal to zero carbs. Occasional beef or pork but has GOUT so stays mostly to chicken and eggs. Takes multivitamins daily and Nitrotech Ripped protein 2x/day.
+TRAINING SPLIT (7-day):
+- Day 1: Chest + Shoulders (Barbell Chest Press NON-NEGOTIABLE)
+- Day 2: Biceps + Triceps
+- Day 3: Back (Conventional Deadlift NON-NEGOTIABLE)
+- Day 4: Legs + Abs (Barbell Back Squat NON-NEGOTIABLE, knee wraps)
+- Day 5: Minimal low-impact cardio ONLY — NO HIIT, bad knees (incline walk, bike, rowing)
+- Day 6: Strength & Conditioning — PR attempts on Chest Press, Deadlift, Bar Squat
+- Day 7: Full rest
+All sessions: 90 minutes to 2 hours maximum.
+
+Be direct, specific, and practical. No motivational fluff. Max 200 words. Always address injury constraints and gout when relevant. Give specific numbers (sets, reps, weights, percentages) when possible.`;
+
+/* ═══════════════════════════════════════
+   EXERCISE TIPS DATABASE
+═══════════════════════════════════════ */
+const EX_TIPS = {
+  'Barbell Chest Press': {
+    cues: ['Retract and depress your scapula before unracking — protects the shoulder joint','Grip slightly wider than shoulder-width, wrists straight over elbows','Lower bar to lower chest (nipple line), not upper chest — reduces shoulder strain','Drive feet into the floor and arch naturally — keeps the shoulder packed','Press in a slight arc: back toward the rack, not straight up'],
+    injury: 'Left shoulder: keep your left elbow tucked ~45° to the torso. If left shoulder pops or aches, reduce load 10% and focus on controlled eccentric (3 sec down).',
+    targets: 'Primary: pectoralis major. Secondary: anterior deltoid, triceps.'
+  },
+  'Incline DB Press': {
+    cues: ['Set bench 30–45° — steeper angles shift too much load to the front delt','Neutral grip (palms facing each other) is easier on the shoulder than pronated','Touch DBs at the top but don\'t clang — keeps tension on the chest','Lower slowly to a deep stretch, feel the chest lengthening'],
+    injury: 'Left shoulder: use neutral grip, not pronated. Keep left elbow slightly tucked. Reduce load on left side if needed — asymmetric loading is fine temporarily.',
+    targets: 'Primary: upper pectoralis. Secondary: anterior deltoid, triceps.'
+  },
+  'Cable Fly': {
+    cues: ['Stand in a split stance for stability — staggered feet','Slight bend in the elbows, locked throughout the movement','Lead with your elbows, not your hands — think "hugging a tree"','Stop when hands meet — going past midline reduces chest tension','Squeeze for 1 second at peak contraction'],
+    injury: 'Left shoulder: cable maintains constant tension without the instability of dumbbells — safer for your injury. Keep left arm range of motion slightly shorter if shoulder is aggravated.',
+    targets: 'Primary: pectoralis major (stretch emphasis). Secondary: anterior deltoid.'
+  },
+  'DB Lateral Raise': {
+    cues: ['Slight forward lean (10–15°) — targets medial delt more effectively','Lead with the elbows, not the hands — think "pouring water from a jug"','Stop at shoulder height — going higher dumps load onto traps','Control the descent — the eccentric builds the delt','Keep wrists below elbows throughout'],
+    injury: 'Left shoulder: use 50–60% of your right-side weight on the left. Full range of motion if pain-free; if not, limit to waist-to-90° only. No external rotation at the top.',
+    targets: 'Primary: medial deltoid. Secondary: supraspinatus, upper trapezius.'
+  },
+  'Front Raise (cable)': {
+    cues: ['Cable keeps tension at the bottom — superior to dumbbell version','Raise to eye level, not higher — going overhead is unnecessary and stressful on the shoulder','Keep a slight bend in the elbow, not fully locked out','Exhale as you raise, inhale as you lower','Slow 3-second descent'],
+    injury: 'Left shoulder: cable version is recommended over dumbbells — more controlled. Stop at shoulder height on left side. If anterior shoulder pain, skip and substitute a rear delt movement instead.',
+    targets: 'Primary: anterior deltoid. Secondary: clavicular pectoralis.'
+  },
+  'Shoulder Press (Smith Machine)': {
+    cues: ['Sit upright, not leaning back — keeps tension on the delts not the upper chest','Bar path is vertical — Smith machine guides this for you','Lower to chin level, not behind the neck — reduces rotator cuff stress','Keep elbows slightly forward of the bar, not flared out wide','Full lockout at the top without shrugging'],
+    injury: 'Left shoulder: the fixed Smith Machine path is intentionally chosen here over free barbell. If left shoulder aches past 90° of flexion, reduce range of motion to 90° and use lighter load.',
+    targets: 'Primary: anterior and medial deltoid. Secondary: triceps, upper trapezius.'
+  },
+  'EZ Bar Curl': {
+    cues: ['EZ bar reduces wrist supination — more comfortable than straight bar','Keep elbows pinned to your sides throughout — no swinging','Curl to chin level for full bicep contraction','Squeeze at the top, then lower in 3 seconds — the eccentric matters','Full extension at the bottom — stretch the long head of the bicep'],
+    injury: 'No specific injury concern. If left shoulder aches holding the bar, try a closer grip or switch to dumbbells.',
+    targets: 'Primary: biceps brachii, brachialis. Secondary: brachioradialis.'
+  },
+  'Incline DB Curl': {
+    cues: ['Bench at 45–60° — stretches the long head of the bicep at the bottom','Arms hang straight down before curling — maximize the stretch','Don\'t let the elbows drift forward — keep them behind your torso','Supinate the wrist (turn palm up) as you curl — full bicep activation','Slow and controlled — this is an isolation movement, not a power lift'],
+    injury: 'Left shoulder: this position naturally externally rotates the shoulder. If discomfort, reduce the bench angle (less stretch) or use neutral grip.',
+    targets: 'Primary: biceps brachii (long head emphasis). Secondary: brachialis.'
+  },
+  'Hammer Curl': {
+    cues: ['Neutral grip (thumbs up) throughout — targets the brachialis and brachioradialis','Curl straight up, keeping elbows fixed at sides','No wrist rotation — grip stays neutral from start to finish','Full extension at the bottom, pause briefly before next rep','Can be done alternating or simultaneously'],
+    injury: 'No shoulder concern. Safe movement for your profile.',
+    targets: 'Primary: brachialis, brachioradialis. Secondary: biceps brachii.'
+  },
+  'Tricep Pushdown': {
+    cues: ['Lean forward slightly at the hips — keeps tension on the tricep throughout','Lock elbows at your sides — they should not move','Push down until arms are fully extended, squeeze triceps at the bottom','Controlled 2–3 second return to starting position','Use a rope or straight bar — both work; rope allows neutral wrist'],
+    injury: 'No direct shoulder concern. If using straight bar aggravates left shoulder, switch to rope attachment which allows a more natural wrist and elbow position.',
+    targets: 'Primary: triceps brachii (all 3 heads). Secondary: anconeus.'
+  },
+  'Overhead Tricep Extension': {
+    cues: ['Keep elbows close to your head — flaring out reduces tricep isolation','Lower the weight behind your head until forearms are parallel to the floor','Full extension at the top — squeeze the tricep hard','Core tight — avoid arching the lower back','Go lighter than you think — this movement has a long lever arm'],
+    injury: 'Left shoulder: this movement flexes the shoulder overhead. Use cable version (from low pulley) rather than dumbbell — less shoulder instability. Reduce left arm load if shoulder protests. Skip if shoulder pain is present.',
+    targets: 'Primary: triceps brachii (long head emphasis). Secondary: none significant.'
+  },
+  'Close-Grip Bench Press': {
+    cues: ['Grip shoulder-width apart — going too narrow stresses the wrists','Elbows tucked at 45°, not flared — same as regular bench but narrower grip','Lower to lower chest, same as regular bench press','Press in an arc back toward the rack','Lighter than regular bench — this is a tricep isolation movement'],
+    injury: 'Left shoulder: same shoulder protection principles as regular bench. Keep left elbow tucked. Use conservative load — this is accessory work, not a primary lift.',
+    targets: 'Primary: triceps brachii. Secondary: pectoralis major, anterior deltoid.'
+  },
+  'Conventional Deadlift': {
+    cues: ['Bar over mid-foot (about 2cm from shins) before you grip','Hinge at the hips first, then bend the knees to reach the bar — not a squat','Grip just outside the legs, arms straight and vertical','Take a big breath, brace your core (360° brace), then pull','Drive the floor away from you — think "leg press the earth"','Keep the bar dragging up your shins and thighs the entire way','Lock out by squeezing glutes at the top — don\'t hyperextend the lower back','Hinge back down on descent, don\'t round'],
+    injury: 'Knees: conventional stance is safer than sumo for your knees — less lateral knee stress. Keep knees tracking over toes. Wrap before heavy sets.',
+    targets: 'Primary: hamstrings, glutes, spinal erectors. Secondary: traps, lats, quads.'
+  },
+  'Barbell Row': {
+    cues: ['Hinge to roughly 45° torso angle — not fully horizontal','Grip just outside shoulder-width, overhand','Pull to your lower chest/upper abdomen — not your upper chest','Lead with the elbows, not the hands','Squeeze the shoulder blades together at the top','Lower slowly — 2–3 second eccentric','Keep your lower back neutral, not rounded'],
+    injury: 'Knees: the hip hinge position is low-stress on the knees. Use a slight knee bend to protect the hamstrings.',
+    targets: 'Primary: lats, rhomboids, mid-trapezius. Secondary: rear deltoids, biceps, erectors.'
+  },
+  'Pull-Up / Lat Pulldown': {
+    cues: ['Grip slightly wider than shoulder-width','Pull elbows down and back — think "elbows to your back pockets"','Lean back slightly (10–15°) to get a full lat stretch and contraction','Full extension at the top — let the lats stretch','Pull to upper chest, not behind the neck — behind-neck is dangerous'],
+    injury: 'Left shoulder: NEVER pull behind the neck. Pull to upper chest only. If left shoulder is aggravated, use a neutral-grip handle for lat pulldown (palms facing each other) — far less shoulder stress.',
+    targets: 'Primary: latissimus dorsi. Secondary: biceps, rear deltoid, rhomboids.'
+  },
+  'Seated Cable Row': {
+    cues: ['Sit tall, chest up — don\'t round your back to reach forward','Pull to your lower chest/navel, elbows driving back and in','Squeeze shoulder blades together at the peak contraction','Control the return — full stretch forward before the next rep','Keep hips and legs still — this is an upper back movement'],
+    injury: 'No significant injury concern for this movement. Safe for shoulders and knees.',
+    targets: 'Primary: rhomboids, mid-trapezius, lats. Secondary: rear deltoids, biceps.'
+  },
+  'Face Pull': {
+    cues: ['Set cable at face height or slightly above','Pull toward your face, elbows high and flared out wide','Externally rotate at the end: pull the rope ends apart at your ears','Think "double bicep pose" at the peak contraction','Use light-to-moderate weight — this is a health/rehab movement, not a strength exercise','3 seconds on the way back in'],
+    injury: 'LEFT SHOULDER: this is your best friend for shoulder health. Face pulls directly strengthen the rotator cuff, rear delt, and external rotators — exactly what boxing has damaged. Never skip this exercise. Use it as active shoulder rehab.',
+    targets: 'Primary: rear deltoid, external rotators (infraspinatus, teres minor). Secondary: rhomboids, mid-trapezius.'
+  },
+  'DB Shrug': {
+    cues: ['Stand tall, arms at sides, dumbbells held with a neutral grip','Lift shoulders straight up toward your ears — no rolling forward or backward','Hold at the top for 1–2 seconds — feel the traps contracting','Lower slowly, full depression at the bottom','No head movement — keep your neck neutral'],
+    injury: 'No direct injury concern. If left shoulder is aggravated by the weight hanging, reduce load on left side.',
+    targets: 'Primary: upper trapezius, levator scapulae. Secondary: rhomboids.'
+  },
+  'Barbell Back Squat': {
+    cues: ['Bar on upper traps (high bar) or lower traps (low bar) — both are fine','WRAP YOUR KNEES before every work set','Stance slightly wider than shoulder-width, toes turned out 20–30°','Brace core hard before descent — 360° brace, breathe into your belly','Hips and knees break simultaneously — initiate from the hips','Knees track over toes throughout — don\'t let them cave inward','Depth: go to parallel or slightly below — don\'t sacrifice form for depth','Drive through your whole foot on the way up, not just the heels'],
+    injury: 'Knees: wider stance reduces knee flexion angle — easier on the joint. Ensure knees never cave inward. Wrap before every set above warm-up weight. Pain ≠ discomfort — stop if sharp pain, continue if general knee ache with wraps.',
+    targets: 'Primary: quadriceps, glutes. Secondary: hamstrings, spinal erectors, core.'
+  },
+  'Romanian Deadlift': {
+    cues: ['Start standing with bar at hip height','Push your hips back as far as possible — this is a hip hinge, not a squat','Soft bend in the knees — locked throughout the movement','Lower the bar along your legs until you feel a strong hamstring stretch (mid-shin level)','Keep your back flat — the moment it rounds, you\'ve gone too far','Drive hips forward to return to standing — squeeze glutes at the top'],
+    injury: 'Knees: RDL is one of the most knee-friendly lower body movements — minimal knee flexion. Ideal for your situation as a complement to squats.',
+    targets: 'Primary: hamstrings, glutes. Secondary: spinal erectors, adductors.'
+  },
+  'Leg Press': {
+    cues: ['Feet shoulder-width, placed mid-to-high on the platform — higher foot placement = more glute/hamstring, less knee stress','Don\'t lock out the knees at the top — keep a slight bend','Lower until thighs are ~90° or slightly past — don\'t let hips tuck under','Press through your heels, not your toes','Control the descent — don\'t let the weight drop'],
+    injury: 'Knees: high foot placement on the platform significantly reduces knee stress — use this positioning. Avoid full lockout. Wrap if needed for heavy sets.',
+    targets: 'Primary: quadriceps. Secondary: glutes, hamstrings (depending on foot position).'
+  },
+  'Lying Leg Curl': {
+    cues: ['Lie face down, pad just above the heels','Curl to 90° or slightly past — full contraction of the hamstring','Hold 1 second at the top','Lower slowly — 3 second eccentric — this is where hamstrings grow','Keep hips on the pad — don\'t let them rise as you curl'],
+    injury: 'No significant knee concern in this position. Safe for your injury profile.',
+    targets: 'Primary: hamstrings (biceps femoris, semimembranosus, semitendinosus). Secondary: gastrocnemius.'
+  },
+  'Calf Raise': {
+    cues: ['Full range of motion — all the way up on your toes, all the way down below the platform','3 second hold at the top — calves are slow-twitch, they need time under tension','Slow 3 second descent — calves respond to eccentric loading','Keep knees soft, not locked','Both legs together or single leg — single leg is harder and more effective'],
+    injury: 'No knee or shoulder concern. Safe movement.',
+    targets: 'Primary: gastrocnemius, soleus. Secondary: tibialis posterior.'
+  },
+  'Hanging Leg Raise': {
+    cues: ['Hang from a bar with a full grip — don\'t use ab straps if possible (grip strength bonus)','Tuck the pelvis at the bottom before raising — don\'t swing','Raise legs to parallel or higher — controlled, no momentum','Lower slowly — 3 second descent','If full leg raise is too hard, bend the knees (tuck raise) and progress over time'],
+    injury: 'Left shoulder: hanging from a bar puts traction on the shoulder joint which can actually feel relieving for rotator cuff injuries. If grip causes shoulder pain, use ab straps for now.',
+    targets: 'Primary: rectus abdominis, hip flexors. Secondary: obliques, transverse abdominis.'
+  },
+  'Cable Crunch': {
+    cues: ['Kneel facing the cable machine, rope attachment above','Hold the rope at your ears or temples — not pulling with your arms','Crunch by bringing your elbows to your knees — think "folding in half"','The hips should NOT move — all motion is in the spine','Hold 1 second at full contraction, then slowly return','Keep tension on the abs the entire way up — don\'t fully extend'],
+    injury: 'No knee or shoulder concern. Safe movement.',
+    targets: 'Primary: rectus abdominis. Secondary: obliques.'
+  },
+  'Incline Treadmill Walk': {
+    cues: ['Set incline to 4.5–6%, speed 5–6 km/h — "zone 2" cardio','Don\'t hold the handrails — defeats the purpose','Maintain upright posture, slight forward lean','Breathe through your nose if possible — indicates zone 2 intensity','Target heart rate: 60–70% of max (roughly 130–145 BPM for your age)'],
+    injury: 'Knees: incline walking is low-impact and joint-friendly. Far safer than running. If knee discomfort, reduce incline slightly.',
+    targets: 'Cardiovascular endurance, fat oxidation, calves, glutes.'
+  },
+  'Stationary Bike': {
+    cues: ['Seat height: leg should be almost fully extended at the bottom of the pedal stroke','Resistance low to moderate — this is active recovery, not a race','Pedal cadence 70–90 RPM for zone 2','Stay seated — no standing pedaling needed','Maintain upright posture or slight forward lean on handlebars'],
+    injury: 'Knees: the best cardio option for bad knees — near-zero impact. Adjust seat height carefully; too low increases knee flexion angle and stress.',
+    targets: 'Cardiovascular endurance, quadriceps, glutes, fat oxidation.'
+  },
+  'Rowing Machine': {
+    cues: ['Drive sequence: LEGS first, then lean back, then pull arms — in that order','Recovery sequence: arms out, lean forward, bend knees — reverse order','Push with your legs until they are nearly straight before leaning back','Pull handle to your lower chest/upper abdomen','Maintain a neutral spine — no rounding at the catch (start position)'],
+    injury: 'Knees: the rowing catch position requires moderate knee flexion. If pain occurs, reduce the forward reach and start the stroke with less knee bend.',
+    targets: 'Full body: quads, glutes, hamstrings, lats, rhomboids, core. Great low-impact option.'
+  },
+  'Mobility & Stretching': {
+    cues: ['Left shoulder: sleeper stretch (lie on left side, use right arm to push left forearm toward floor) — 3×30 sec','Left shoulder: cross-body stretch and doorway stretch for pec minor','Knees: quad stretch, hip flexor lunge stretch, and calf stretch','Hip flexors: couch stretch (essential for squat depth)','Hold each stretch 30–60 seconds — breathe into the stretch','No bouncing — static stretching on rest/cardio days'],
+    injury: 'This session IS your injury management. The sleeper stretch and doorway pec stretch are specifically beneficial for boxing shoulder injuries. Consistency here directly impacts your D1 and D6 performance.',
+    targets: 'Recovery, injury prevention, mobility improvement.'
+  },
+  'Chest Press PR': {
+    cues: ['Warm-up pyramid: 40% × 10, 60% × 5, 75% × 3, 85% × 1, then attempt PR','3–5 min rest between each warm-up set','At your PR weight: set up slow and deliberate, big breath before unrack','Stay tight the entire way down — no relaxing at the bottom','If you grind, keep pushing — a 2–3 second grind is still a successful lift','Have a spotter for anything over your current PR'],
+    injury: 'Left shoulder: on PR day, warm the shoulder up with 2 sets of face pulls and band pull-aparts before touching the bar. If shoulder is not 100%, attempt a rep PR at a slightly lower weight rather than a weight PR.',
+    targets: 'Max strength test: pectoralis major, anterior deltoid, triceps.'
+  },
+  'Deadlift PR': {
+    cues: ['Warm-up pyramid: 50% × 5, 70% × 3, 80% × 2, 90% × 1, then attempt PR','Walk up to the bar and own it — stand over it, don\'t creep up','Big breath into your belly, hold it, then initiate the pull','Don\'t jerk the bar — take the slack out first (you\'ll hear a click), then apply force smoothly','Focus on the wall in front of you — don\'t look up or down','At lockout: squeeze glutes, stand tall — don\'t hyperextend'],
+    injury: 'Knees: wrap both knees for PR attempts. Conventional stance already protects your knees better than sumo.',
+    targets: 'Max strength test: posterior chain, traps, lats, grip.'
+  },
+  'Bar Squat PR': {
+    cues: ['Wrap knees — mandatory for PR attempts','Warm-up pyramid: 40% × 8, 60% × 5, 75% × 3, 85% × 1, then attempt PR','Walk out is part of the lift — take only 2–3 steps back, set your stance','Big breath and brace before descent, hold through the entire rep','On the way up: push your back into the bar (cue: "spread the floor" and "push the floor apart")','If you miss the lift forward, that\'s a quad issue. If backward, that\'s a posterior chain issue.'],
+    injury: 'Knees: mandatory knee wraps. Slightly wider stance (2–3cm each side) if standard stance causes pain. Don\'t chase depth at the expense of knee health on PR day.',
+    targets: 'Max strength test: quadriceps, glutes, hamstrings, core, spinal erectors.'
+  },
+  "Farmer's Carry": {
+    cues: ['Stand tall — chest up, shoulders back and down','Take short, deliberate steps — don\'t shuffle','Grip the handles hard — white knuckle the entire walk','Brace your core like you\'re about to take a punch','At the turn: slow down, pivot carefully, accelerate again','Focus on keeping shoulders level — don\'t let them drop to one side'],
+    injury: 'Left shoulder: the loaded carry compresses the shoulder joint — actually beneficial for rotator cuff stability. Use equal weight in both hands. If left shoulder fatigues first, put the weight down — don\'t compensate.',
+    targets: 'Grip strength, traps, core stability, cardiovascular conditioning.'
+  },
+  'Accessory Finisher': {
+    cues: ['Choose based on weakest point from the day\'s PRs','Chest weak off the chest? → Pause bench press 3×3','Deadlift weak off the floor? → Deficit deadlift 3×3','Squat weak in the hole? → Box squat or pause squat 3×3','Keep loads moderate — this is reinforcement work, not another max effort','Rest only 90 seconds between sets'],
+    injury: 'Apply same injury modifications as the primary lifts.',
+    targets: 'Weak point specific. Reinforces strength gained from PR attempts.'
+  }
+};
+
+function getTips(exName){
+  const direct = EX_TIPS[exName];
+  if(direct) return direct;
+  const key = Object.keys(EX_TIPS).find(k => exName.toLowerCase().includes(k.split(' ')[0].toLowerCase()) || k.toLowerCase().includes(exName.split(' ')[0].toLowerCase()));
+  return key ? EX_TIPS[key] : null;
+}
+
+function renderTipsCard(exName, containerId){
+  const tips = getTips(exName);
+  const el = document.getElementById(containerId);
+  if(!el) return;
+  if(!tips){ el.style.display='none'; return; }
+  el.style.display='block';
+  el.innerHTML = `
+    <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-md);overflow:hidden">
+      <div style="background:var(--surface2);padding:9px 13px;display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="toggleTips('${containerId}-body','${containerId}-chev')">
+        <span style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:var(--accent);display:flex;align-items:center;gap:6px"><i class="ti ti-info-circle" style="font-size:13px"></i>Form cues & tips</span>
+        <i class="ti ti-chevron-down" id="${containerId}-chev" style="font-size:16px;color:var(--text-muted);transition:transform .2s"></i>
+      </div>
+      <div id="${containerId}-body" style="padding:12px 13px;display:none">
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px;font-weight:600">Form cues</div>
+        ${tips.cues.map(c=>`<div style="display:flex;gap:8px;margin-bottom:5px;font-size:12px;color:var(--text-sec);line-height:1.5"><span style="color:var(--accent);flex-shrink:0;margin-top:1px">›</span><span>${c}</span></div>`).join('')}
+        <div style="margin-top:10px;padding:8px 10px;background:#2A1500;border-radius:var(--r-sm);border:0.5px solid ${tips.injury.toLowerCase().includes('left shoulder')||tips.injury.toLowerCase().includes('knee')?'var(--accent)':'var(--border)'}">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:var(--accent);margin-bottom:4px"><i class="ti ti-alert-triangle" style="font-size:11px;margin-right:3px"></i>Injury note</div>
+          <div style="font-size:12px;color:var(--text-sec);line-height:1.5">${tips.injury}</div>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:var(--text-muted);line-height:1.5"><strong style="color:var(--text-sec)">Targets:</strong> ${tips.targets}</div>
+      </div>
+    </div>`;
+}
+
+function toggleTips(bodyId, chevId){
+  const body = document.getElementById(bodyId);
+  const chev = document.getElementById(chevId);
+  if(!body) return;
+  const open = body.style.display === 'block';
+  body.style.display = open ? 'none' : 'block';
+  if(chev) chev.style.transform = open ? '' : 'rotate(180deg)';
+}
+
+
+const DAYS_DATA = [
+  { d:'D1', name:'Chest & Shoulders', meta:'90–120 min · Left shoulder mods', exercises:[
+    {name:'Barbell Chest Press',sets:'4×8–10',nn:true},{name:'Incline DB Press',sets:'3×10–12',nn:false},
+    {name:'Cable Fly (low-mid)',sets:'3×12–15',nn:false},{name:'DB Lateral Raise',sets:'3×12 (light left)',nn:false},
+    {name:'Front Raise (cable)',sets:'3×12',nn:false},{name:'Shoulder Press (Smith)',sets:'3×10',nn:false}
+  ]},
+  { d:'D2', name:'Biceps & Triceps', meta:'90–120 min · Arm isolation', exercises:[
+    {name:'EZ Bar Curl',sets:'4×10–12',nn:false},{name:'Incline DB Curl',sets:'3×12',nn:false},
+    {name:'Hammer Curl',sets:'3×12',nn:false},{name:'Tricep Pushdown',sets:'4×12–15',nn:false},
+    {name:'Overhead Tricep Extension',sets:'3×10–12',nn:false},{name:'Close-Grip Bench Press',sets:'3×10',nn:false}
+  ]},
+  { d:'D3', name:'Back', meta:'90–120 min · Deadlift day', exercises:[
+    {name:'Conventional Deadlift',sets:'4×5–6',nn:true},{name:'Barbell Row',sets:'4×8–10',nn:false},
+    {name:'Pull-Up / Lat Pulldown',sets:'3×10–12',nn:false},{name:'Seated Cable Row',sets:'3×12',nn:false},
+    {name:'Face Pull',sets:'3×15',nn:false},{name:'DB Shrug',sets:'3×15',nn:false}
+  ]},
+  { d:'D4', name:'Legs & Abs', meta:'90–120 min · Knee wraps required', exercises:[
+    {name:'Barbell Back Squat',sets:'4×6–8',nn:true},{name:'Romanian Deadlift',sets:'3×10–12',nn:false},
+    {name:'Leg Press',sets:'3×12',nn:false},{name:'Lying Leg Curl',sets:'3×12–15',nn:false},
+    {name:'Calf Raise',sets:'4×15–20',nn:false},{name:'Hanging Leg Raise',sets:'3×15',nn:false},
+    {name:'Cable Crunch',sets:'3×15',nn:false}
+  ]},
+  { d:'D5', name:'Minimal Cardio', meta:'45–60 min · No HIIT · Low impact', exercises:[
+    {name:'Incline Treadmill Walk',sets:'20–25 min · 4.5–6%',nn:false},
+    {name:'Stationary Bike (low)',sets:'15 min',nn:false},
+    {name:'Rowing Machine',sets:'10–15 min',nn:false},
+    {name:'Mobility & Stretching',sets:'15–20 min',nn:false}
+  ]},
+  { d:'D6', name:'Strength & Conditioning', meta:'90–120 min · PR day', exercises:[
+    {name:'Chest Press — PR Attempt',sets:'Work to 1–3RM',nn:true},
+    {name:'Deadlift — PR Attempt',sets:'Work to 1–3RM',nn:true},
+    {name:'Bar Squat — PR Attempt',sets:'Work to 1–3RM',nn:true},
+    {name:'Farmer\'s Carry',sets:'4×30m',nn:false},
+    {name:'Accessory Finisher',sets:'3×12',nn:false}
+  ]},
+  { d:'D7', name:'Rest Day', meta:'Recover · Eat · Sleep', exercises:[], rest:true }
+];
+
+const LOG_EXERCISES = [
+  {day:'D1',exs:['Barbell Chest Press','Incline DB Press','Cable Fly','DB Lateral Raise','Front Raise (cable)','Shoulder Press (Smith)']},
+  {day:'D2',exs:['EZ Bar Curl','Incline DB Curl','Hammer Curl','Tricep Pushdown','Overhead Tricep Extension','Close-Grip Bench Press']},
+  {day:'D3',exs:['Conventional Deadlift','Barbell Row','Pull-Up / Lat Pulldown','Seated Cable Row','Face Pull','DB Shrug']},
+  {day:'D4',exs:['Barbell Back Squat','Romanian Deadlift','Leg Press','Lying Leg Curl','Calf Raise','Hanging Leg Raise','Cable Crunch']},
+  {day:'D5',exs:['Incline Treadmill Walk','Stationary Bike','Rowing Machine','Mobility & Stretching']},
+  {day:'D6',exs:['Chest Press PR','Deadlift PR','Bar Squat PR','Farmer\'s Carry','Accessory Finisher']}
+];
+
+const NON_NEG = ['Barbell Chest Press','Chest Press PR','Conventional Deadlift','Deadlift PR','Barbell Back Squat','Bar Squat PR'];
+const BIG3_KEYS = {
+  cp: ['Barbell Chest Press','Chest Press PR'],
+  dl: ['Conventional Deadlift','Deadlift PR'],
+  sq: ['Barbell Back Squat','Bar Squat PR']
+};
+
+/* ═══════════════════════════════════════
+   STORAGE
+═══════════════════════════════════════ */
+function load(k, def){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):def; }catch(e){ return def; } }
+function save(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+
+let workoutLog = load('ic_log', []);
+let weightLog = load('ic_weights', []);
+let chatHistory = load('ic_chat', []);
+
+/* ═══════════════════════════════════════
+   UTILS
+═══════════════════════════════════════ */
+function today(){ return new Date().toISOString().split('T')[0]; }
+function fmtDate(d){ if(!d) return ''; const [y,m,dd]=d.split('-'); return `${dd}/${m}`; }
+function calc1RM(w,r){ return r<=0?w: Math.round(w*(1+r/30)); }
+
+/* ═══════════════════════════════════════
+   VIEW SWITCHING
+═══════════════════════════════════════ */
+function switchView(name, btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  (btn || document.getElementById('nav-'+name)).classList.add('active');
+  document.getElementById('content').scrollTop = 0;
+  if(name==='dashboard') refreshDash();
+  if(name==='prs') renderPRs();
+  if(name==='log') initLogView();
+  if(name==='program') renderProgram();
+}
+
+/* ═══════════════════════════════════════
+   DASHBOARD
+═══════════════════════════════════════ */
+function refreshDash(){
+  const cw = weightLog.length ? weightLog[0].w : 126;
+  const rem = Math.max(0, cw-100);
+  const pct = Math.min(100, Math.max(0, Math.round((126-cw)/(126-100)*100)));
+  document.getElementById('d-cw').textContent = cw.toFixed(1)+' kg';
+  document.getElementById('d-cw-date').textContent = weightLog.length ? 'Last logged '+fmtDate(weightLog[0].date) : 'Starting point';
+  document.getElementById('d-rem').textContent = rem.toFixed(1)+' kg';
+  document.getElementById('d-pct').textContent = pct+'%';
+  document.getElementById('d-progfill').style.width = pct+'%';
+  document.getElementById('d-sessions').textContent = [...new Set(workoutLog.map(e=>e.date))].length;
+  document.getElementById('d-sets').textContent = workoutLog.length;
+
+  Object.entries(BIG3_KEYS).forEach(([k,keys])=>{
+    const pr = getBig3PR(keys);
+    document.getElementById('d-pr-'+k).textContent = pr ? `${pr.w}×${pr.r}` : '—';
+    document.getElementById('d-pr-'+k+'-d').textContent = pr ? fmtDate(pr.date) : '';
+  });
+
+  renderWeightChart();
+  renderTodaySession();
+}
+
+function renderWeightChart(){
+  const wrap = document.getElementById('wt-chart-wrap');
+  if(weightLog.length < 2){ wrap.style.display='none'; return; }
+  wrap.style.display='block';
+  const canvas = document.getElementById('wt-chart');
+  const pts = [...weightLog].reverse().slice(-20);
+  if(window._wtChart) window._wtChart.destroy();
+  window._wtChart = new Chart(canvas, {
+    type:'line',
+    data:{
+      labels: pts.map(p=>fmtDate(p.date)),
+      datasets:[{
+        data: pts.map(p=>p.w),
+        borderColor:'#D85A30', borderWidth:2,
+        pointBackgroundColor:'#D85A30', pointRadius:3,
+        fill:false, tension:0.3
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:'#555',font:{size:9}},grid:{color:'#2A2A2A'}},
+        y:{ticks:{color:'#555',font:{size:9},callback:v=>v+'kg'},grid:{color:'#2A2A2A'}}
+      }
+    }
+  });
+}
+
+function logWeight(){
+  const v = parseFloat(document.getElementById('wt-input').value);
+  if(!v||v<50||v>300){ return; }
+  weightLog.unshift({date:today(),w:v});
+  save('ic_weights',weightLog);
+  document.getElementById('wt-input').value='';
+  refreshDash();
+}
+
+/* ═══════════════════════════════════════
+   LOG WORKOUT
+═══════════════════════════════════════ */
+let selectedEx = null;
+let activeDayTab = 'D1';
+
+function initLogView(){
+  renderDayTabs();
+  renderExList();
+  renderTodaySession();
+}
+
+function renderDayTabs(){
+  const c = document.getElementById('log-day-tabs');
+  c.innerHTML = LOG_EXERCISES.map(d=>`
+    <button class="day-tab${d.day===activeDayTab?' active':''}" onclick="setDayTab('${d.day}',this)">${d.day}</button>
+  `).join('');
+}
+
+function setDayTab(day, btn){
+  activeDayTab = day;
+  document.querySelectorAll('#log-day-tabs .day-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedEx = null;
+  renderExList();
+  document.getElementById('log-selected-info').style.display='none';
+  document.getElementById('log-feedback').className='feedback';
+}
+
+function renderExList(){
+  const day = LOG_EXERCISES.find(d=>d.day===activeDayTab);
+  if(!day){ return; }
+  const c = document.getElementById('log-ex-list');
+  c.innerHTML = day.exs.map(ex=>{
+    const isNN = NON_NEG.some(n=>ex.includes(n.split(' ')[0]));
+    const pr = getExPR(ex);
+    return `<button class="ex-btn${selectedEx===ex?' selected':''}" onclick="selectEx('${ex.replace(/'/g,"\\'")}')">
+      <span>${ex}${isNN?'<br><span class="nn">★ non-negotiable</span>':''}</span>
+      <span style="font-size:11px;color:var(--text-muted);flex-shrink:0;margin-left:8px">${pr?pr.w+'×'+pr.r:''}</span>
+    </button>`;
+  }).join('');
+}
+
+function selectEx(ex){
+  selectedEx = ex;
+  renderExList();
+  document.getElementById('log-ex-name-display').textContent = ex;
+  document.getElementById('log-selected-info').style.display='block';
+  document.getElementById('log-feedback').className='feedback';
+  renderTipsCard(ex, 'log-tips-card');
+  document.getElementById('log-wt').focus();
+}
+
+function logSet(){
+  if(!selectedEx){ showFeedback('error','Select an exercise first.'); return; }
+  const w = parseFloat(document.getElementById('log-wt').value);
+  const r = parseInt(document.getElementById('log-reps').value);
+  const s = parseInt(document.getElementById('log-sets').value);
+  const notes = document.getElementById('log-notes').value.trim();
+  if(!w||!r||!s){ showFeedback('error','Fill in weight, reps, and sets.'); return; }
+
+  const orm = calc1RM(w,r);
+  const prevPR = getExPR(selectedEx);
+  const isPR = !prevPR || orm > prevPR.orm;
+
+  const entry = {ex:selectedEx, w, r, s, orm, date:today(), notes};
+  workoutLog.unshift(entry);
+  save('ic_log',workoutLog);
+
+  document.getElementById('log-wt').value='';
+  document.getElementById('log-reps').value='';
+  document.getElementById('log-sets').value='';
+  document.getElementById('log-notes').value='';
+
+  if(isPR) showFeedback('pr',`NEW PR on ${selectedEx}! ${w}kg × ${r} reps — Est. 1RM: ${orm}kg`);
+  else showFeedback('success',`Logged: ${w}kg × ${r} reps × ${s} sets — Est. 1RM: ${orm}kg`);
+
+  renderTodaySession();
+  refreshDash();
+}
+
+function showFeedback(type, msg){
+  const el = document.getElementById('log-feedback');
+  el.className = 'feedback '+type;
+  el.textContent = msg;
+}
+
+function renderTodaySession(){
+  const td = today();
+  const entries = workoutLog.filter(e=>e.date===td);
+  const tbody = document.getElementById('today-tbody');
+  if(!tbody) return;
+  if(!entries.length){
+    tbody.innerHTML='<tr><td colspan="3"><div class="empty" style="padding:20px 16px"><i class="ti ti-dumbbell"></i><p>No sets logged today yet</p></div></td></tr>';
+    return;
+  }
+  const best = {};
+  entries.forEach(e=>{ if(!best[e.ex]||e.orm>best[e.ex].orm) best[e.ex]=e; });
+  tbody.innerHTML = Object.values(best).map(e=>{
+    const allPRs = workoutLog.filter(x=>x.ex===e.ex);
+    const topORM = Math.max(...allPRs.map(x=>x.orm));
+    const isPR = e.orm>=topORM && allPRs.length>0;
+    return `<tr><td style="font-weight:500;font-size:12px">${e.ex}${isPR?'<span class="pr-badge">PR</span>':''}</td><td style="font-size:12px">${e.w}×${e.r}×${e.s}s</td><td style="font-size:12px;color:var(--accent)">${e.orm}kg</td></tr>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════
+   PRs & HISTORY
+═══════════════════════════════════════ */
+function getExPR(ex){
+  const entries = workoutLog.filter(e=>e.ex===ex);
+  return entries.length ? entries.reduce((b,e)=>(!b||e.orm>b.orm)?e:b,null) : null;
+}
+
+function getBig3PR(keys){
+  const entries = workoutLog.filter(e=>keys.some(k=>e.ex===k));
+  return entries.length ? entries.reduce((b,e)=>(!b||e.orm>b.orm)?e:b,null) : null;
+}
+
+function renderPRs(){
+  Object.entries(BIG3_KEYS).forEach(([k,keys])=>{
+    const pr = getBig3PR(keys);
+    document.getElementById('pr-'+k).textContent = pr ? `${pr.w}×${pr.r}` : '—';
+    document.getElementById('pr-'+k+'-d').textContent = pr ? fmtDate(pr.date) : '';
+  });
+
+  const allEx = [...new Set(workoutLog.map(e=>e.ex))];
+  const prTbody = document.getElementById('all-prs-tbody');
+  if(!allEx.length){ prTbody.innerHTML='<tr><td colspan="3"><div class="empty" style="padding:20px 16px"><i class="ti ti-barbell"></i><p>Log some sets to see your PRs</p></div></td></tr>'; }
+  else {
+    prTbody.innerHTML = allEx.map(ex=>{
+      const pr = getExPR(ex);
+      return `<tr><td style="font-size:12px;font-weight:500">${ex}</td><td style="font-size:12px">${pr.w}kg × ${pr.r} reps × ${pr.s}s</td><td style="font-size:12px;color:var(--accent)">${pr.orm}kg</td></tr>`;
+    }).join('');
+  }
+
+  const sel = document.getElementById('hist-filter');
+  const prev = sel.value;
+  sel.innerHTML = '<option value="">All exercises</option>' + allEx.map(ex=>`<option value="${ex}"${ex===prev?' selected':''}>${ex}</option>`).join('');
+
+  renderHistory();
+}
+
+function renderHistory(){
+  const filter = document.getElementById('hist-filter')?.value||'';
+  const byDay = {};
+  workoutLog.filter(e=>!filter||e.ex===filter).forEach(e=>{
+    const k=e.date+'||'+e.ex;
+    if(!byDay[k]||e.orm>byDay[k].orm) byDay[k]=e;
+  });
+  const rows = Object.values(byDay).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,50);
+  const tbody = document.getElementById('hist-tbody');
+  if(!rows.length){ tbody.innerHTML='<tr><td colspan="3"><div class="empty" style="padding:20px 16px"><i class="ti ti-history"></i><p>No history yet</p></div></td></tr>'; return; }
+  tbody.innerHTML = rows.map(e=>`<tr><td style="font-size:11px;color:var(--text-muted)">${fmtDate(e.date)}</td><td style="font-size:12px;font-weight:500">${e.ex}</td><td style="font-size:12px">${e.w}×${e.r}×${e.s}s</td></tr>`).join('');
+}
+
+/* ═══════════════════════════════════════
+   PROGRAM
+═══════════════════════════════════════ */
+function renderProgram(){
+  const c = document.getElementById('program-days');
+  c.innerHTML = DAYS_DATA.map((day,i)=>`
+    <div class="program-day">
+      <div class="day-header" onclick="toggleDay(${i})">
+        <div class="day-num">${day.d}</div>
+        <div class="day-info">
+          <div class="day-name">${day.name}</div>
+          <div class="day-meta-txt">${day.meta}</div>
+        </div>
+        <i class="ti ti-chevron-down day-chevron" id="chev-${i}"></i>
+      </div>
+      <div class="day-exercises" id="day-ex-${i}">
+        ${day.rest ? '<div style="padding:12px 14px;font-size:13px;color:var(--text-muted)">Full rest. Sleep, eat, hydrate. Gains happen here.</div>' :
+          day.exercises.map((e,j)=>{
+            const tipId = `prog-tip-${i}-${j}`;
+            const hasTips = !!getTips(e.name);
+            return `
+            <div style="margin-bottom:6px">
+              <div class="ex-item${e.nn?' nn':''}" style="cursor:${hasTips?'pointer':'default'}" ${hasTips?`onclick="toggleProgTip('${tipId}','${tipId}-chev')"`:''}> 
+                <div style="flex:1">
+                  <div class="ex-item-name">${e.name}</div>
+                  ${e.nn?'<div class="ex-item-nn">★ non-negotiable</div>':''}
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div class="ex-item-sets">${e.sets}</div>
+                  ${hasTips?`<i class="ti ti-chevron-down" id="${tipId}-chev" style="font-size:14px;color:var(--text-muted);transition:transform .2s"></i>`:''}
+                </div>
+              </div>
+              ${hasTips?`<div id="${tipId}" style="display:none;padding:0 4px 4px"></div>`:''}
+            </div>`;
+          }).join('')
+        }
+      </div>
+    </div>`).join('');
+}
+
+function toggleProgTip(tipId, chevId){
+  const el = document.getElementById(tipId);
+  const chev = document.getElementById(chevId);
+  if(!el) return;
+  const open = el.style.display === 'block';
+  if(!open && el.innerHTML.trim() === ''){
+    const exName = el.previousElementSibling.querySelector('.ex-item-name').textContent;
+    const innerId = tipId + '-inner';
+    el.innerHTML = `<div id="${innerId}"></div>`;
+    renderTipsCard(exName, innerId);
+    setTimeout(()=>{
+      const body = document.getElementById(innerId + '-body');
+      const ic = document.getElementById(innerId + '-chev');
+      if(body){ body.style.display='block'; }
+      if(ic){ ic.style.transform='rotate(180deg)'; }
+    }, 20);
+  }
+  el.style.display = open ? 'none' : 'block';
+  if(chev) chev.style.transform = open ? '' : 'rotate(180deg)';
+}
+
+function toggleDay(i){
+  const ex = document.getElementById('day-ex-'+i);
+  const chev = document.getElementById('chev-'+i);
+  ex.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+/* ═══════════════════════════════════════
+   NUTRITION TABS
+═══════════════════════════════════════ */
+function nutTab(name, btn){
+  ['macros','meals','supps','gout','coach'].forEach(t=>{
+    const el = document.getElementById('nut-'+t);
+    if(el) el.style.display = t===name?'block':'none';
+  });
+  document.querySelectorAll('#nut-tabs .day-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(name==='coach') renderChatHistory();
+}
+
+/* ═══════════════════════════════════════
+   AI COACH
+═══════════════════════════════════════ */
+function renderChatHistory(){
+  const c = document.getElementById('chat-messages');
+  if(!chatHistory.length){ c.innerHTML=''; return; }
+  c.innerHTML = chatHistory.map(m=>`
+    <div>
+      <div class="msg-label">${m.role==='user'?'You':'IronCoach'}</div>
+      <div class="msg msg-${m.role==='user'?'user':'coach'}">${m.content}</div>
+    </div>`).join('');
+  setTimeout(()=>c.scrollTop=c.scrollHeight, 50);
+}
+
+function handleEnter(e){
+  if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendCoach(); }
+}
+
+function sendQuick(q){
+  document.getElementById('coach-input').value = q;
+  sendCoach();
+}
+
+async function sendCoach(){
+  if(API_KEY==='YOUR_API_KEY_HERE'){
+    appendMsg('coach','⚠️ No API key set. Open this HTML file in a text editor and replace YOUR_API_KEY_HERE with your Anthropic API key.');
+    return;
+  }
+  const input = document.getElementById('coach-input');
+  const btn = document.getElementById('send-btn');
+  const q = input.value.trim();
+  if(!q) return;
+
+  input.value='';
+  btn.disabled=true;
+  appendMsg('user',q);
+  chatHistory.push({role:'user',content:q});
+
+  const typingEl = document.createElement('div');
+  typingEl.innerHTML='<div class="msg msg-coach"><div class="typing"><span></span><span></span><span></span></div></div>';
+  document.getElementById('chat-messages').appendChild(typingEl);
+  scrollChat();
+
+  try{
+    const messages = chatHistory.slice(-12).map(m=>({role:m.role,content:m.content}));
+    const res = await fetch('/api/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({system:SYSTEM,messages})
+    });
+    const data = await res.json();
+    typingEl.remove();
+    const reply = data.content?.find(b=>b.type==='text')?.text || 'No response received.';
+    chatHistory.push({role:'assistant',content:reply});
+    save('ic_chat',chatHistory.slice(-40));
+    appendMsg('coach',reply);
+  }catch(err){
+    typingEl.remove();
+    appendMsg('coach','Connection error. Check your internet and try again.');
+  }
+
+  btn.disabled=false;
+  scrollChat();
+}
+
+function appendMsg(role, text){
+  const c = document.getElementById('chat-messages');
+  const d = document.createElement('div');
+  d.innerHTML=`<div class="msg-label">${role==='user'?'You':'IronCoach'}</div><div class="msg msg-${role==='user'?'user':'coach'}">${text}</div>`;
+  c.appendChild(d);
+  scrollChat();
+}
+
+function scrollChat(){ 
+  const c = document.getElementById('chat-messages');
+  setTimeout(()=>c.scrollTop=c.scrollHeight,100);
+}
+
+/* ═══════════════════════════════════════
+   EXPORT DATA
+═══════════════════════════════════════ */
+function exportData(){
+  const d = new Date();
+  const dateStr = d.toISOString().split('T')[0];
+  const filename = `ironcoach-ram-${dateStr}.json`;
+  const data = {
+    exported: d.toISOString(),
+    athlete: 'Ram',
+    workoutLog,
+    weightLog,
+    chatHistory: chatHistory.slice(-40)
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
+async function initApp(){
+  try{
+    const [logRes, wtRes] = await Promise.all([
+      fetch('/api/data?key=workoutLog'),
+      fetch('/api/data?key=weightLog')
+    ]);
+    if(logRes.ok){ const d=await logRes.json(); if(d.value) workoutLog=d.value; }
+    if(wtRes.ok){ const d=await wtRes.json(); if(d.value) weightLog=d.value; }
+  }catch(e){
+    // fall back to localStorage
+    workoutLog = load('ic_log',[]);
+    weightLog = load('ic_weights',[]);
+  }
+  refreshDash();
+  renderProgram();
+}
+initApp();
+</script>
+</body>
+</html>
