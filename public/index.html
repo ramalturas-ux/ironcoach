@@ -476,6 +476,24 @@
   .chart-title { font-size:12px; font-weight:600; color:var(--text); margin-bottom:12px; }
   .chart-wrap { position:relative; height:140px; }
   .today-day-badge { display:inline-flex; align-items:center; gap:6px; background:#2A1500; border:0.5px solid var(--accent); border-radius:20px; padding:5px 12px; font-size:12px; color:var(--accent); font-weight:600; margin-bottom:12px; }
+  .log-inline-form {
+    background:var(--surface2);
+    border-radius:var(--r-sm);
+    padding:12px;
+    margin-top:6px;
+    border:0.5px solid var(--border);
+  }
+  .ex-btn-program {
+    display:flex;align-items:center;justify-content:space-between;
+    width:100%;padding:10px 12px;
+    background:var(--surface);border:0.5px solid var(--border);
+    border-radius:var(--r-sm);color:var(--text);
+    font-size:13px;font-family:var(--font-body);
+    cursor:pointer;transition:all .15s;text-align:left;
+    margin-bottom:5px;
+  }
+  .ex-btn-program.active{border-color:var(--accent);background:#2A1A10;}
+  .ex-btn-program.nn{border-left:3px solid var(--accent);border-radius:0 var(--r-sm) var(--r-sm) 0;}
   /* scrollbar */
   .content::-webkit-scrollbar { width: 3px; }
   .content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
@@ -558,6 +576,17 @@
         <div class="pr-card"><div class="pr-name">Bar squat</div><div class="pr-val" id="d-pr-sq">—</div><div class="pr-date" id="d-pr-sq-d"></div></div>
       </div>
 
+      <!-- Today's session -->
+      <div class="section-label" style="margin-top:4px"><i class="ti ti-list"></i>Today's session</div>
+      <div class="card card-flush" style="margin-bottom:10px">
+        <table class="data-table">
+          <thead><tr><th>Exercise / Set</th><th>Detail</th><th>1RM</th></tr></thead>
+          <tbody id="today-tbody">
+            <tr><td colspan="3"><div class="empty" style="padding:16px 8px"><i class="ti ti-dumbbell"></i><p>No sets logged today yet</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
       <!-- Dashboard Graphs -->
       <div class="section-label" style="margin-top:4px"><i class="ti ti-chart-line"></i>Progress graphs</div>
       <div class="chart-card">
@@ -588,123 +617,6 @@
       </div>
     </div>
 
-    <!-- ── LOG WORKOUT ── -->
-    <div class="view" id="view-log">
-      <div class="section-label"><i class="ti ti-barbell"></i>Select exercise</div>
-
-      <div class="day-tabs" id="log-day-tabs"></div>
-      <div class="ex-list" id="log-ex-list"></div>
-
-      <div id="log-selected-info" style="display:none;margin-bottom:10px">
-        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px" id="log-ex-name-display"></div>
-        <div id="log-tips-card" style="display:none;margin-bottom:10px"></div>
-        <div id="log-last-session" style="display:none" class="last-session-box">
-          <div class="last-session-title"><i class="ti ti-history" style="font-size:11px;margin-right:3px"></i>Last session</div>
-          <div id="log-last-session-rows"></div>
-        </div>
-        <div id="log-ex-progress" style="display:none">
-          <div class="ex-progress-bar"><div class="ex-progress-fill" id="log-prog-fill" style="width:0%"></div></div>
-          <div class="progress-label"><span id="log-prog-label">0 sets logged</span><span id="log-prog-target"></span></div>
-        </div>
-        <div id="log-sets-done" style="margin-bottom:10px"></div>
-
-        <!-- STANDARD: weight + reps -->
-        <div id="log-form-standard">
-          <div class="log-form-grid" style="grid-template-columns:1fr 1fr">
-            <div class="form-group" style="margin:0">
-              <div class="form-label">Weight (kg)</div>
-              <input type="number" id="log-wt" placeholder="100" step="0.5" min="0" inputmode="decimal" />
-            </div>
-            <div class="form-group" style="margin:0">
-              <div class="form-label">Reps</div>
-              <input type="number" id="log-reps" placeholder="8" min="1" max="100" inputmode="numeric" />
-            </div>
-          </div>
-        </div>
-
-        <!-- CARRY: weight + laps -->
-        <div id="log-form-carry" style="display:none">
-          <div class="log-form-grid" style="grid-template-columns:1fr 1fr">
-            <div class="form-group" style="margin:0">
-              <div class="form-label">Weight (kg)</div>
-              <input type="number" id="log-carry-wt" placeholder="40" step="0.5" min="0" inputmode="decimal" />
-            </div>
-            <div class="form-group" style="margin:0">
-              <div class="form-label">Laps</div>
-              <input type="number" id="log-carry-laps" placeholder="1" min="1" max="20" inputmode="numeric" />
-            </div>
-          </div>
-        </div>
-
-        <!-- CARDIO TREADMILL: duration + incline -->
-        <div id="log-form-cardio-treadmill" style="display:none">
-          <div class="log-form-grid" style="grid-template-columns:1fr 1fr">
-            <div class="form-group" style="margin:0">
-              <div class="form-label">Duration (min)</div>
-              <input type="number" id="log-cardio-duration" placeholder="25" min="1" max="180" inputmode="numeric" />
-            </div>
-            <div class="form-group" style="margin:0">
-              <div class="form-label">Incline (%)</div>
-              <input type="number" id="log-cardio-incline" placeholder="5" min="0" max="15" step="0.5" inputmode="decimal" />
-            </div>
-          </div>
-        </div>
-
-        <!-- CARDIO BIKE: duration + resistance -->
-        <div id="log-form-cardio-bike" style="display:none">
-          <div class="log-form-grid" style="grid-template-columns:1fr 1fr">
-            <div class="form-group" style="margin:0">
-              <div class="form-label">Duration (min)</div>
-              <input type="number" id="log-bike-duration" placeholder="15" min="1" max="180" inputmode="numeric" />
-            </div>
-            <div class="form-group" style="margin:0">
-              <div class="form-label">Resistance (1–20)</div>
-              <input type="number" id="log-bike-resistance" placeholder="5" min="1" max="20" inputmode="numeric" />
-            </div>
-          </div>
-        </div>
-
-        <!-- CARDIO ROW: duration + distance -->
-        <div id="log-form-cardio-row" style="display:none">
-          <div class="log-form-grid" style="grid-template-columns:1fr 1fr">
-            <div class="form-group" style="margin:0">
-              <div class="form-label">Duration (min)</div>
-              <input type="number" id="log-row-duration" placeholder="15" min="1" max="180" inputmode="numeric" />
-            </div>
-            <div class="form-group" style="margin:0">
-              <div class="form-label">Distance (m)</div>
-              <input type="number" id="log-row-distance" placeholder="2000" min="0" step="100" inputmode="numeric" />
-            </div>
-          </div>
-        </div>
-
-        <!-- MOBILITY: just mark done -->
-        <div id="log-form-mobility" style="display:none">
-          <div style="background:var(--surface2);border-radius:var(--r-sm);padding:10px 12px;margin-bottom:8px;font-size:13px;color:var(--text-muted)">
-            <i class="ti ti-yoga" style="font-size:14px;margin-right:6px;color:var(--accent)"></i>
-            No numbers needed — just mark it done and add notes if anything felt tight.
-          </div>
-        </div>
-
-        <div class="form-group" style="margin-top:8px">
-          <div class="form-label" id="log-notes-label">Notes (optional)</div>
-          <textarea id="log-notes" rows="2" placeholder="e.g. paused reps, shoulder felt tight..."></textarea>
-        </div>
-        <div id="log-feedback" class="feedback"></div>
-        <button class="btn btn-primary" onclick="logSet()" id="log-submit-btn"><i class="ti ti-plus"></i>Log Set</button>
-      </div>
-
-      <!-- Today's session -->
-      <div class="section-label mt-12"><i class="ti ti-list"></i>Today's session</div>
-      <div class="card card-flush">
-        <table class="data-table">
-          <thead><tr><th>Exercise / Set</th><th>Weight × Reps</th><th>1RM</th></tr></thead>
-          <tbody id="today-tbody">
-            <tr><td colspan="3"><div class="empty"><i class="ti ti-dumbbell"></i><p>No sets logged today yet</p></div></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
 
     <!-- ── PRs & HISTORY ── -->
     <div class="view" id="view-prs">
@@ -752,8 +664,65 @@
 
     <!-- ── PROGRAM ── -->
     <div class="view" id="view-program">
-      <div class="section-label"><i class="ti ti-calendar-week"></i>7-day training split</div>
+      <div class="section-label" id="program-section-label"><i class="ti ti-calendar-week"></i>7-day training split</div>
       <div id="program-days"></div>
+
+      <!-- INLINE LOG FORM (injected dynamically into exercise rows) -->
+      <template id="log-form-template">
+        <div class="log-inline-form">
+          <div id="tpl-last-session" style="display:none" class="last-session-box">
+            <div class="last-session-title"><i class="ti ti-history" style="font-size:11px;margin-right:3px"></i>Last session</div>
+            <div class="tpl-last-session-rows"></div>
+          </div>
+          <div class="tpl-ex-progress" style="display:none">
+            <div class="ex-progress-bar"><div class="ex-progress-fill tpl-prog-fill" style="width:0%"></div></div>
+            <div class="progress-label"><span class="tpl-prog-label">0 sets logged</span><span class="tpl-prog-target"></span></div>
+          </div>
+          <div class="tpl-sets-done" style="margin-bottom:8px"></div>
+          <div class="tpl-form-standard">
+            <div class="log-form-grid" style="grid-template-columns:1fr 1fr">
+              <div class="form-group" style="margin:0"><div class="form-label">Weight (kg)</div><input type="number" class="tpl-wt" placeholder="100" step="0.5" min="0" inputmode="decimal" /></div>
+              <div class="form-group" style="margin:0"><div class="form-label">Reps</div><input type="number" class="tpl-reps" placeholder="8" min="1" max="100" inputmode="numeric" /></div>
+            </div>
+          </div>
+          <div class="tpl-form-carry" style="display:none">
+            <div class="log-form-grid" style="grid-template-columns:1fr 1fr">
+              <div class="form-group" style="margin:0"><div class="form-label">Weight (kg)</div><input type="number" class="tpl-carry-wt" placeholder="40" step="0.5" min="0" inputmode="decimal" /></div>
+              <div class="form-group" style="margin:0"><div class="form-label">Laps</div><input type="number" class="tpl-carry-laps" placeholder="1" min="1" max="20" inputmode="numeric" /></div>
+            </div>
+          </div>
+          <div class="tpl-form-cardio-treadmill" style="display:none">
+            <div class="log-form-grid" style="grid-template-columns:1fr 1fr">
+              <div class="form-group" style="margin:0"><div class="form-label">Duration (min)</div><input type="number" class="tpl-dur" placeholder="25" min="1" max="180" inputmode="numeric" /></div>
+              <div class="form-group" style="margin:0"><div class="form-label">Incline (%)</div><input type="number" class="tpl-incline" placeholder="5" min="0" max="15" step="0.5" inputmode="decimal" /></div>
+            </div>
+          </div>
+          <div class="tpl-form-cardio-bike" style="display:none">
+            <div class="log-form-grid" style="grid-template-columns:1fr 1fr">
+              <div class="form-group" style="margin:0"><div class="form-label">Duration (min)</div><input type="number" class="tpl-bike-dur" placeholder="15" min="1" max="180" inputmode="numeric" /></div>
+              <div class="form-group" style="margin:0"><div class="form-label">Resistance (1-20)</div><input type="number" class="tpl-bike-res" placeholder="5" min="1" max="20" inputmode="numeric" /></div>
+            </div>
+          </div>
+          <div class="tpl-form-cardio-row" style="display:none">
+            <div class="log-form-grid" style="grid-template-columns:1fr 1fr">
+              <div class="form-group" style="margin:0"><div class="form-label">Duration (min)</div><input type="number" class="tpl-row-dur" placeholder="15" min="1" max="180" inputmode="numeric" /></div>
+              <div class="form-group" style="margin:0"><div class="form-label">Distance (m)</div><input type="number" class="tpl-row-dist" placeholder="2000" min="0" step="100" inputmode="numeric" /></div>
+            </div>
+          </div>
+          <div class="tpl-form-mobility" style="display:none">
+            <div style="background:var(--surface2);border-radius:var(--r-sm);padding:10px 12px;margin-bottom:8px;font-size:13px;color:var(--text-muted)">
+              <i class="ti ti-yoga" style="font-size:14px;margin-right:6px;color:var(--accent)"></i>
+              No numbers needed — just mark it done and add notes if anything felt tight.
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:8px">
+            <div class="form-label">Notes (optional)</div>
+            <textarea class="tpl-notes" rows="2" placeholder="e.g. paused reps, shoulder felt tight..."></textarea>
+          </div>
+          <div class="tpl-feedback feedback"></div>
+          <button class="btn btn-primary tpl-submit-btn" style="margin-top:4px"><i class="ti ti-plus"></i>Log Set</button>
+        </div>
+      </template>
     </div>
 
     <!-- ── NUTRITION & COACH ── -->
@@ -896,14 +865,11 @@
     <button class="nav-item active" onclick="switchView('dashboard',this)" id="nav-dashboard">
       <i class="ti ti-layout-dashboard"></i>Dashboard
     </button>
-    <button class="nav-item" onclick="switchView('log',this)" id="nav-log">
-      <i class="ti ti-barbell"></i>Log
+    <button class="nav-item" onclick="switchView('program',this)" id="nav-program">
+      <i class="ti ti-barbell"></i>Program
     </button>
     <button class="nav-item" onclick="switchView('prs',this)" id="nav-prs">
       <i class="ti ti-trophy"></i>Records
-    </button>
-    <button class="nav-item" onclick="switchView('program',this)" id="nav-program">
-      <i class="ti ti-calendar-week"></i>Program
     </button>
     <button class="nav-item" onclick="switchView('nutrition',this)" id="nav-nutrition">
       <i class="ti ti-robot"></i>Coach
@@ -1251,9 +1217,23 @@ function switchView(name, btn){
   document.getElementById('content').scrollTop = 0;
   if(name==='dashboard') refreshDash();
   if(name==='prs') renderPRs();
-  if(name==='log') initLogView();
-  if(name==='program') renderProgram();
+  if(name==='program'){ renderProgram(); autoExpandToday(); }
   if(name==='nutrition') renderChatHistory();
+}
+
+function autoExpandToday(){
+  var dow = new Date().getDay();
+  var dayIdx = dow === 0 ? 6 : dow - 1;
+  var el = document.getElementById('day-ex-'+dayIdx);
+  var chev = document.getElementById('chev-'+dayIdx);
+  if(el && !el.classList.contains('open')){
+    el.classList.add('open');
+    if(chev) chev.classList.add('open');
+  }
+  setTimeout(function(){
+    var dayEl = document.getElementById('day-ex-'+dayIdx);
+    if(dayEl) dayEl.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 100);
 }
 
 /* ═══════════════════════════════════════
@@ -1414,83 +1394,17 @@ function logWeight(){
 let selectedEx = null;
 let activeDayTab = 'D1';
 
-function initLogView(){
-  renderDayTabs();
-  renderExList();
-  renderTodaySession();
-}
+/* initLogView() moved to inline program */
 
-function renderDayTabs(){
-  const c = document.getElementById('log-day-tabs');
-  c.innerHTML = LOG_EXERCISES.map(d=>`
-    <button class="day-tab${d.day===activeDayTab?' active':''}" onclick="setDayTab('${d.day}',this)">${d.day}</button>
-  `).join('');
-}
+/* renderDayTabs() moved to inline program */
 
-function setDayTab(day, btn){
-  activeDayTab = day;
-  document.querySelectorAll('#log-day-tabs .day-tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  selectedEx = null;
-  renderExList();
-  document.getElementById('log-selected-info').style.display='none';
-  document.getElementById('log-feedback').className='feedback';
-}
+/* setDayTab() moved to inline program */
 
-function renderExList(){
-  const day = LOG_EXERCISES.find(d=>d.day===activeDayTab);
-  if(!day){ return; }
-  const c = document.getElementById('log-ex-list');
-  c.innerHTML = day.exs.map(ex=>{
-    const isNN = NON_NEG.some(n=>ex.includes(n.split(' ')[0]));
-    const pr = getExPR(ex);
-    return `<button class="ex-btn${selectedEx===ex?' selected':''}" onclick="selectEx('${ex.replace(/'/g,"\\'")}')">
-      <span>${ex}${isNN?'<br><span class="nn">★ non-negotiable</span>':''}</span>
-      <span style="font-size:11px;color:var(--text-muted);flex-shrink:0;margin-left:8px">${pr?pr.w+'×'+pr.r:''}</span>
-    </button>`;
-  }).join('');
-}
+/* renderExList() moved to inline program */
 
-function showExForm(ex){
-  const type = getExType(ex);
-  const forms = ['standard','carry','cardio-treadmill','cardio-bike','cardio-row','mobility'];
-  forms.forEach(function(f){
-    const el = document.getElementById('log-form-'+f);
-    if(el) el.style.display = f===type ? 'block' : 'none';
-  });
-  // Update progress bar visibility - hide for non-repeating types
-  const progEl = document.getElementById('log-ex-progress');
-  if(progEl) progEl.style.display = (type==='mobility') ? 'none' : 'block';
-  // Update button text
-  const btn = document.getElementById('log-submit-btn');
-  if(btn){
-    if(type==='mobility') btn.innerHTML = '<i class="ti ti-check"></i>Mark Done';
-    else btn.innerHTML = '<i class="ti ti-plus"></i>Log Set';
-  }
-  // Update notes placeholder
-  const notes = document.getElementById('log-notes');
-  if(notes){
-    if(type==='mobility') notes.placeholder = 'How did it feel? Any tight spots? Left shoulder or knees?';
-    else if(type==='carry') notes.placeholder = 'e.g. 3 laps of turf, grip gave out on set 4...';
-    else if(type.startsWith('cardio')) notes.placeholder = 'e.g. felt easy, heart rate low, increased incline...';
-    else notes.placeholder = 'e.g. paused reps, shoulder felt tight...';
-  }
-}
+/* showExForm() moved to inline program */
 
-function selectEx(ex){
-  selectedEx = ex;
-  renderExList();
-  document.getElementById('log-ex-name-display').textContent = ex;
-  document.getElementById('log-selected-info').style.display='block';
-  document.getElementById('log-feedback').className='feedback';
-  showExForm(ex);
-  renderTipsCard(ex, 'log-tips-card');
-  renderLastSession(ex);
-  renderTodaySetsForEx(ex);
-  renderExProgressBar(ex);
-  const type = getExType(ex);
-  if(type==='standard') document.getElementById('log-wt').focus();
-}
+/* selectEx() moved to inline program */
 
 const PROGRAM_SETS = {"Barbell Chest Press": 4, "Incline DB Press": 3, "Cable Fly": 3, "DB Lateral Raise": 3, "Front Raise (cable)": 3, "Shoulder Press (Smith)": 3, "EZ Bar Curl": 4, "Incline DB Curl": 3, "Hammer Curl": 3, "Tricep Pushdown": 4, "Overhead Tricep Extension": 3, "Close-Grip Bench Press": 3, "Conventional Deadlift": 4, "Barbell Row": 4, "Pull-Up / Lat Pulldown": 3, "Seated Cable Row": 3, "Face Pull": 3, "DB Shrug": 3, "Barbell Back Squat": 4, "Romanian Deadlift": 3, "Leg Press": 3, "Lying Leg Curl": 3, "Calf Raise": 4, "Hanging Leg Raise": 3, "Cable Crunch": 3, "Incline Treadmill Walk": 1, "Stationary Bike": 1, "Rowing Machine": 1, "Chest Press PR": 1, "Deadlift PR": 1, "Bar Squat PR": 1, "Farmers Carry": 4};
 
@@ -1508,132 +1422,15 @@ function getTodaySetsForEx(ex){
   return workoutLog.filter(e=>e.ex===ex && e.date===today());
 }
 
-function renderExProgressBar(ex){
-  const target = PROGRAM_SETS[ex] || 4;
-  const done = getTodaySetsForEx(ex).length;
-  const pct = Math.min(100, Math.round((done/target)*100));
-  const fill = document.getElementById('log-prog-fill');
-  const label = document.getElementById('log-prog-label');
-  const targetEl = document.getElementById('log-prog-target');
-  const prog = document.getElementById('log-ex-progress');
-  if(fill){ fill.style.width=pct+'%'; fill.className='ex-progress-fill'+(done>=target?' complete':''); }
-  if(label) label.textContent = done+' of '+target+' sets done';
-  if(targetEl) targetEl.textContent = 'Target: '+target+' sets';
-  if(prog) prog.style.display='block';
-}
+/* renderExProgressBar() moved to inline program */
 
-function renderTodaySetsForEx(ex){
-  const sets = getTodaySetsForEx(ex);
-  const container = document.getElementById('log-sets-done');
-  if(!container) return;
-  if(!sets.length){ container.innerHTML=''; return; }
-  const allPRorm = workoutLog.filter(e=>e.ex===ex).reduce((m,e)=>Math.max(m,e.orm||0),0);
-  container.innerHTML = sets.map((s,i)=>{
-    const isPR = s.orm >= allPRorm && workoutLog.filter(e=>e.ex===ex).length > sets.length;
-    return `<div class="set-row">
-      <span class="set-num">Set ${sets.length-i}</span>
-      <span class="set-detail">${s.w}kg × ${s.r} reps${s.notes?'<br><span style="font-size:11px;color:var(--text-muted)">'+s.notes+'</span>':''}</span>
-      <span class="set-orm">${s.orm}kg${isPR?'<span class="set-pr-badge">PR</span>':''}</span>
-    </div>`;
-  }).join('');
-}
+/* renderTodaySetsForEx() moved to inline program */
 
-function renderLastSession(ex){
-  const lastDate = workoutLog.filter(e=>e.ex===ex && e.date!==today())
-    .map(e=>e.date).sort().reverse()[0];
-  const box = document.getElementById('log-last-session');
-  const rows = document.getElementById('log-last-session-rows');
-  if(!lastDate || !box || !rows){ if(box) box.style.display='none'; return; }
-  const sets = workoutLog.filter(e=>e.ex===ex && e.date===lastDate);
-  if(!sets.length){ box.style.display='none'; return; }
-  box.style.display='block';
-  const title = box.querySelector('.last-session-title');
-  if(title){ const [y,m,d]=lastDate.split('-'); title.innerHTML=`<i class="ti ti-history" style="font-size:11px;margin-right:3px"></i>Last session (${d}/${m})`; }
-  rows.innerHTML = sets.map((s,i)=>`
-    <div class="last-session-row">
-      <span>Set ${sets.length-i}</span>
-      <span>${s.w}kg × ${s.r} reps · ${s.orm}kg 1RM</span>
-    </div>`).join('');
-}
+/* renderLastSession() moved to inline program */
 
-function logSet(){
-  if(!selectedEx){ showFeedback('error','Select an exercise first.'); return; }
-  const type = getExType(selectedEx);
-  const notes = document.getElementById('log-notes').value.trim();
-  const setNum = getTodaySetsForEx(selectedEx).length + 1;
-  let entry = {ex:selectedEx, date:today(), s:setNum, notes:notes, type:type};
-  let feedbackMsg = '';
-  let clearFields = [];
+/* logSet moved to logSetInline */
 
-  if(type === 'standard'){
-    const w = parseFloat(document.getElementById('log-wt').value);
-    const r = parseInt(document.getElementById('log-reps').value);
-    if(!w||!r){ showFeedback('error','Fill in weight and reps.'); return; }
-    const orm = calc1RM(w,r);
-    const prevPR = getExPR(selectedEx);
-    const isPR = !prevPR || orm > prevPR.orm;
-    entry.w = w; entry.r = r; entry.orm = orm;
-    feedbackMsg = isPR ? 'NEW PR! '+w+'kg x '+r+' — Est. 1RM: '+orm+'kg' : 'Set '+setNum+': '+w+'kg x '+r+' reps logged';
-    if(isPR) showFeedback('pr', feedbackMsg);
-    else showFeedback('success', feedbackMsg);
-    document.getElementById('log-wt').value='';
-    document.getElementById('log-reps').value='';
-
-  } else if(type === 'carry'){
-    const w = parseFloat(document.getElementById('log-carry-wt').value);
-    const laps = parseInt(document.getElementById('log-carry-laps').value);
-    if(!w||!laps){ showFeedback('error','Fill in weight and laps.'); return; }
-    entry.w = w; entry.laps = laps;
-    showFeedback('success', 'Set '+setNum+': '+w+'kg x '+laps+' lap'+(laps>1?'s':'')+' logged');
-    document.getElementById('log-carry-wt').value='';
-    document.getElementById('log-carry-laps').value='';
-
-  } else if(type === 'cardio-treadmill'){
-    const dur = parseInt(document.getElementById('log-cardio-duration').value);
-    const inc = parseFloat(document.getElementById('log-cardio-incline').value);
-    if(!dur){ showFeedback('error','Fill in duration.'); return; }
-    entry.duration = dur; entry.incline = inc||0;
-    showFeedback('success', dur+' min @ '+inc+'% incline logged');
-    document.getElementById('log-cardio-duration').value='';
-    document.getElementById('log-cardio-incline').value='';
-
-  } else if(type === 'cardio-bike'){
-    const dur = parseInt(document.getElementById('log-bike-duration').value);
-    const res = parseInt(document.getElementById('log-bike-resistance').value);
-    if(!dur){ showFeedback('error','Fill in duration.'); return; }
-    entry.duration = dur; entry.resistance = res||0;
-    showFeedback('success', dur+' min @ resistance '+res+' logged');
-    document.getElementById('log-bike-duration').value='';
-    document.getElementById('log-bike-resistance').value='';
-
-  } else if(type === 'cardio-row'){
-    const dur = parseInt(document.getElementById('log-row-duration').value);
-    const dist = parseInt(document.getElementById('log-row-distance').value);
-    if(!dur){ showFeedback('error','Fill in duration.'); return; }
-    entry.duration = dur; entry.distance = dist||0;
-    showFeedback('success', dur+' min / '+dist+'m rowed logged');
-    document.getElementById('log-row-duration').value='';
-    document.getElementById('log-row-distance').value='';
-
-  } else if(type === 'mobility'){
-    entry.done = true;
-    showFeedback('success', 'Mobility session marked done'+(notes?' — notes saved':''));
-  }
-
-  document.getElementById('log-notes').value='';
-  workoutLog.unshift(entry);
-  saveLog();
-  renderTodaySetsForEx(selectedEx);
-  renderExProgressBar(selectedEx);
-  renderTodaySession();
-  refreshDash();
-}
-
-function showFeedback(type, msg){
-  const el = document.getElementById('log-feedback');
-  el.className = 'feedback '+type;
-  el.textContent = msg;
-}
+/* showFeedback() moved to inline program */
 
 function fmtEntryShort(e){
   var t = e.type || 'standard';
@@ -1881,45 +1678,72 @@ function toggleWC(id){
 }
 
 function renderProgram(){
-  const c = document.getElementById('program-days');
-  c.innerHTML = DAYS_DATA.map(function(day,i){
-    const wu = WARMUP_DATA[i] || [];
-    const cd = COOLDOWN_DATA[i] || [];
-    const warmupHtml = renderWarmCool(wu, 'ti-flame', '#F59E0B', 'Warm-up guide');
-    const cooldownHtml = renderWarmCool(cd, 'ti-snowflake', '#378ADD', 'Cool-down — do not skip');
-    
-    let exHtml = '';
+  var c = document.getElementById('program-days');
+  var dow = new Date().getDay();
+  var todayIdx = dow === 0 ? 6 : dow - 1;
+
+  c.innerHTML = DAYS_DATA.map(function(day, i){
+    var wu = WARMUP_DATA[i] || [];
+    var cd = COOLDOWN_DATA[i] || [];
+    var warmupHtml = renderWarmCool(wu, 'ti-flame', '#F59E0B', 'Warm-up guide');
+    var cooldownHtml = renderWarmCool(cd, 'ti-snowflake', '#378ADD', 'Cool-down — do not skip');
+    var isToday = i === todayIdx;
+    var metaTxt = day.meta + (isToday ? ' · TODAY' : '');
+
+    var exHtml = '';
     if(day.rest){
       exHtml = '<div style="padding:12px 14px;font-size:13px;color:var(--text-muted)">Full rest. Sleep, eat, hydrate. Gains happen here.</div>';
     } else {
       exHtml = warmupHtml;
-      exHtml += day.exercises.map(function(e,j){
+      exHtml += '<div style="margin-top:10px"></div>';
+      exHtml += day.exercises.map(function(e, j){
         var tipId = 'prog-tip-'+i+'-'+j;
+        var exId = 'prog-ex-'+i+'-'+j;
+        var logId = 'prog-log-'+i+'-'+j;
         var hasTips = !!getTips(e.name);
-        var nnHtml = e.nn ? '<div class="ex-item-nn">&#9733; non-negotiable</div>' : '';
-        var chevHtml = hasTips ? '<i class="ti ti-chevron-down" id="'+tipId+'-chev" style="font-size:14px;color:var(--text-muted);transition:transform .2s"></i>' : '';
-        var tipDiv = hasTips ? '<div id="'+tipId+'" style="display:none;padding:0 4px 4px"></div>' : '';
-        var exClass = 'ex-item' + (e.nn ? ' nn' : '');
-        var cursor = hasTips ? 'pointer' : 'default';
-        var clickAttr = hasTips ? ' data-tipid="'+tipId+'"' : '';
-        return '<div style="margin-bottom:6px">'
-          +'<div class="'+exClass+'" style="cursor:'+cursor+'"'+clickAttr+'>'
-          +'<div style="flex:1"><div class="ex-item-name">'+e.name+'</div>'+nnHtml+'</div>'
-          +'<div style="display:flex;align-items:center;gap:8px"><div class="ex-item-sets">'+e.sets+'</div>'+chevHtml+'</div>'
-          +'</div>'+tipDiv+'</div>';
+        var nnClass = e.nn ? ' nn' : '';
+        var todaySets = getTodaySetsForExName(e.name);
+        var setsBadge = todaySets.length ? '<span style="font-size:10px;background:var(--accent);color:#fff;border-radius:10px;padding:1px 6px;margin-left:6px">'+todaySets.length+'</span>' : '';
+        var pr = getExPR(e.name);
+        var prTxt = pr ? pr.w+'x'+pr.r : '';
+
+        return '<div style="margin-bottom:5px" id="'+exId+'-wrap">'
+          +'<div class="ex-btn-program'+nnClass+'" id="'+exId+'" data-exname="'+e.name+'" data-logid="'+logId+'" data-tipid="'+tipId+'">'
+          +'<div style="flex:1">'
+          +'<div class="ex-item-name">'+e.name+setsBadge+'</div>'
+          +(e.nn ? '<div class="ex-item-nn">&#9733; non-negotiable</div>' : '')
+          +'</div>'
+          +'<div style="display:flex;align-items:center;gap:8px">'
+          +'<span style="font-size:11px;color:var(--text-muted)">'+e.sets+'</span>'
+          +(hasTips ? '<i class="ti ti-info-circle" style="font-size:14px;color:var(--text-muted)"></i>' : '')
+          +'<i class="ti ti-chevron-down" id="'+exId+'-chev" style="font-size:14px;color:var(--text-muted);transition:transform .2s"></i>'
+          +'</div>'
+          +'</div>'
+          +(hasTips ? '<div id="'+tipId+'" style="display:none;padding:0 4px 4px"></div>' : '')
+          +'<div id="'+logId+'" style="display:none"></div>'
+          +'</div>';
       }).join('');
+      exHtml += '<div style="margin-top:10px"></div>';
       exHtml += cooldownHtml;
     }
 
-    return '<div class="program-day">'
-      +'<div class="day-header" onclick="toggleDay('+i+')">'
-      +'<div class="day-num">'+day.d+'</div>'
-      +'<div class="day-info"><div class="day-name">'+day.name+'</div><div class="day-meta-txt">'+day.meta+'</div></div>'
+    var todayClass = isToday ? ' today-day' : '';
+    return '<div class="program-day'+todayClass+'">'
+      +'<div class="day-header" onclick="toggleDay('+i+')" style="'+(isToday ? 'border-left:3px solid var(--accent);' : '')+'">'
+      +'<div class="day-num" style="'+(isToday ? '' : 'color:var(--text-muted)')+'">'+day.d+'</div>'
+      +'<div class="day-info">'
+      +'<div class="day-name">'+day.name+'</div>'
+      +'<div class="day-meta-txt">'+metaTxt+'</div>'
+      +'</div>'
       +'<i class="ti ti-chevron-down day-chevron" id="chev-'+i+'"></i>'
       +'</div>'
       +'<div class="day-exercises" id="day-ex-'+i+'">'+exHtml+'</div>'
       +'</div>';
   }).join('');
+}
+
+function getTodaySetsForExName(exName){
+  return workoutLog.filter(function(e){ return e.ex===exName && e.date===today(); });
 }
 
 function toggleProgTip(tipId, chevId){
@@ -1943,8 +1767,194 @@ function toggleProgTip(tipId, chevId){
   if(chev) chev.style.transform = open ? '' : 'rotate(180deg)';
 }
 
+function buildInlineLogForm(exName, logId){
+  var type = getExType(exName);
+  var tpl = document.getElementById('log-form-template');
+  if(!tpl) return;
+  var clone = tpl.content.cloneNode(true);
+  var form = clone.querySelector('.log-inline-form');
+
+  var forms = ['standard','carry','cardio-treadmill','cardio-bike','cardio-row','mobility'];
+  forms.forEach(function(f){
+    var el = form.querySelector('.tpl-form-'+f);
+    if(el) el.style.display = f===type ? 'block' : 'none';
+  });
+
+  var progEl = form.querySelector('.tpl-ex-progress');
+  if(progEl) progEl.style.display = type==='mobility' ? 'none' : 'block';
+
+  var btn = form.querySelector('.tpl-submit-btn');
+  if(btn){
+    btn.innerHTML = type==='mobility' ? '<i class="ti ti-check"></i>Mark Done' : '<i class="ti ti-plus"></i>Log Set';
+    btn.setAttribute('data-exname', exName);
+    btn.setAttribute('data-logid', logId);
+    btn.addEventListener('click', function(){
+      logSetInline(exName, logId);
+    });
+  }
+
+  var notesEl = form.querySelector('.tpl-notes');
+  if(notesEl){
+    if(type==='mobility') notesEl.placeholder = 'How did it feel? Any tight spots?';
+    else if(type==='carry') notesEl.placeholder = 'e.g. grip gave out on last lap...';
+    else if(type.indexOf('cardio')===0) notesEl.placeholder = 'e.g. felt easy, increased incline...';
+    else notesEl.placeholder = 'e.g. paused reps, shoulder felt tight...';
+  }
+
+  updateInlineProgress(form, exName);
+  renderInlineLastSession(form, exName);
+  renderInlineSets(form, exName);
+
+  form.setAttribute('data-exname', exName);
+  form.setAttribute('data-logid', logId);
+
+  var container = document.getElementById(logId);
+  if(container){ container.innerHTML=''; container.appendChild(form); }
+}
+
+function updateInlineProgress(form, exName){
+  var target = PROGRAM_SETS[exName] || 4;
+  var done = getTodaySetsForExName(exName).length;
+  var pct = Math.min(100, Math.round((done/target)*100));
+  var fill = form.querySelector('.tpl-prog-fill');
+  var label = form.querySelector('.tpl-prog-label');
+  var targetEl = form.querySelector('.tpl-prog-target');
+  if(fill){ fill.style.width=pct+'%'; fill.className='ex-progress-fill tpl-prog-fill'+(done>=target?' complete':''); }
+  if(label) label.textContent = done+' of '+target+' sets done';
+  if(targetEl) targetEl.textContent = 'Target: '+target+' sets';
+}
+
+function renderInlineLastSession(form, exName){
+  var lastDate = null;
+  var td = today();
+  for(var i=0;i<workoutLog.length;i++){
+    if(workoutLog[i].ex===exName && workoutLog[i].date!==td){ lastDate=workoutLog[i].date; break; }
+  }
+  var box = form.querySelector('#tpl-last-session');
+  var rows = form.querySelector('.tpl-last-session-rows');
+  if(!lastDate || !box || !rows){ if(box) box.style.display='none'; return; }
+  var sets = workoutLog.filter(function(e){ return e.ex===exName && e.date===lastDate; });
+  if(!sets.length){ box.style.display='none'; return; }
+  box.style.display='block';
+  var title = box.querySelector('.last-session-title');
+  if(title){ var p=lastDate.split('-'); title.innerHTML='<i class="ti ti-history" style="font-size:11px;margin-right:3px"></i>Last session ('+p[2]+'/'+p[1]+')'; }
+  rows.innerHTML = sets.map(function(s,i){
+    return '<div class="last-session-row"><span>Set '+(sets.length-i)+'</span><span>'+s.w+'kg x '+s.r+' reps &middot; '+s.orm+'kg 1RM</span></div>';
+  }).join('');
+}
+
+function renderInlineSets(form, exName){
+  var sets = getTodaySetsForExName(exName);
+  var container = form.querySelector('.tpl-sets-done');
+  if(!container) return;
+  if(!sets.length){ container.innerHTML=''; return; }
+  var allTopORM = 0;
+  workoutLog.forEach(function(e){ if(e.ex===exName && e.orm && e.orm>allTopORM) allTopORM=e.orm; });
+  container.innerHTML = sets.map(function(s,i){
+    var isPR = s.orm && s.orm>=allTopORM && workoutLog.filter(function(x){return x.ex===exName;}).length > sets.length;
+    return '<div class="set-row">'
+      +'<span class="set-num">Set '+(sets.length-i)+'</span>'
+      +'<span class="set-detail">'+fmtEntryShort(s)+(s.notes?'<br><span style="font-size:10px;color:var(--text-muted)">'+s.notes+'</span>':'')+'</span>'
+      +'<span class="set-orm">'+(s.orm?s.orm+'kg':'')+(isPR?'<span class="set-pr-badge">PR</span>':'')+'</span>'
+      +'</div>';
+  }).join('');
+}
+
+function refreshInlineForms(){
+  var forms = document.querySelectorAll('.log-inline-form[data-exname]');
+  forms.forEach(function(form){
+    var exName = form.getAttribute('data-exname');
+    updateInlineProgress(form, exName);
+    renderInlineSets(form, exName);
+  });
+  refreshDash();
+}
+
+function logSetInline(exName, logId){
+  var container = document.getElementById(logId);
+  if(!container) return;
+  var form = container.querySelector('.log-inline-form');
+  if(!form) return;
+  var type = getExType(exName);
+  var notes = (form.querySelector('.tpl-notes') || {}).value || '';
+  var setNum = getTodaySetsForExName(exName).length + 1;
+  var entry = {ex:exName, date:today(), s:setNum, notes:notes.trim(), type:type};
+  var feedback = form.querySelector('.tpl-feedback');
+
+  function showFB(cls, msg){ if(feedback){ feedback.className='feedback '+cls; feedback.textContent=msg; } }
+
+  if(type==='standard'){
+    var w = parseFloat((form.querySelector('.tpl-wt')||{}).value||'');
+    var r = parseInt((form.querySelector('.tpl-reps')||{}).value||'');
+    if(!w||!r){ showFB('error','Fill in weight and reps.'); return; }
+    var orm = calc1RM(w,r);
+    var prevPR = getExPR(exName);
+    var isPR = !prevPR || orm > prevPR.orm;
+    entry.w=w; entry.r=r; entry.orm=orm;
+    if(isPR) showFB('pr','NEW PR! '+w+'kg x '+r+' reps — Est. 1RM: '+orm+'kg');
+    else showFB('success','Set '+setNum+': '+w+'kg x '+r+' reps logged');
+    form.querySelector('.tpl-wt').value='';
+    form.querySelector('.tpl-reps').value='';
+  } else if(type==='carry'){
+    var cw = parseFloat((form.querySelector('.tpl-carry-wt')||{}).value||'');
+    var laps = parseInt((form.querySelector('.tpl-carry-laps')||{}).value||'');
+    if(!cw||!laps){ showFB('error','Fill in weight and laps.'); return; }
+    entry.w=cw; entry.laps=laps;
+    showFB('success','Set '+setNum+': '+cw+'kg x '+laps+' lap'+(laps>1?'s':'')+' logged');
+    form.querySelector('.tpl-carry-wt').value='';
+    form.querySelector('.tpl-carry-laps').value='';
+  } else if(type==='cardio-treadmill'){
+    var dur = parseInt((form.querySelector('.tpl-dur')||{}).value||'');
+    var inc = parseFloat((form.querySelector('.tpl-incline')||{}).value||'0');
+    if(!dur){ showFB('error','Fill in duration.'); return; }
+    entry.duration=dur; entry.incline=inc;
+    showFB('success',dur+' min @ '+inc+'% incline logged');
+    form.querySelector('.tpl-dur').value='';
+    form.querySelector('.tpl-incline').value='';
+  } else if(type==='cardio-bike'){
+    var dur2 = parseInt((form.querySelector('.tpl-bike-dur')||{}).value||'');
+    var res = parseInt((form.querySelector('.tpl-bike-res')||{}).value||'0');
+    if(!dur2){ showFB('error','Fill in duration.'); return; }
+    entry.duration=dur2; entry.resistance=res;
+    showFB('success',dur2+' min @ resistance '+res+' logged');
+    form.querySelector('.tpl-bike-dur').value='';
+    form.querySelector('.tpl-bike-res').value='';
+  } else if(type==='cardio-row'){
+    var dur3 = parseInt((form.querySelector('.tpl-row-dur')||{}).value||'');
+    var dist = parseInt((form.querySelector('.tpl-row-dist')||{}).value||'0');
+    if(!dur3){ showFB('error','Fill in duration.'); return; }
+    entry.duration=dur3; entry.distance=dist;
+    showFB('success',dur3+' min / '+dist+'m rowed logged');
+    form.querySelector('.tpl-row-dur').value='';
+    form.querySelector('.tpl-row-dist').value='';
+  } else if(type==='mobility'){
+    entry.done=true;
+    showFB('success','Mobility session marked done'+(notes?' — notes saved':''));
+  }
+
+  form.querySelector('.tpl-notes').value='';
+  workoutLog.unshift(entry);
+  saveLog();
+  updateInlineProgress(form, exName);
+  renderInlineSets(form, exName);
+  renderTodaySession();
+  refreshDash();
+  var exBtn = document.querySelector('[data-exname="'+exName+'"].ex-btn-program');
+  if(exBtn){
+    var badge = exBtn.querySelector('span[style*="background:var(--accent)"]');
+    var cnt = getTodaySetsForExName(exName).length;
+    if(badge) badge.textContent = cnt;
+    else{
+      var nameEl = exBtn.querySelector('.ex-item-name');
+      if(nameEl) nameEl.innerHTML = exName+'<span style="font-size:10px;background:var(--accent);color:#fff;border-radius:10px;padding:1px 6px;margin-left:6px">'+cnt+'</span>';
+    }
+  }
+}
+
+var activeLogId = null;
+
 document.addEventListener('click', function(e){
-  var tipEl = e.target.closest('[data-tipid]');
+  var tipEl = e.target.closest('[data-tipid]:not([data-exname])');
   if(tipEl){
     var tipId = tipEl.getAttribute('data-tipid');
     toggleProgTip(tipId, tipId+'-chev');
@@ -1953,6 +1963,66 @@ document.addEventListener('click', function(e){
   var wcEl = e.target.closest('[data-wcid]');
   if(wcEl){
     toggleWC(wcEl.getAttribute('data-wcid'));
+    return;
+  }
+  var exBtn = e.target.closest('.ex-btn-program');
+  if(exBtn){
+    var exName = exBtn.getAttribute('data-exname');
+    var logId = exBtn.getAttribute('data-logid');
+    var tipId2 = exBtn.getAttribute('data-tipid');
+    var exChev = document.getElementById(exBtn.id+'-chev');
+    var logContainer = document.getElementById(logId);
+    var tipContainer = tipId2 ? document.getElementById(tipId2) : null;
+    var isOpen = logContainer && logContainer.style.display === 'block';
+
+    if(isOpen){
+      logContainer.style.display = 'none';
+      if(tipContainer) tipContainer.style.display = 'none';
+      if(exChev) exChev.style.transform = '';
+      exBtn.classList.remove('active');
+      activeLogId = null;
+    } else {
+      if(activeLogId && activeLogId !== logId){
+        var prev = document.getElementById(activeLogId);
+        if(prev){ prev.style.display='none'; }
+        var prevBtn = document.querySelector('[data-logid="'+activeLogId+'"].ex-btn-program');
+        if(prevBtn){
+          prevBtn.classList.remove('active');
+          var prevChev = document.getElementById(prevBtn.id+'-chev');
+          if(prevChev) prevChev.style.transform='';
+        }
+      }
+      exBtn.classList.add('active');
+      if(exChev) exChev.style.transform = 'rotate(180deg)';
+      if(logContainer){
+        logContainer.style.display = 'block';
+        if(logContainer.innerHTML.trim()===''){
+          buildInlineLogForm(exName, logId);
+        } else {
+          updateInlineProgress(logContainer.querySelector('.log-inline-form'), exName);
+          renderInlineSets(logContainer.querySelector('.log-inline-form'), exName);
+        }
+      }
+      if(tipId2 && getTips(exName)){
+        if(tipContainer && tipContainer.innerHTML.trim()===''){
+          var innerId = tipId2+'-inner';
+          tipContainer.innerHTML='<div id="'+innerId+'"></div>';
+          tipContainer.style.display='block';
+          renderTipsCard(exName, innerId);
+          setTimeout(function(){
+            var b=document.getElementById(innerId+'-body');
+            var ic=document.getElementById(innerId+'-chev');
+            if(b) b.style.display='block';
+            if(ic) ic.style.transform='rotate(180deg)';
+          },20);
+        } else if(tipContainer){
+          tipContainer.style.display='block';
+        }
+      }
+      activeLogId = logId;
+      setTimeout(function(){ exBtn.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 100);
+    }
+    return;
   }
 });
 
