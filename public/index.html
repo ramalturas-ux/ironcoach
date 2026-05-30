@@ -1035,7 +1035,7 @@ const EX_TIPS = {
     injury: 'Knees: mandatory knee wraps. Slightly wider stance (2–3cm each side) if standard stance causes pain. Don\'t chase depth at the expense of knee health on PR day.',
     targets: 'Max strength test: quadriceps, glutes, hamstrings, core, spinal erectors.'
   },
-  "Farmer's Carry": {
+  "Farmers Carry": {
     cues: ['Stand tall — chest up, shoulders back and down','Take short, deliberate steps — don\'t shuffle','Grip the handles hard — white knuckle the entire walk','Brace your core like you\'re about to take a punch','At the turn: slow down, pivot carefully, accelerate again','Focus on keeping shoulders level — don\'t let them drop to one side'],
     injury: 'Left shoulder: the loaded carry compresses the shoulder joint — actually beneficial for rotator cuff stability. Use equal weight in both hands. If left shoulder fatigues first, put the weight down — don\'t compensate.',
     targets: 'Grip strength, traps, core stability, cardiovascular conditioning.'
@@ -1385,7 +1385,7 @@ function selectEx(ex){
   document.getElementById('log-wt').focus();
 }
 
-const PROGRAM_SETS = {"Barbell Chest Press": 4, "Incline DB Press": 3, "Cable Fly": 3, "DB Lateral Raise": 3, "Front Raise (cable)": 3, "Shoulder Press (Smith)": 3, "EZ Bar Curl": 4, "Incline DB Curl": 3, "Hammer Curl": 3, "Tricep Pushdown": 4, "Overhead Tricep Extension": 3, "Close-Grip Bench Press": 3, "Conventional Deadlift": 4, "Barbell Row": 4, "Pull-Up / Lat Pulldown": 3, "Seated Cable Row": 3, "Face Pull": 3, "DB Shrug": 3, "Barbell Back Squat": 4, "Romanian Deadlift": 3, "Leg Press": 3, "Lying Leg Curl": 3, "Calf Raise": 4, "Hanging Leg Raise": 3, "Cable Crunch": 3, "Incline Treadmill Walk": 1, "Stationary Bike": 1, "Rowing Machine": 1, "Mobility & Stretching": 1, "Chest Press PR": 1, "Deadlift PR": 1, "Bar Squat PR": 1, "Farmer"s Carry": 4, "Accessory Finisher": 3};
+const PROGRAM_SETS = {"Barbell Chest Press": 4, "Incline DB Press": 3, "Cable Fly": 3, "DB Lateral Raise": 3, "Front Raise (cable)": 3, "Shoulder Press (Smith)": 3, "EZ Bar Curl": 4, "Incline DB Curl": 3, "Hammer Curl": 3, "Tricep Pushdown": 4, "Overhead Tricep Extension": 3, "Close-Grip Bench Press": 3, "Conventional Deadlift": 4, "Barbell Row": 4, "Pull-Up / Lat Pulldown": 3, "Seated Cable Row": 3, "Face Pull": 3, "DB Shrug": 3, "Barbell Back Squat": 4, "Romanian Deadlift": 3, "Leg Press": 3, "Lying Leg Curl": 3, "Calf Raise": 4, "Hanging Leg Raise": 3, "Cable Crunch": 3, "Incline Treadmill Walk": 1, "Stationary Bike": 1, "Rowing Machine": 1, "Mobility & Stretching": 1, "Chest Press PR": 1, "Deadlift PR": 1, "Bar Squat PR": 1, "Farmers Carry": 4, "Accessory Finisher": 3};
 
 function getTodaySetsForEx(ex){
   return workoutLog.filter(e=>e.ex===ex && e.date===today());
@@ -1778,61 +1778,58 @@ function sendQuick(q){
 }
 
 function buildLiveContext(){
-  const cw = weightLog.length ? weightLog[0].w : 126;
-  const wtLost = Math.max(0, 126 - cw).toFixed(1);
-  const wtLines = weightLog.length
-    ? `Current weight: ${cw}kg (lost ${wtLost}kg from 126kg start). Last 5 weigh-ins: ${[...weightLog].slice(0,5).map(e=>`${e.date}: ${e.w}kg`).join(', ')}.`
+  var cw = weightLog.length ? weightLog[0].w : 126;
+  var wtLost = Math.max(0, 126 - cw).toFixed(1);
+  var recentWt = weightLog.slice(0,5).map(function(e){ return e.date+': '+e.w+'kg'; }).join(', ');
+  var wtLines = weightLog.length
+    ? 'Current weight: '+cw+'kg (lost '+wtLost+'kg from start). Recent: '+recentWt+'.'
     : 'No weight logged yet.';
 
-  const big3 = [
+  var big3 = [
     {label:'Chest press', keys:BIG3_KEYS.cp},
     {label:'Deadlift', keys:BIG3_KEYS.dl},
     {label:'Bar squat', keys:BIG3_KEYS.sq}
   ];
-  const prLines = big3.map(b=>{
-    const pr = getBig3PR(b.keys);
-    return pr ? `${b.label} PR: ${pr.w}kg × ${pr.r} reps (est. 1RM: ${pr.orm}kg, set on ${pr.date})` : `${b.label}: no PR logged yet`;
-  }).join('
-');
+  var prLines = big3.map(function(b){
+    var pr = getBig3PR(b.keys);
+    return pr
+      ? b.label+' PR: '+pr.w+'kg x '+pr.r+' reps (est. 1RM: '+pr.orm+'kg, '+pr.date+')'
+      : b.label+': no PR yet';
+  }).join('. ');
 
-  const allEx = [...new Set(workoutLog.map(e=>e.ex))];
-  const otherPRs = allEx
-    .filter(ex=>!big3.some(b=>b.keys.some(k=>k===ex)))
-    .map(ex=>{ const pr=getExPR(ex); return pr?`${ex}: ${pr.w}kg×${pr.r} (1RM ${pr.orm}kg)`:null; })
+  var allEx = workoutLog.map(function(e){ return e.ex; }).filter(function(v,i,a){ return a.indexOf(v)===i; });
+  var otherPRs = allEx
+    .filter(function(ex){ return !big3.some(function(b){ return b.keys.indexOf(ex)>=0; }); })
+    .map(function(ex){ var pr=getExPR(ex); return pr ? ex+': '+pr.w+'kg x '+pr.r+' (1RM '+pr.orm+'kg)' : null; })
     .filter(Boolean).slice(0,8).join(', ');
 
-  const td = today();
-  const todaySets = workoutLog.filter(e=>e.date===td);
-  const todayLines = todaySets.length
-    ? `Today's session so far: ${[...new Set(todaySets.map(e=>e.ex))].map(ex=>{
-        const sets = todaySets.filter(s=>s.ex===ex);
-        const best = sets.reduce((b,s)=>s.orm>b.orm?s:b);
-        return `${ex} (${sets.length} sets, best: ${best.w}×${best.r})`;
-      }).join(', ')}.`
-    : 'No sets logged today yet.';
+  var td = today();
+  var todaySets = workoutLog.filter(function(e){ return e.date===td; });
+  var todayExList = todaySets.map(function(e){ return e.ex; }).filter(function(v,i,a){ return a.indexOf(v)===i; });
+  var todayDetail = todayExList.map(function(ex){
+    var sets = todaySets.filter(function(s){ return s.ex===ex; });
+    var best = sets.reduce(function(b,s){ return s.orm>b.orm?s:b; }, sets[0]);
+    return ex+' ('+sets.length+' sets, best: '+best.w+'x'+best.r+')';
+  }).join(', ');
+  var todayLines = todaySets.length ? 'Todays session: '+todayDetail+'.' : 'No sets logged today yet.';
 
-  const sessions = [...new Set(workoutLog.map(e=>e.date))].length;
-  const totalSets = workoutLog.length;
-
-  const lastSession = workoutLog.length ? workoutLog[0].date : null;
-  const lastSessionExs = lastSession && lastSession !== td
-    ? [...new Set(workoutLog.filter(e=>e.date===lastSession).map(e=>e.ex))].join(', ')
+  var sessions = workoutLog.map(function(e){ return e.date; }).filter(function(v,i,a){ return a.indexOf(v)===i; }).length;
+  var totalSets = workoutLog.length;
+  var lastSession = workoutLog.length ? workoutLog[0].date : null;
+  var lastSessionExs = (lastSession && lastSession !== td)
+    ? workoutLog.filter(function(e){ return e.date===lastSession; }).map(function(e){ return e.ex; }).filter(function(v,i,a){ return a.indexOf(v)===i; }).join(', ')
     : null;
 
-  return `
-LIVE ATHLETE DATA (updated each message):
-${wtLines}
-Goal: reach 100kg by end of 2025. Progress: ${Math.min(100,Math.round((126-cw)/26*100))}% to goal.
-
-BIG 3 PERSONAL RECORDS:
-${prLines}
-
-OTHER PRs: ${otherPRs || 'None yet.'}
-
-TRAINING STATS: ${sessions} sessions logged, ${totalSets} total sets.
-${todayLines}
-${lastSessionExs ? `Last session (${lastSession}): ${lastSessionExs}.` : ''}
-`.trim();
+  var pct = Math.min(100, Math.round((126-cw)/26*100));
+  var ctx = 'LIVE ATHLETE DATA:\n';
+  ctx += wtLines + '\n';
+  ctx += 'Goal: 100kg by end 2025. Progress: '+pct+'%.\n';
+  ctx += 'BIG 3 PRs: '+prLines+'\n';
+  if(otherPRs) ctx += 'Other PRs: '+otherPRs+'\n';
+  ctx += 'Training: '+sessions+' sessions, '+totalSets+' sets total.\n';
+  ctx += todayLines;
+  if(lastSessionExs) ctx += '\nLast session ('+lastSession+'): '+lastSessionExs+'.';
+  return ctx;
 }
 
 async function sendCoach(){
