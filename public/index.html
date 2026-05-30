@@ -540,7 +540,7 @@
       </div>
 
       <!-- Today schedule -->
-      <div class="section-label"><i class="ti ti-clock"></i>Today's schedule</div>
+      <div class="section-label" id="schedule-section-label"><i class="ti ti-clock"></i>Today's schedule</div>
       <div id="today-day-badge" class="today-day-badge"></div>
       <div class="timeline" style="margin-bottom:14px" id="today-timeline">
         <div class="tl-block fast"><div class="tl-time">12am</div><div class="tl-lbl">Fasting</div></div>
@@ -1276,9 +1276,19 @@ function renderTodayBadge(){
   const badge = document.getElementById('today-day-badge');
   if(!badge) return;
   const icon = split.rest ? 'ti-zzz' : 'ti-barbell';
-  badge.innerHTML = `<i class="ti ${icon}" style="font-size:13px"></i>${DAY_NAMES[dow]} · ${split.label}`;
+  const dayName = DAY_NAMES[dow];
+  const label = split.label;
+  badge.innerHTML = '<i class="ti ' + icon + '" style="font-size:13px"></i>' + dayName + ' · ' + label;
   const tl = document.getElementById('today-timeline');
   if(tl) tl.style.display = split.rest ? 'none' : 'flex';
+  const schedLabel = document.getElementById('schedule-section-label');
+  if(schedLabel){
+    if(split.rest){
+      schedLabel.innerHTML = '<i class="ti ti-moon" style="font-size:13px"></i>Today is rest day — no training';
+    } else {
+      schedLabel.innerHTML = '<i class="ti ti-clock" style="font-size:13px"></i>Today schedule';
+    }
+  }
 }
 
 function refreshDash(){
@@ -1843,16 +1853,17 @@ function renderHistory(){
    PROGRAM
 ═══════════════════════════════════════ */
 const WARMUP_DATA = [["2 sets face pulls — 15 reps light weight (shoulder prep + rotator cuff activation)", "Arm circles — 10 forward, 10 backward each arm", "Band pull-aparts or light cable fly — 15 reps, feel the chest stretch", "Shoulder rotation with light DB — 10 reps each side", "Start chest press with empty bar x10, then 50% x5 before working sets"], ["Wrist circles — 10 each direction", "Light EZ bar curl — 1 set x15 at 30% of working weight", "Band pushdowns — 15 reps to activate triceps", "Arm swings across body — loosens shoulder and elbow joint"], ["Cat-cow stretches — 10 reps (spinal mobility)", "Dead hangs from pull-up bar — 2x20 seconds (decompress spine)", "Light Romanian deadlift — empty bar x10, hip hinge pattern", "Band pull-aparts — 15 reps (rear delt and rotator cuff)", "Deadlift: empty bar x5, then 40% x5, 60% x3 before working sets"], ["Wrap your knees before any leg work", "Hip circles — 10 each direction", "Bodyweight squats — 15 reps, focus on depth and knee tracking", "Glute bridges — 15 reps (activate glutes before squats)", "Squat: empty bar x8, 40% x5, 60% x3 before working sets"], ["No separate warm-up needed — start at low intensity for first 3-5 min", "Let heart rate build gradually — zone 2 means you can hold a conversation", "Incline treadmill: start at 0% incline, build to target over 3 min"], ["This day needs the most warm-up — do not rush this", "General: 5 min incline walk to raise core temperature", "Chest press pyramid: empty bar x10, 40% x8, 60% x5, 75% x3, 85% x1, then PR attempt", "Deadlift pyramid: 40% x5, 60% x3, 75% x2, 85% x1, then PR attempt", "Squat pyramid: empty bar x8, 40% x5, 60% x3, 75% x2, 85% x1, then PR attempt", "Face pulls 2x15 before chest press — essential for left shoulder on PR day"], []];
-const COOLDOWN_DATA = [["Doorway pec stretch — 30 sec each side (essential after chest work)", "Cross-body shoulder stretch — 30 sec left arm focus", "Sleeper stretch for left shoulder — 30 sec (rotator cuff recovery)", "Tricep overhead stretch — 20 sec each arm"], ["Wrist flexor and extensor stretch — 30 sec each", "Cross-body shoulder stretch — targets posterior deltoid", "Bicep wall stretch — 20 sec each arm (face wall, extend arm behind)"], ["Child"s pose — 45 sec (lower back and lat stretch)", "Hamstring stretch — 30 sec each leg", "Cat-cow — 10 reps to decompress spine after deadlifts", "Hip flexor lunge stretch — 30 sec each side"], ["Quad stretch standing — 30 sec each leg", "Hip flexor lunge stretch — 45 sec each side (most important after squats)", "Seated hamstring stretch — 30 sec each leg", "Calf stretch against wall — 30 sec each", "IT band stretch — 30 sec each side"], ["Full body stretch — 10-15 min", "Focus: hip flexors, calves, lower back", "Left shoulder sleeper stretch — 30 sec (maintain shoulder health on rest day)"], ["Full body — this is your most taxing day", "Pec stretch, shoulder stretch, hip flexors, hamstrings, quads", "Foam roll if available: quads, IT band, upper back", "Spend at least 10 min here — your recovery starts now"], []];
+const COOLDOWN_DATA = [["Doorway pec stretch — 30 sec each side (essential after chest work)", "Cross-body shoulder stretch — 30 sec left arm focus", "Sleeper stretch for left shoulder — 30 sec (rotator cuff recovery)", "Tricep overhead stretch — 20 sec each arm"], ["Wrist flexor and extensor stretch — 30 sec each", "Cross-body shoulder stretch — targets posterior deltoid", "Bicep wall stretch — 20 sec each arm (face wall, extend arm behind)"], ["Childs pose — 45 sec (lower back and lat stretch)", "Hamstring stretch — 30 sec each leg", "Cat-cow — 10 reps to decompress spine after deadlifts", "Hip flexor lunge stretch — 30 sec each side"], ["Quad stretch standing — 30 sec each leg", "Hip flexor lunge stretch — 45 sec each side (most important after squats)", "Seated hamstring stretch — 30 sec each leg", "Calf stretch against wall — 30 sec each", "IT band stretch — 30 sec each side"], ["Full body stretch — 10-15 min", "Focus: hip flexors, calves, lower back", "Left shoulder sleeper stretch — 30 sec (maintain shoulder health on rest day)"], ["Full body — this is your most taxing day", "Pec stretch, shoulder stretch, hip flexors, hamstrings, quads", "Foam roll if available: quads, IT band, upper back", "Spend at least 10 min here — your recovery starts now"], []];
 
 function renderWarmCool(items, icon, color, label){
   if(!items || !items.length) return '';
-  var id = 'wc-'+Math.random().toString(36).substr(2,6);
-  var itemsHtml = items.map(function(item){
-    return '<div style="display:flex;gap:8px;margin-bottom:5px;font-size:12px;color:var(--text-sec);line-height:1.5"><span style="color:'+color+';flex-shrink:0">&#8250;</span><span>'+item+'</span></div>';
-  }).join('');
+  var id = 'wc' + Math.random().toString(36).substr(2,6);
+  var itemsHtml = '';
+  for(var k=0; k<items.length; k++){
+    itemsHtml += '<div style="display:flex;gap:8px;margin-bottom:5px;font-size:12px;color:var(--text-sec);line-height:1.5"><span style="color:'+color+';flex-shrink:0">&#8250;</span><span>'+items[k]+'</span></div>';
+  }
   return '<div style="margin:6px 4px 0">'
-    +'<div id="'+id+'-hdr" style="display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--surface2);border-radius:var(--r-sm);cursor:pointer;font-size:12px;font-weight:600;color:'+color+'" onclick="toggleWC(''+id+'')">'
+    +'<div data-wcid="'+id+'" style="display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--surface2);border-radius:var(--r-sm);cursor:pointer;font-size:12px;font-weight:600;color:'+color+'">'
     +'<i class="ti '+icon+'" style="font-size:13px"></i>'+label
     +'<i class="ti ti-chevron-down" id="'+id+'-chev" style="font-size:13px;margin-left:auto;color:var(--text-muted);transition:transform .2s"></i>'
     +'</div>'
@@ -1875,7 +1886,7 @@ function renderProgram(){
     const wu = WARMUP_DATA[i] || [];
     const cd = COOLDOWN_DATA[i] || [];
     const warmupHtml = renderWarmCool(wu, 'ti-flame', '#F59E0B', 'Warm-up guide');
-    const cooldownHtml = renderWarmCool(cd, 'ti-snowflake', '#378ADD', 'Cool-down guide' + (cd.length ? ' <span style="font-size:9px;background:#1A2A3A;color:#378ADD;padding:2px 6px;border-radius:10px;margin-left:4px">Don&#39;t skip</span>' : ''));
+    const cooldownHtml = renderWarmCool(cd, 'ti-snowflake', '#378ADD', 'Cool-down — do not skip');
     
     let exHtml = '';
     if(day.rest){
@@ -1883,16 +1894,19 @@ function renderProgram(){
     } else {
       exHtml = warmupHtml;
       exHtml += day.exercises.map(function(e,j){
-        const tipId = 'prog-tip-'+i+'-'+j;
-        const hasTips = !!getTips(e.name);
+        var tipId = 'prog-tip-'+i+'-'+j;
+        var hasTips = !!getTips(e.name);
+        var nnHtml = e.nn ? '<div class="ex-item-nn">&#9733; non-negotiable</div>' : '';
+        var chevHtml = hasTips ? '<i class="ti ti-chevron-down" id="'+tipId+'-chev" style="font-size:14px;color:var(--text-muted);transition:transform .2s"></i>' : '';
+        var tipDiv = hasTips ? '<div id="'+tipId+'" style="display:none;padding:0 4px 4px"></div>' : '';
+        var exClass = 'ex-item' + (e.nn ? ' nn' : '');
+        var cursor = hasTips ? 'pointer' : 'default';
+        var clickAttr = hasTips ? ' data-tipid="'+tipId+'"' : '';
         return '<div style="margin-bottom:6px">'
-          +'<div class="ex-item'+(e.nn?' nn':'')+'" style="cursor:'+(hasTips?'pointer':'default')+'" '+(hasTips?'onclick="toggleProgTip(''+tipId+'',''+tipId+'-chev')"':'')+'>  '
-          +'<div style="flex:1"><div class="ex-item-name">'+e.name+'</div>'+(e.nn?'<div class="ex-item-nn">★ non-negotiable</div>':'')+'</div>'
-          +'<div style="display:flex;align-items:center;gap:8px"><div class="ex-item-sets">'+e.sets+'</div>'
-          +(hasTips?'<i class="ti ti-chevron-down" id="'+tipId+'-chev" style="font-size:14px;color:var(--text-muted);transition:transform .2s"></i>':'')
-          +'</div></div>'
-          +(hasTips?'<div id="'+tipId+'" style="display:none;padding:0 4px 4px"></div>':'')
-          +'</div>';
+          +'<div class="'+exClass+'" style="cursor:'+cursor+'"'+clickAttr+'>'
+          +'<div style="flex:1"><div class="ex-item-name">'+e.name+'</div>'+nnHtml+'</div>'
+          +'<div style="display:flex;align-items:center;gap:8px"><div class="ex-item-sets">'+e.sets+'</div>'+chevHtml+'</div>'
+          +'</div>'+tipDiv+'</div>';
       }).join('');
       exHtml += cooldownHtml;
     }
@@ -1909,18 +1923,18 @@ function renderProgram(){
 }
 
 function toggleProgTip(tipId, chevId){
-  const el = document.getElementById(tipId);
-  const chev = document.getElementById(chevId);
+  var el = document.getElementById(tipId);
+  var chev = document.getElementById(chevId);
   if(!el) return;
-  const open = el.style.display === 'block';
+  var open = el.style.display === 'block';
   if(!open && el.innerHTML.trim() === ''){
-    const exName = el.previousElementSibling.querySelector('.ex-item-name').textContent;
-    const innerId = tipId + '-inner';
-    el.innerHTML = `<div id="${innerId}"></div>`;
+    var exName = el.previousElementSibling.querySelector('.ex-item-name').textContent;
+    var innerId = tipId + '-inner';
+    el.innerHTML = '<div id="'+innerId+'"></div>';
     renderTipsCard(exName, innerId);
-    setTimeout(()=>{
-      const body = document.getElementById(innerId + '-body');
-      const ic = document.getElementById(innerId + '-chev');
+    setTimeout(function(){
+      var body = document.getElementById(innerId + '-body');
+      var ic = document.getElementById(innerId + '-chev');
       if(body){ body.style.display='block'; }
       if(ic){ ic.style.transform='rotate(180deg)'; }
     }, 20);
@@ -1928,6 +1942,19 @@ function toggleProgTip(tipId, chevId){
   el.style.display = open ? 'none' : 'block';
   if(chev) chev.style.transform = open ? '' : 'rotate(180deg)';
 }
+
+document.addEventListener('click', function(e){
+  var tipEl = e.target.closest('[data-tipid]');
+  if(tipEl){
+    var tipId = tipEl.getAttribute('data-tipid');
+    toggleProgTip(tipId, tipId+'-chev');
+    return;
+  }
+  var wcEl = e.target.closest('[data-wcid]');
+  if(wcEl){
+    toggleWC(wcEl.getAttribute('data-wcid'));
+  }
+});
 
 function toggleDay(i){
   const ex = document.getElementById('day-ex-'+i);
