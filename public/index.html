@@ -430,6 +430,32 @@
   .info-key { color: var(--text-muted); }
   .info-val { color: var(--text); font-weight: 500; text-align: right; }
 
+
+  .ptr-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: height 0.2s;
+    background: var(--surface);
+    z-index: 10;
+  }
+  .ptr-indicator.visible { height: 52px; }
+  .ptr-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  .ptr-text { font-size: 12px; color: var(--text-muted); margin-left: 8px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
   /* scrollbar */
   .content::-webkit-scrollbar { width: 3px; }
   .content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
@@ -445,6 +471,10 @@
 
   <!-- CONTENT -->
   <div class="content" id="content">
+    <div class="ptr-indicator" id="ptr-indicator">
+      <div class="ptr-spinner" id="ptr-spinner" style="display:none"></div>
+      <span class="ptr-text" id="ptr-text">Pull to refresh</span>
+    </div>
 
     <!-- ── DASHBOARD ── -->
     <div class="view active" id="view-dashboard">
@@ -1522,6 +1552,61 @@ async function initApp(){
   refreshDash();
   renderProgram();
 }
+
+/* ═══════════════════════════════════════
+   PULL TO REFRESH
+═══════════════════════════════════════ */
+(function(){
+  const content = document.getElementById('content');
+  const indicator = document.getElementById('ptr-indicator');
+  const spinner = document.getElementById('ptr-spinner');
+  const ptrText = document.getElementById('ptr-text');
+  let startY = 0;
+  let pulling = false;
+  let refreshing = false;
+
+  content.addEventListener('touchstart', e => {
+    if(content.scrollTop === 0) {
+      startY = e.touches[0].clientY;
+      pulling = true;
+    }
+  }, {passive: true});
+
+  content.addEventListener('touchmove', e => {
+    if(!pulling || refreshing) return;
+    const dy = e.touches[0].clientY - startY;
+    if(dy > 10) {
+      indicator.classList.add('visible');
+      spinner.style.display = 'none';
+      ptrText.textContent = dy > 60 ? 'Release to refresh' : 'Pull to refresh';
+    }
+  }, {passive: true});
+
+  content.addEventListener('touchend', async e => {
+    if(!pulling || refreshing) return;
+    pulling = false;
+    const dy = e.changedTouches[0].clientY - startY;
+    if(dy > 60) {
+      refreshing = true;
+      spinner.style.display = 'block';
+      ptrText.textContent = 'Refreshing...';
+      try {
+        const [logRes, wtRes] = await Promise.all([
+          fetch('/api/data?key=workoutLog'),
+          fetch('/api/data?key=weightLog')
+        ]);
+        if(logRes.ok){ const d=await logRes.json(); if(d.value) workoutLog=d.value; }
+        if(wtRes.ok){ const d=await wtRes.json(); if(d.value) weightLog=d.value; }
+      } catch(e) {}
+      refreshDash();
+      refreshing = false;
+    }
+    indicator.classList.remove('visible');
+    spinner.style.display = 'none';
+    ptrText.textContent = 'Pull to refresh';
+  }, {passive: true});
+})();
+
 initApp();
 </script>
 </body>
