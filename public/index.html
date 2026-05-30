@@ -1152,6 +1152,16 @@ let workoutLog = load('ic_log', []);
 let weightLog = load('ic_weights', []);
 let chatHistory = load('ic_chat', []);
 
+function saveLog(){
+  save('ic_log', workoutLog);
+  fetch('/api/data',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:'workoutLog',value:workoutLog})}).catch(()=>{});
+}
+
+function saveWeights(){
+  save('ic_weights', weightLog);
+  fetch('/api/data',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:'weightLog',value:weightLog})}).catch(()=>{});
+}
+
 /* ═══════════════════════════════════════
    UTILS
 ═══════════════════════════════════════ */
@@ -1165,13 +1175,16 @@ function calc1RM(w,r){ return r<=0?w: Math.round(w*(1+r/30)); }
 function switchView(name, btn){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('view-'+name).classList.add('active');
+  const view = document.getElementById('view-'+name);
+  if(!view){ console.warn('View not found: '+name); return; }
+  view.classList.add('active');
   (btn || document.getElementById('nav-'+name)).classList.add('active');
   document.getElementById('content').scrollTop = 0;
   if(name==='dashboard') refreshDash();
   if(name==='prs') renderPRs();
   if(name==='log') initLogView();
   if(name==='program') renderProgram();
+  if(name==='nutrition') renderChatHistory();
 }
 
 /* ═══════════════════════════════════════
@@ -1311,7 +1324,7 @@ function logWeight(){
   const v = parseFloat(document.getElementById('wt-input').value);
   if(!v||v<50||v>300){ return; }
   weightLog.unshift({date:today(),w:v});
-  save('ic_weights',weightLog);
+  saveWeights();
   document.getElementById('wt-input').value='';
   refreshDash();
 }
