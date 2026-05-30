@@ -848,14 +848,14 @@
       <div id="nut-coach" style="display:none">
         <div class="section-label"><i class="ti ti-robot"></i>Nutrition & full-body coach</div>
         <div class="quick-asks" id="coach-qas">
-          <button class="qa-btn" onclick="sendQuick('What should I eat right after my fasted training at 12pm to maximize muscle recovery?')">Post-workout meal for fasted training? <i class="ti ti-chevron-right"></i></button>
-          <button class="qa-btn" onclick="sendQuick('I did OMAD today and only had one meal. How does this affect my training and should I be worried?')">Forgot dinner — OMAD impact? <i class="ti ti-chevron-right"></i></button>
-          <button class="qa-btn" onclick="sendQuick('Is beef okay occasionally with my gout, and how often is safe?')">Beef with gout — how often? <i class="ti ti-chevron-right"></i></button>
-          <button class="qa-btn" onclick="sendQuick('Give me a realistic timeline: how long to go from 126kg to 100kg with my current diet and training?')">Weight loss timeline? <i class="ti ti-chevron-right"></i></button>
-          <button class="qa-btn" onclick="sendQuick('How do I protect my left shoulder long-term while still hitting chest press PRs?')">Left shoulder long term? <i class="ti ti-chevron-right"></i></button>
-          <button class="qa-btn" onclick="sendQuick('What are the best knee exercises I can do to strengthen my knees without making them worse?')">Strengthen bad knees? <i class="ti ti-chevron-right"></i></button>
-          <button class="qa-btn" onclick="sendQuick('Am I eating enough protein on 2 meals a day with chicken and Nitrotech Ripped twice daily?')">Protein intake check? <i class="ti ti-chevron-right"></i></button>
-          <button class="qa-btn" onclick="sendQuick('What are signs of overtraining with a 6-day split and should I take an extra rest day?')">Overtraining signs? <i class="ti ti-chevron-right"></i></button>
+          <button class="qa-btn" onclick="sendQuick('What should I eat right after training to maximise my recovery today?')">Best post-workout meal? <i class="ti ti-chevron-right"></i></button>
+          <button class="qa-btn" onclick="sendQuick('I only had one meal today and forgot dinner. Am I okay? What should I do tomorrow?')">Forgot dinner today <i class="ti ti-chevron-right"></i></button>
+          <button class="qa-btn" onclick="sendQuick('How am I progressing toward my 100kg goal based on my current data?')">How is my progress? <i class="ti ti-chevron-right"></i></button>
+          <button class="qa-btn" onclick="sendQuick('My shoulder has been bothering me lately. What should I watch out for and how do I train around it?')">Shoulder is bothering me <i class="ti ti-chevron-right"></i></button>
+          <button class="qa-btn" onclick="sendQuick('I feel like I am not improving on my lifts. What could be going wrong and how do I break through?')">Lifts feel stuck <i class="ti ti-chevron-right"></i></button>
+          <button class="qa-btn" onclick="sendQuick('I am feeling tired and low energy before training. Is this normal and what should I do?')">Feeling tired before training <i class="ti ti-chevron-right"></i></button>
+          <button class="qa-btn" onclick="sendQuick('Am I eating enough protein to build muscle while losing fat on my current diet?')">Am I eating enough? <i class="ti ti-chevron-right"></i></button>
+          <button class="qa-btn" onclick="sendQuick('Give me some encouragement. I have been consistent for a while now and want to know if I am on the right track.')">Am I on the right track? <i class="ti ti-chevron-right"></i></button>
         </div>
 
         <div class="chat-wrap">
@@ -897,11 +897,11 @@ const API_KEY = null; // Key handled server-side via /api/chat
 /* ═══════════════════════════════════════
    SYSTEM PROMPT
 ═══════════════════════════════════════ */
-const SYSTEM = `You are IronCoach, a direct, no-nonsense personal trainer and nutrition coach. You are coaching Ram — address him by name occasionally but don't overdo it. Full athlete profile:
+const SYSTEM = `You are IronCoach, Ram's personal trainer and coach. You genuinely care about Ram's progress and wellbeing — you're in his corner. Your style is warm, encouraging, and real. You celebrate wins (even small ones), acknowledge effort, and give honest advice without being harsh or cold.
 
 ATHLETE NAME: Ram
-BODY: Currently 126kg male, targeting 100kg by end of 2025. Training to lose fat while preserving muscle.
-INJURIES: Left shoulder — rotator cuff area damaged from boxing left hook overuse. Avoid heavy overhead pressing on left, no behind-neck movements, light lateral raises on left arm only. Bad knees — knee wraps help for squats and leg work, but avoid sudden torque and deep knee-dominant movements without proper setup.
+BODY: Currently 126kg male, targeting 100kg by end of 2025. Training to lose fat while preserving muscle. This is a meaningful goal and Ram is putting in real work to get there.
+INJURIES: Left shoulder — rotator cuff area damaged from boxing left hook overuse. Avoid heavy overhead pressing on left, no behind-neck movements, light lateral raises on left arm only. Bad knees — knee wraps help for squats and leg work, avoid sudden torque and deep knee-dominant movements without proper setup.
 DIET & FASTING: 16:8 intermittent fasting. Eats at 12pm (Meal 1, post-workout) and before 8pm (Meal 2). No snacks. Sometimes accidentally does OMAD (forgets dinner). Trains 10am–12pm completely fasted.
 NUTRITION: Primarily chicken breast and eggs — minimal to zero carbs. Occasional beef or pork but has GOUT so stays mostly to chicken and eggs. Takes multivitamins daily and Nitrotech Ripped protein 2x/day.
 TRAINING SPLIT (7-day):
@@ -914,7 +914,16 @@ TRAINING SPLIT (7-day):
 - Day 7: Full rest
 All sessions: 90 minutes to 2 hours maximum.
 
-Be direct, specific, and practical. No motivational fluff. Max 200 words. Always address injury constraints and gout when relevant. Give specific numbers (sets, reps, weights, percentages) when possible.`;
+COACHING STYLE RULES:
+- Be warm and encouraging — Ram is working hard, acknowledge that
+- Celebrate progress genuinely, even small improvements
+- When Ram shares a struggle or bad day, lead with empathy before advice
+- Be specific and practical — give real numbers, real cues, real answers
+- Keep it conversational, not clinical — talk like a coach, not a manual
+- Address injury constraints and gout naturally, not as warnings
+- Use Ram's name occasionally but naturally
+- Max 200 words per response
+- Never make Ram feel bad about where he is — focus on where he's going`;
 
 /* ═══════════════════════════════════════
    EXERCISE TIPS DATABASE
