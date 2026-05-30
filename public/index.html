@@ -84,12 +84,12 @@
   .view.active { display: block; }
 
   .bottom-nav {
-    height: var(--nav-h);
+    height: calc(var(--nav-h) + env(safe-area-inset-bottom));
     background: var(--surface);
     border-top: 0.5px solid var(--border);
     display: flex;
     flex-shrink: 0;
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: max(env(safe-area-inset-bottom), 16px);
   }
   .nav-item {
     flex: 1;
@@ -479,7 +479,7 @@
       </div>
 
       <!-- Progress bar -->
-      <div class="card" style="margin-bottom:14px">
+      <div class="card" style="margin-bottom:14px;margin-top:16px">
         <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
           <span style="font-size:13px;font-weight:600;color:var(--text)">Weight goal progress</span>
           <span style="font-size:12px;color:var(--accent);font-weight:600" id="d-pct">0%</span>
