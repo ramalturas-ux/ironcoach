@@ -2200,13 +2200,39 @@ function buildLiveContext(){
   }).join('\n');
   var sessions = workoutLog.map(function(e){ return e.date; }).filter(function(v,i,a){ return a.indexOf(v)===i; }).length;
   var pct = Math.min(100, Math.round((126-cw)/26*100));
+  // Build last 3 sessions (excluding today)
+  var pastDates = workoutLog
+    .map(function(e){ return e.date; })
+    .filter(function(v,i,a){ return v!==td && a.indexOf(v)===i; })
+    .sort().reverse().slice(0,3);
+
+  var pastSessions = pastDates.map(function(date){
+    var dayEntries = workoutLog.filter(function(e){ return e.date===date; });
+    var exList = dayEntries.map(function(e){ return e.ex; }).filter(function(v,i,a){ return a.indexOf(v)===i; });
+    var detail = exList.map(function(ex){
+      var sets = dayEntries.filter(function(s){ return s.ex===ex; }).reverse();
+      var strs = sets.map(function(s,i){
+        var t = s.type||'standard';
+        if(t==='carry') return 'Set '+(i+1)+': '+s.w+'kg x '+s.laps+' laps';
+        if(t==='cardio-treadmill') return s.duration+'min @ '+s.incline+'%';
+        if(t==='cardio-bike') return s.duration+'min res.'+s.resistance;
+        if(t==='cardio-row') return s.duration+'min / '+s.distance+'m';
+        if(t==='mobility') return 'Done';
+        return 'Set '+(i+1)+': '+s.w+'kg x '+s.r+' reps'+(s.orm?' (1RM ~'+s.orm+'kg)':'');
+      });
+      return ex+' — '+strs.join(', ');
+    }).join('\n');
+    return 'Session ('+fmtDate(date)+'):\n'+detail;
+  }).join('\n\n');
+
   var ctx = 'ACTUAL DATE TODAY (from device clock): '+dateStr+' | '+splitDay.label+'\n\n';
   ctx += 'ATHLETE: '+wtLines+'\n';
   ctx += 'Goal: 100kg by end of 2026. Progress: '+pct+'%.\n';
   ctx += 'Big 3 PRs: '+prLines+'\n';
   if(otherPRs) ctx += 'Other PRs: '+otherPRs+'\n';
   ctx += 'Total: '+sessions+' sessions logged.\n\n';
-  ctx += todaySets.length ? 'TODAYS SESSION:\n'+todayDetail : 'No sets logged today yet.';
+  ctx += todaySets.length ? 'TODAYS SESSION:\n'+todayDetail+'\n\n' : 'No sets logged today yet.\n\n';
+  if(pastSessions) ctx += 'RECENT PAST SESSIONS (last 3):\n'+pastSessions;
   return ctx;
 }
 
