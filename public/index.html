@@ -595,7 +595,7 @@
       <div class="section-label" style="margin-top:4px"><i class="ti ti-list"></i>Today's session</div>
       <div class="card card-flush" style="margin-bottom:10px">
         <table class="data-table">
-          <thead><tr><th>Exercise / Set</th><th>Detail</th><th>1RM</th></tr></thead>
+          <thead><tr><th>Exercise / Set</th><th>Detail</th><th>1RM</th><th></th></tr></thead>
           <tbody id="today-tbody">
             <tr><td colspan="3"><div class="empty" style="padding:16px 8px"><i class="ti ti-dumbbell"></i><p>No sets logged today yet</p></div></td></tr>
           </tbody>
@@ -857,6 +857,9 @@
           </div>
         </div>
         <div class="chat-messages" id="chat-messages" style="padding:14px;display:flex;flex-direction:column;gap:10px;min-height:200px"></div>
+        <div style="padding:8px 14px 14px;text-align:center">
+          <button onclick="clearChatConfirm()" style="font-size:11px;color:var(--text-muted);background:none;border:none;cursor:pointer;text-decoration:underline;font-family:var(--font-body)">Clear chat history</button>
+        </div>
       </div>
     </div>
 
@@ -1879,11 +1882,12 @@ function renderInlineSets(form, exName){
     var type = s.type || 'standard';
     var canEdit = type==='standard';
     return '<div class="set-row" data-setrow="1">'
-      +'<div class="set-row-view" style="display:flex;align-items:center;width:100%;gap:8px">'
+      +'<div class="set-row-view" style="display:flex;align-items:center;width:100%;gap:6px">'
       +'<span class="set-num">Set '+setNum+'</span>'
       +'<span class="set-detail" style="flex:1">'+fmtEntryShort(s)+(s.notes?'<br><span style="font-size:10px;color:var(--text-muted)">'+s.notes+'</span>':'')+'</span>'
       +'<span class="set-orm">'+(s.orm?s.orm+'kg':'')+(isPR?'<span class="set-pr-badge">PR</span>':'')+'</span>'
       +(canEdit?'<button class="set-edit-open" data-logidx="'+logIdx+'" style="font-size:10px;background:var(--surface2);color:var(--text-muted);border:none;border-radius:4px;padding:3px 7px;cursor:pointer;flex-shrink:0">Edit</button>':'')
+      +'<button class="set-delete-btn" data-logidx="'+logIdx+'" data-exname="'+exName+'" data-setnum="'+setNum+'" style="font-size:10px;background:none;color:#EF4444;border:none;border-radius:4px;padding:3px 5px;cursor:pointer;flex-shrink:0;font-size:14px;line-height:1"><i class="ti ti-trash"></i></button>'
       +'</div>'
       +(canEdit?'<div class="set-row-edit" style="display:none;padding:6px 0;font-size:12px">'
         +'<input type="number" class="set-edit-wt" value="'+(s.w||'')+'" step="0.5" placeholder="kg" style="width:65px;background:var(--surface);border:1px solid var(--accent);border-radius:4px;padding:4px 7px;font-size:12px;color:var(--text);margin-right:4px" />'
@@ -1986,9 +1990,41 @@ function logSetInline(exName, logId){
   }
 }
 
+function clearChatConfirm(){
+  if(confirm('Clear all chat history with your coach? This cannot be undone.')){
+    chatHistory = [];
+    save('ic_chat', []);
+    fetch('/api/data',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:'chatHistory',value:[]})}).catch(function(){});
+    var c = document.getElementById('chat-messages');
+    if(c) c.innerHTML = '';
+  }
+}
+
+function deleteSetConfirm(logIdx, exName, setNum, formEl){
+  if(confirm('Delete Set '+setNum+' of '+exName+'? This cannot be undone.')){
+    workoutLog.splice(logIdx, 1);
+    saveLog();
+    if(formEl){
+      renderInlineSets(formEl, exName);
+      updateInlineProgress(formEl, exName);
+    }
+    renderTodaySession();
+    refreshDash();
+  }
+}
+
 var activeLogId = null;
 
 document.addEventListener('click', function(e){
+  if(e.target.closest('.set-delete-btn')){
+    var btn = e.target.closest('.set-delete-btn');
+    var logIdx = parseInt(btn.getAttribute('data-logidx'));
+    var exName = btn.getAttribute('data-exname');
+    var setNum = btn.getAttribute('data-setnum');
+    var form = btn.closest('.log-inline-form');
+    deleteSetConfirm(logIdx, exName, setNum, form);
+    return;
+  }
   if(e.target.classList.contains('set-edit-open')){
     var row = e.target.closest('[data-setrow]');
     row.querySelector('.set-row-view').style.display='none';
@@ -2112,14 +2148,15 @@ function nutTab(name, btn){
    AI COACH
 ═══════════════════════════════════════ */
 function renderChatHistory(){
-  const c = document.getElementById('chat-messages');
+  var c = document.getElementById('chat-messages');
+  if(!c) return;
   if(!chatHistory.length){ c.innerHTML=''; return; }
-  c.innerHTML = chatHistory.map(m=>`
-    <div>
-      <div class="msg-label">${m.role==='user'?'You':'IronCoach'}</div>
-      <div class="msg msg-${m.role==='user'?'user':'coach'}">${m.content}</div>
-    </div>`).join('');
-  setTimeout(()=>c.scrollTop=c.scrollHeight, 50);
+  c.innerHTML = chatHistory.map(function(m){
+    var label = m.role==='user' ? 'You' : 'IronCoach';
+    var cls = m.role==='user' ? 'msg-user' : 'msg-coach';
+    return '<div><div class="msg-label">'+label+'</div><div class="msg '+cls+'">'+m.content+'</div></div>';
+  }).join('');
+  setTimeout(function(){ c.scrollTop = c.scrollHeight; }, 80);
 }
 
 function handleEnter(e){
@@ -2163,7 +2200,7 @@ function buildLiveContext(){
   }).join('\n');
   var sessions = workoutLog.map(function(e){ return e.date; }).filter(function(v,i,a){ return a.indexOf(v)===i; }).length;
   var pct = Math.min(100, Math.round((126-cw)/26*100));
-  var ctx = 'TODAY: '+dateStr+' ('+splitDay.label+')\n\n';
+  var ctx = 'ACTUAL DATE TODAY (from device clock): '+dateStr+' | '+splitDay.label+'\n\n';
   ctx += 'ATHLETE: '+wtLines+'\n';
   ctx += 'Goal: 100kg by end of 2026. Progress: '+pct+'%.\n';
   ctx += 'Big 3 PRs: '+prLines+'\n';
@@ -2191,7 +2228,12 @@ async function sendCoach(){
 
   try{
     const liveContext = buildLiveContext();
-    const systemWithData = SYSTEM + '\n\n' + liveContext;
+    var now = new Date();
+    var dayNames2 = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var monNames2 = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var todayStr = dayNames2[now.getDay()]+', '+monNames2[now.getMonth()]+' '+now.getDate()+', '+now.getFullYear();
+    var dateOverride = 'CRITICAL — TODAY IS: '+todayStr+' (device local time, GMT+8 Philippines). This overrides ANY date mentioned in previous messages. Do not reference any other date.\n\n';
+    const systemWithData = SYSTEM + '\n\n' + dateOverride + liveContext;
     const messages = chatHistory.slice(-12).map(m=>({role:m.role,content:m.content}));
     const res = await fetch('/api/chat',{
       method:'POST',
@@ -2204,26 +2246,32 @@ async function sendCoach(){
     chatHistory.push({role:'assistant',content:reply});
     save('ic_chat',chatHistory.slice(-40));
     appendMsg('coach',reply);
+    scrollChat();
   }catch(err){
     typingEl.remove();
     appendMsg('coach','Connection error. Check your internet and try again.');
+    scrollChat();
   }
 
   btn.disabled=false;
-  scrollChat();
 }
 
 function appendMsg(role, text){
-  const c = document.getElementById('chat-messages');
-  const d = document.createElement('div');
-  d.innerHTML=`<div class="msg-label">${role==='user'?'You':'IronCoach'}</div><div class="msg msg-${role==='user'?'user':'coach'}">${text}</div>`;
+  var c = document.getElementById('chat-messages');
+  if(!c) return;
+  var d = document.createElement('div');
+  var label = role==='user' ? 'You' : 'IronCoach';
+  var msgClass = role==='user' ? 'msg-user' : 'msg-coach';
+  d.innerHTML = '<div class="msg-label">'+label+'</div><div class="msg '+msgClass+'">'+text+'</div>';
   c.appendChild(d);
-  scrollChat();
+  c.scrollTop = c.scrollHeight;
 }
 
 function scrollChat(){
   var c = document.getElementById('chat-messages');
-  if(c) setTimeout(function(){ c.scrollTop = c.scrollHeight; }, 100);
+  if(!c) return;
+  c.scrollTop = c.scrollHeight;
+  setTimeout(function(){ c.scrollTop = c.scrollHeight; }, 150);
 }
 
 /* ═══════════════════════════════════════
