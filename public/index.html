@@ -662,8 +662,15 @@
       </div>
 
       <div class="section-label"><i class="ti ti-history"></i>Workout history</div>
-      <div style="display:flex;gap:6px;margin-bottom:10px">
-        <select id="hist-filter" onchange="renderHistory()" style="flex:1">
+      <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+        <select id="hist-date-filter" onchange="renderHistory()" style="flex:1;min-width:120px">
+          <option value="all">All time</option>
+          <option value="today">Today</option>
+          <option value="yesterday">Yesterday</option>
+          <option value="7days">Last 7 days</option>
+          <option value="30days">Last 30 days</option>
+        </select>
+        <select id="hist-filter" onchange="renderHistory()" style="flex:1;min-width:120px">
           <option value="">All exercises</option>
         </select>
       </div>
@@ -1180,7 +1187,7 @@ const LOG_EXERCISES = [
   {day:'D2',exs:['EZ Bar Curl','Incline DB Curl','Hammer Curl','Tricep Pushdown','Overhead Tricep Extension','Close-Grip Bench Press']},
   {day:'D3',exs:['Conventional Deadlift','Barbell Row','Pull-Up / Lat Pulldown','Seated Cable Row','Face Pull','DB Shrug']},
   {day:'D4',exs:['Barbell Back Squat','Romanian Deadlift','Leg Press','Lying Leg Curl','Calf Raise','Hanging Leg Raise','Cable Crunch']},
-  {day:'D5',exs:['Incline Treadmill Walk','Stationary Bike','Rowing Machine','Mobility & Stretching']},
+  {day:'D5',exs:['Incline Treadmill Walk','Stationary Bike (low)','Rowing Machine','Mobility & Stretching']},
   {day:'D6',exs:['Chest Press PR','Deadlift PR','Bar Squat PR','Farmers Carry']}
 ];
 
@@ -1431,12 +1438,13 @@ let activeDayTab = 'D1';
 
 /* selectEx() moved to inline program */
 
-const PROGRAM_SETS = {"Barbell Chest Press": 4, "Incline DB Press": 3, "Cable Fly": 3, "DB Lateral Raise": 3, "Front Raise (cable)": 3, "Shoulder Press (Smith)": 3, "EZ Bar Curl": 4, "Incline DB Curl": 3, "Hammer Curl": 3, "Tricep Pushdown": 4, "Overhead Tricep Extension": 3, "Close-Grip Bench Press": 3, "Conventional Deadlift": 4, "Barbell Row": 4, "Pull-Up / Lat Pulldown": 3, "Seated Cable Row": 3, "Face Pull": 3, "DB Shrug": 3, "Barbell Back Squat": 4, "Romanian Deadlift": 3, "Leg Press": 3, "Lying Leg Curl": 3, "Calf Raise": 4, "Hanging Leg Raise": 3, "Cable Crunch": 3, "Incline Treadmill Walk": 1, "Stationary Bike": 1, "Rowing Machine": 1, "Chest Press PR": 1, "Deadlift PR": 1, "Bar Squat PR": 1, "Farmers Carry": 4};
+const PROGRAM_SETS = {"Barbell Chest Press": 4, "Incline DB Press": 3, "Cable Fly": 3, "DB Lateral Raise": 3, "Front Raise (cable)": 3, "Shoulder Press (Smith)": 3, "EZ Bar Curl": 4, "Incline DB Curl": 3, "Hammer Curl": 3, "Tricep Pushdown": 4, "Overhead Tricep Extension": 3, "Close-Grip Bench Press": 3, "Conventional Deadlift": 4, "Barbell Row": 4, "Pull-Up / Lat Pulldown": 3, "Seated Cable Row": 3, "Face Pull": 3, "DB Shrug": 3, "Barbell Back Squat": 4, "Romanian Deadlift": 3, "Leg Press": 3, "Lying Leg Curl": 3, "Calf Raise": 4, "Hanging Leg Raise": 3, "Cable Crunch": 3, "Incline Treadmill Walk": 1, "Stationary Bike": 1, "Stationary Bike (low)": 1, "Rowing Machine": 1, "Chest Press PR": 1, "Deadlift PR": 1, "Bar Squat PR": 1, "Farmers Carry": 4};
 
 // EX_TYPE: 'standard' = weight+reps, 'cardio-treadmill', 'cardio-bike', 'cardio-row', 'mobility', 'carry'
 const EX_TYPE = {
   'Incline Treadmill Walk': 'cardio-treadmill',
   'Stationary Bike': 'cardio-bike',
+  'Stationary Bike (low)': 'cardio-bike',
   'Rowing Machine': 'cardio-row',
   'Mobility & Stretching': 'mobility',
   'Farmers Carry': 'carry'
@@ -1659,16 +1667,42 @@ function renderWeightStrengthTrend(){
 }
 
 function renderHistory(){
-  const filter = document.getElementById('hist-filter')?.value||'';
-  const byDay = {};
-  workoutLog.filter(e=>!filter||e.ex===filter).forEach(e=>{
-    const k=e.date+'||'+e.ex;
-    if(!byDay[k]||e.orm>byDay[k].orm) byDay[k]=e;
+  var exFilter = (document.getElementById('hist-filter')||{}).value||'';
+  var dateFilter = (document.getElementById('hist-date-filter')||{}).value||'all';
+  var now = new Date();
+  var td = today();
+  var yd = new Date(now); yd.setDate(yd.getDate()-1);
+  var ydStr = yd.toISOString().split('T')[0];
+  var d7 = new Date(now); d7.setDate(d7.getDate()-7);
+  var d7Str = d7.toISOString().split('T')[0];
+  var d30 = new Date(now); d30.setDate(d30.getDate()-30);
+  var d30Str = d30.toISOString().split('T')[0];
+
+  var filtered = workoutLog.filter(function(e){
+    if(exFilter && e.ex!==exFilter) return false;
+    if(dateFilter==='today') return e.date===td;
+    if(dateFilter==='yesterday') return e.date===ydStr;
+    if(dateFilter==='7days') return e.date>=d7Str;
+    if(dateFilter==='30days') return e.date>=d30Str;
+    return true;
   });
-  const rows = Object.values(byDay).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,50);
-  const tbody = document.getElementById('hist-tbody');
-  if(!rows.length){ tbody.innerHTML='<tr><td colspan="3"><div class="empty" style="padding:20px 16px"><i class="ti ti-history"></i><p>No history yet</p></div></td></tr>'; return; }
-  tbody.innerHTML = rows.map(e=>`<tr><td style="font-size:11px;color:var(--text-muted)">${fmtDate(e.date)}</td><td style="font-size:12px;font-weight:500">${e.ex}</td><td style="font-size:12px">${e.w}×${e.r}×${e.s}s</td></tr>`).join('');
+
+  var byDay = {};
+  filtered.forEach(function(e){
+    var k = e.date+'||'+e.ex;
+    if(!byDay[k]||( e.orm && (!byDay[k].orm || e.orm>byDay[k].orm))) byDay[k]=e;
+  });
+  var rows = Object.values(byDay).sort(function(a,b){ return b.date.localeCompare(a.date); }).slice(0,100);
+  var tbody = document.getElementById('hist-tbody');
+  if(!tbody) return;
+  if(!rows.length){
+    tbody.innerHTML='<tr><td colspan="3"><div class="empty" style="padding:20px 16px"><i class="ti ti-history"></i><p>No history for this period</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map(function(e){
+    var detail = fmtEntryShort(e);
+    return '<tr><td style="font-size:11px;color:var(--text-muted)">'+fmtDate(e.date)+'</td><td style="font-size:12px;font-weight:500">'+e.ex+'</td><td style="font-size:12px">'+detail+'</td></tr>';
+  }).join('');
 }
 
 /* ═══════════════════════════════════════
@@ -1886,7 +1920,7 @@ function renderInlineSets(form, exName){
       +'<span class="set-num">Set '+setNum+'</span>'
       +'<span class="set-detail" style="flex:1">'+fmtEntryShort(s)+(s.notes?'<br><span style="font-size:10px;color:var(--text-muted)">'+s.notes+'</span>':'')+'</span>'
       +'<span class="set-orm">'+(s.orm?s.orm+'kg':'')+(isPR?'<span class="set-pr-badge">PR</span>':'')+'</span>'
-      +(canEdit?'<button class="set-edit-open" data-logidx="'+logIdx+'" style="font-size:10px;background:var(--surface2);color:var(--text-muted);border:none;border-radius:4px;padding:3px 7px;cursor:pointer;flex-shrink:0">Edit</button>':'')
+      +(canEdit?'<button class="set-edit-open" data-logidx="'+logIdx+'" style="background:none;border:none;color:var(--text-muted);cursor:pointer;flex-shrink:0;font-size:15px;padding:2px 4px"><i class="ti ti-pencil"></i></button>':'')
       +'<button class="set-delete-btn" data-logidx="'+logIdx+'" data-exname="'+exName+'" data-setnum="'+setNum+'" style="font-size:10px;background:none;color:#EF4444;border:none;border-radius:4px;padding:3px 5px;cursor:pointer;flex-shrink:0;font-size:14px;line-height:1"><i class="ti ti-trash"></i></button>'
       +'</div>'
       +(canEdit?'<div class="set-row-edit" style="display:none;padding:6px 0;font-size:12px">'
@@ -2156,7 +2190,11 @@ function renderChatHistory(){
     var cls = m.role==='user' ? 'msg-user' : 'msg-coach';
     return '<div><div class="msg-label">'+label+'</div><div class="msg '+cls+'">'+m.content+'</div></div>';
   }).join('');
-  setTimeout(function(){ c.scrollTop = c.scrollHeight; }, 80);
+  setTimeout(function(){
+    c.scrollTop = c.scrollHeight;
+    var content = document.getElementById('content');
+    if(content) content.scrollTop = content.scrollHeight;
+  }, 150);
 }
 
 function handleEnter(e){
@@ -2295,9 +2333,17 @@ function appendMsg(role, text){
 
 function scrollChat(){
   var c = document.getElementById('chat-messages');
+  var content = document.getElementById('content');
   if(!c) return;
   c.scrollTop = c.scrollHeight;
-  setTimeout(function(){ c.scrollTop = c.scrollHeight; }, 150);
+  if(content){
+    setTimeout(function(){
+      content.scrollTop = content.scrollHeight;
+    }, 100);
+    setTimeout(function(){
+      content.scrollTop = content.scrollHeight;
+    }, 400);
+  }
 }
 
 /* ═══════════════════════════════════════
