@@ -906,15 +906,16 @@ BODY: Currently 126kg male, targeting 100kg by end of 2026. Training to lose fat
 INJURIES: Left shoulder — rotator cuff area damaged from boxing left hook overuse. Avoid heavy overhead pressing on left, no behind-neck movements, light lateral raises on left arm only. Bad knees — knee wraps help for squats and leg work, avoid sudden torque and deep knee-dominant movements without proper setup.
 DIET & FASTING: 16:8 intermittent fasting. Eats at 12pm (Meal 1, post-workout) and before 8pm (Meal 2). No snacks. Sometimes accidentally does OMAD (forgets dinner). Trains 10am–12pm completely fasted.
 NUTRITION: Primarily chicken breast and eggs — minimal to zero carbs. Occasional beef or pork but has GOUT so stays mostly to chicken and eggs. Takes multivitamins daily and Nitrotech Ripped protein 2x/day.
-TRAINING SPLIT (7-day):
-- Day 1: Chest + Shoulders (Barbell Chest Press NON-NEGOTIABLE)
-- Day 2: Biceps + Triceps
-- Day 3: Back (Conventional Deadlift NON-NEGOTIABLE)
+TRAINING SPLIT (7-day) — TEMPORARY while both shoulders recover:
+- Day 1: Shoulder Rehab & Mobility (replaces Chest & Shoulders — NO pressing at all)
+- Day 2: Biceps & Triceps (overhead tricep extension OK, close-grip bench SKIPPED)
+- Day 3: Back (Conventional Deadlift NON-NEGOTIABLE — shoulders not affected)
 - Day 4: Legs + Abs (Barbell Back Squat NON-NEGOTIABLE, knee wraps)
-- Day 5: Minimal low-impact cardio ONLY — NO HIIT, bad knees (incline walk, bike, rowing)
-- Day 6: Strength & Conditioning — PR attempts on Chest Press, Deadlift, Bar Squat
+- Day 5: Cardio + light Farmers Carry + sleeper stretch
+- Day 6: Deadlift PR + Squat PR ONLY — Chest Press PR SKIPPED until shoulders recover
 - Day 7: Full rest
 All sessions: 90 minutes to 2 hours maximum.
+NOTE: Both shoulders are currently injured (overuse from boxing). No pressing movements, no chest work until cleared. Lateral raises are OK at light weight. Sleeper stretch should be done daily.
 
 COACHING STYLE RULES:
 - Be warm and encouraging — Ram is working hard, acknowledge that
@@ -1183,8 +1184,8 @@ const DAYS_DATA = [
 ];
 
 const LOG_EXERCISES = [
-  {day:'D1',exs:['Barbell Chest Press','Incline DB Press','Cable Fly','DB Lateral Raise','Front Raise (cable)','Shoulder Press (Smith)']},
-  {day:'D2',exs:['EZ Bar Curl','Incline DB Curl','Hammer Curl','Tricep Pushdown','Overhead Tricep Extension','Close-Grip Bench Press']},
+  {day:'D1',exs:['Treadmill Warm-up','Standing Row (band)','Internal Rotation (band)','External Rotation (band)','Scapula Setting','Bent-Over Horizontal Abduction','DB Lateral Raise (light)','Farmers Carry (light)']},
+  {day:'D2',exs:['EZ Bar Curl','Incline DB Curl','Hammer Curl','Tricep Pushdown','Overhead Tricep Extension','Tricep Kickback (DB)']},
   {day:'D3',exs:['Conventional Deadlift','Barbell Row','Pull-Up / Lat Pulldown','Seated Cable Row','Face Pull','DB Shrug']},
   {day:'D4',exs:['Barbell Back Squat','Romanian Deadlift','Leg Press','Lying Leg Curl','Calf Raise','Hanging Leg Raise','Cable Crunch']},
   {day:'D5',exs:['Incline Treadmill Walk','Stationary Bike (low)','Rowing Machine','Mobility & Stretching']},
@@ -1274,11 +1275,11 @@ function autoExpandToday(){
 const DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const SPLIT_DAYS = [
   {day:'Sun', label:'D7 — Rest day', rest:true},
-  {day:'Mon', label:'D1 — Chest & Shoulders'},
+  {day:'Mon', label:'D1 — Shoulder Rehab & Mobility'},
   {day:'Tue', label:'D2 — Biceps & Triceps'},
   {day:'Wed', label:'D3 — Back'},
   {day:'Thu', label:'D4 — Legs & Abs'},
-  {day:'Fri', label:'D5 — Cardio'},
+  {day:'Fri', label:'D5 — Cardio & Recovery'},
   {day:'Sat', label:'D6 — Strength & Conditioning'},
 ];
 
@@ -1438,7 +1439,22 @@ let activeDayTab = 'D1';
 
 /* selectEx() moved to inline program */
 
-const PROGRAM_SETS = {"Barbell Chest Press": 4, "Incline DB Press": 3, "Cable Fly": 3, "DB Lateral Raise": 3, "Front Raise (cable)": 3, "Shoulder Press (Smith)": 3, "EZ Bar Curl": 4, "Incline DB Curl": 3, "Hammer Curl": 3, "Tricep Pushdown": 4, "Overhead Tricep Extension": 3, "Close-Grip Bench Press": 3, "Conventional Deadlift": 4, "Barbell Row": 4, "Pull-Up / Lat Pulldown": 3, "Seated Cable Row": 3, "Face Pull": 3, "DB Shrug": 3, "Barbell Back Squat": 4, "Romanian Deadlift": 3, "Leg Press": 3, "Lying Leg Curl": 3, "Calf Raise": 4, "Hanging Leg Raise": 3, "Cable Crunch": 3, "Incline Treadmill Walk": 1, "Stationary Bike": 1, "Stationary Bike (low)": 1, "Rowing Machine": 1, "Chest Press PR": 1, "Deadlift PR": 1, "Bar Squat PR": 1, "Farmers Carry": 4};
+const PROGRAM_SETS = {
+  "Treadmill Warm-up": 1, "Pendulum Stretch": 2, "Crossover Arm Stretch": 4,
+  "Passive Internal Rotation": 4, "Passive External Rotation": 4, "Sleeper Stretch": 4,
+  "Standing Row (band)": 3, "Internal Rotation (band)": 3, "External Rotation (band)": 3,
+  "Scapula Setting": 3, "Bent-Over Horizontal Abduction": 3,
+  "DB Lateral Raise (light)": 3, "Farmers Carry (light)": 3,
+  "EZ Bar Curl": 4, "Incline DB Curl": 3, "Hammer Curl": 3,
+  "Tricep Pushdown": 4, "Overhead Tricep Extension": 3, "Tricep Kickback (DB)": 3,
+  "Conventional Deadlift": 4, "Barbell Row": 4, "Pull-Up / Lat Pulldown": 3,
+  "Seated Cable Row": 3, "Face Pull": 3, "DB Shrug": 3,
+  "Barbell Back Squat": 4, "Romanian Deadlift": 3, "Leg Press": 3,
+  "Lying Leg Curl": 3, "Calf Raise": 4, "Hanging Leg Raise": 3, "Cable Crunch": 3,
+  "Incline Treadmill Walk": 1, "Stationary Bike": 1, "Stationary Bike (low)": 1,
+  "Rowing Machine": 1, "Farmers Carry": 4, "Deadlift PR": 1, "Bar Squat PR": 1,
+  "Chest Press PR": 1, "Mobility & Stretching": 1
+};
 
 // EX_TYPE: 'standard' = weight+reps, 'cardio-treadmill', 'cardio-bike', 'cardio-row', 'mobility', 'carry'
 const EX_TYPE = {
