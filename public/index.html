@@ -856,14 +856,14 @@
       </div>
 
       <!-- AI COACH -->
-      <div id="nut-coach" style="margin:-16px -16px 0">
-        <div style="padding:10px 14px 8px;border-bottom:0.5px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:10">
+      <div id="nut-coach" style="margin:-16px -16px 0;display:flex;flex-direction:column;height:calc(100dvh - 185px)">
+        <div class="chat-messages" id="chat-messages" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch;min-height:0"></div>
+        <div style="padding:10px 14px 12px;border-top:0.5px solid var(--border);background:var(--bg);flex-shrink:0">
           <div style="display:flex;gap:8px;align-items:flex-end">
             <textarea id="coach-input" rows="1" placeholder="Ask your coach anything..." onkeydown="handleEnter(event)" style="flex:1;min-height:42px;max-height:100px;padding:10px 12px;font-size:14px;resize:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-family:var(--font-body);outline:none;-webkit-appearance:none;line-height:1.4"></textarea>
-            <button class="send-btn" id="send-btn" onclick="sendCoach()" aria-label="Send" style="width:42px;height:42px;background:var(--accent);border:none;border-radius:var(--r-sm);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:0"><i class="ti ti-send"></i></button>
+            <button class="send-btn" id="send-btn" onclick="sendCoach()" aria-label="Send" style="width:42px;height:42px;background:var(--accent);border:none;border-radius:var(--r-sm);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-send"></i></button>
           </div>
         </div>
-        <div class="chat-messages" id="chat-messages" style="padding:14px;display:flex;flex-direction:column;gap:10px;min-height:200px"></div>
         <div style="padding:8px 14px 14px;text-align:center">
           <button onclick="clearChatConfirm()" style="font-size:11px;color:var(--text-muted);background:none;border:none;cursor:pointer;text-decoration:underline;font-family:var(--font-body)">Clear chat history</button>
         </div>
@@ -1146,15 +1146,28 @@ function toggleTips(bodyId, chevId){
 
 
 const DAYS_DATA = [
-  { d:'D1', name:'Chest & Shoulders', meta:'90–120 min · Left shoulder mods', exercises:[
-    {name:'Barbell Chest Press',sets:'4×8–10',nn:true},{name:'Incline DB Press',sets:'3×10–12',nn:false},
-    {name:'Cable Fly (low-mid)',sets:'3×12–15',nn:false},{name:'DB Lateral Raise',sets:'3×12 (light left)',nn:false},
-    {name:'Front Raise (cable)',sets:'3×12',nn:false},{name:'Shoulder Press (Smith)',sets:'3×10',nn:false}
+  { d:'D1', name:'Shoulder Rehab & Mobility', meta:'45–60 min · Temporary · No pressing', exercises:[
+    {name:'Treadmill Warm-up',sets:'5 min easy',nn:false},
+    {name:'Pendulum Stretch',sets:'2×10 each arm',nn:false},
+    {name:'Crossover Arm Stretch',sets:'4×30 sec each side',nn:false},
+    {name:'Passive Internal Rotation',sets:'4×30 sec each side',nn:false},
+    {name:'Passive External Rotation',sets:'4×30 sec each side',nn:false},
+    {name:'Sleeper Stretch',sets:'4 reps each side — DAILY',nn:true},
+    {name:'Standing Row (band)',sets:'3×8',nn:false},
+    {name:'Internal Rotation (band)',sets:'3×8 each side',nn:false},
+    {name:'External Rotation (band)',sets:'3×8 each side',nn:false},
+    {name:'Scapula Setting',sets:'3×10',nn:false},
+    {name:'Bent-Over Horizontal Abduction',sets:'3×8',nn:false},
+    {name:'DB Lateral Raise (light)',sets:'3×15 · equal both sides',nn:false},
+    {name:'Farmers Carry (light)',sets:'3×2 laps',nn:false}
   ]},
-  { d:'D2', name:'Biceps & Triceps', meta:'90–120 min · Arm isolation', exercises:[
-    {name:'EZ Bar Curl',sets:'4×10–12',nn:false},{name:'Incline DB Curl',sets:'3×12',nn:false},
-    {name:'Hammer Curl',sets:'3×12',nn:false},{name:'Tricep Pushdown',sets:'4×12–15',nn:false},
-    {name:'Overhead Tricep Extension',sets:'3×10–12',nn:false},{name:'Close-Grip Bench Press',sets:'3×10',nn:false}
+  { d:'D2', name:'Biceps & Triceps', meta:'90–20 min · Arm isolation', exercises:[
+    {name:'EZ Bar Curl',sets:'4×10–12',nn:false},
+    {name:'Incline DB Curl',sets:'3×12',nn:false},
+    {name:'Hammer Curl',sets:'3×12',nn:false},
+    {name:'Tricep Pushdown',sets:'4×12–15',nn:false},
+    {name:'Overhead Tricep Extension',sets:'3×10–12',nn:false},
+    {name:'Tricep Kickback (DB)',sets:'3×12',nn:false}
   ]},
   { d:'D3', name:'Back', meta:'90–120 min · Deadlift day', exercises:[
     {name:'Conventional Deadlift',sets:'4×5–6',nn:true},{name:'Barbell Row',sets:'4×8–10',nn:false},
@@ -1167,18 +1180,17 @@ const DAYS_DATA = [
     {name:'Calf Raise',sets:'4×15–20',nn:false},{name:'Hanging Leg Raise',sets:'3×15',nn:false},
     {name:'Cable Crunch',sets:'3×15',nn:false}
   ]},
-  { d:'D5', name:'Minimal Cardio', meta:'45–60 min · No HIIT · Low impact', exercises:[
+  { d:'D5', name:'Cardio & Recovery', meta:'60–75 min · No HIIT · Shoulder stretch included', exercises:[
     {name:'Incline Treadmill Walk',sets:'20–25 min · 4.5–6%',nn:false},
-    {name:'Stationary Bike (low)',sets:'15 min',nn:false},
     {name:'Rowing Machine',sets:'10–15 min',nn:false},
-    {name:'Mobility & Stretching',sets:'15–20 min',nn:false}
+    {name:'Farmers Carry (light)',sets:'2×2 laps',nn:false},
+    {name:'Sleeper Stretch',sets:'4 reps each side',nn:false},
+    {name:'Mobility & Stretching',sets:'15 min · include shoulder stretches',nn:false}
   ]},
-  { d:'D6', name:'Strength & Conditioning', meta:'90–120 min · PR day', exercises:[
-    {name:'Chest Press — PR Attempt',sets:'Work to 1–3RM',nn:true},
+  { d:'D6', name:'Strength & Conditioning', meta:'90–20 min · PR day · Chest skipped', exercises:[
     {name:'Deadlift — PR Attempt',sets:'Work to 1–3RM',nn:true},
     {name:'Bar Squat — PR Attempt',sets:'Work to 1–3RM',nn:true},
-    {name:'Farmer\'s Carry',sets:'4×30m',nn:false},
-    {name:'Accessory Finisher',sets:'3×12',nn:false}
+    {name:'Farmers Carry',sets:'4×30m',nn:false}
   ]},
   { d:'D7', name:'Rest Day', meta:'Recover · Eat · Sleep', exercises:[], rest:true }
 ];
@@ -1188,8 +1200,8 @@ const LOG_EXERCISES = [
   {day:'D2',exs:['EZ Bar Curl','Incline DB Curl','Hammer Curl','Tricep Pushdown','Overhead Tricep Extension','Tricep Kickback (DB)']},
   {day:'D3',exs:['Conventional Deadlift','Barbell Row','Pull-Up / Lat Pulldown','Seated Cable Row','Face Pull','DB Shrug']},
   {day:'D4',exs:['Barbell Back Squat','Romanian Deadlift','Leg Press','Lying Leg Curl','Calf Raise','Hanging Leg Raise','Cable Crunch']},
-  {day:'D5',exs:['Incline Treadmill Walk','Stationary Bike (low)','Rowing Machine','Mobility & Stretching']},
-  {day:'D6',exs:['Chest Press PR','Deadlift PR','Bar Squat PR','Farmers Carry']}
+  {day:'D5',exs:['Incline Treadmill Walk','Rowing Machine','Farmers Carry (light)','Sleeper Stretch','Mobility & Stretching']},
+  {day:'D6',exs:['Deadlift PR','Bar Squat PR','Farmers Carry']}
 ];
 
 const NON_NEG = ['Barbell Chest Press','Chest Press PR','Conventional Deadlift','Deadlift PR','Barbell Back Squat','Bar Squat PR'];
